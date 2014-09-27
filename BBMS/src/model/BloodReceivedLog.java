@@ -12,7 +12,7 @@ import java.sql.Time;
  *
  * @author Anuradha
  */
-public class ReceivedLog {
+public class BloodReceivedLog {
     private String receivedID;
     private String requestee;
     private Date receivedDate;
@@ -22,7 +22,7 @@ public class ReceivedLog {
     private float temperature;
     private String icePaceketCondition;
 
-    public ReceivedLog(String receivedID, String requestee, Date receivedDate, Time receivedTime, String sendignOfficer, String receivingOfficer, float temperature, String icePaceketCondition) {
+    public BloodReceivedLog(String receivedID, String requestee, Date receivedDate, Time receivedTime, String sendignOfficer, String receivingOfficer, float temperature, String icePaceketCondition) {
         this.receivedID = receivedID;
         this.requestee = requestee;
         this.receivedDate = receivedDate;

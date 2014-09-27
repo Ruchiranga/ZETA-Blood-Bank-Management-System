@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+<<<<<<< HEAD
+            <file>file:/C:/Users/ruchiranga/Desktop/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/AvailabilityHandler.java</file>
+            <file>file:/C:/Users/ruchiranga/Desktop/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/AvailabilityDA.java</file>
+            <file>file:/C:/Users/ruchiranga/Desktop/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/BloodGroupingAndTTI.java</file>
+            <file>file:/C:/Users/ruchiranga/Desktop/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/CompatabilityLabel.java</file>
+            <file>file:/C:/Users/ruchiranga/Desktop/ZETA-Blood-Bank-Management-System/BBMS/src/connection/DBConnection.java</file>
+            <file>file:/C:/Users/ruchiranga/Desktop/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/CompatibilityReport.java</file>
+=======
+            <file>file:/D:/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Anu/BloodPacketForm.java</file>
+            <file>file:/D:/ZETA-Blood-Bank-Management-System/BBMS/src/connection/DBConnection.java</file>
+            <file>file:/D:/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/BloodGroupingAndTTIHandler.java</file>
+            <file>file:/D:/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Anu/Nurse.java</file>
+            <file>file:/D:/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/AvailabilityHandler.java</file>
+            <file>file:/D:/ZETA-Blood-Bank-Management-System/BBMS/src/controller/anu/BloodPacketDA.java</file>
+>>>>>>> aea3509cb963ea03828141472e97c5a07408ffca
+        </group>
+    </open-files>
+</project-private>
