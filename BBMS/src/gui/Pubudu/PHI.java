@@ -136,6 +136,11 @@ public class PHI extends javax.swing.JFrame {
                 jButton34ActionPerformed(evt);
             }
         });
+        jButton34.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jButton34KeyPressed(evt);
+            }
+        });
         jLayeredPane1.add(jButton34);
         jButton34.setBounds(0, 60, 200, 30);
 
@@ -288,14 +293,10 @@ public class PHI extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1380, Short.MAX_VALUE)
-            .addGap(0, 1380, Short.MAX_VALUE)
             .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1380, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 704, Short.MAX_VALUE)
-            .addGap(0, 704, Short.MAX_VALUE)
             .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
         );
 
@@ -321,10 +322,6 @@ public class PHI extends javax.swing.JFrame {
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
         // TODO add your handling code here:
 }//GEN-LAST:event_jButton33ActionPerformed
-
-    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-
-}//GEN-LAST:event_jButton34ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
@@ -383,6 +380,14 @@ public class PHI extends javax.swing.JFrame {
         jDesktopPane1.add(p);
         p.show();
 }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton34KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton34KeyPressed
+        
+    }//GEN-LAST:event_jButton34KeyPressed
+
+    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+        new MobileDates(this, true).setVisible(true);
+    }//GEN-LAST:event_jButton34ActionPerformed
 
     /**
     * @param args the command line arguments

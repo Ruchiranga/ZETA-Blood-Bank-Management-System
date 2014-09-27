@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
 import javax.swing.table.DefaultTableModel;
+import model.BloodPacket;
 
 /**
  *
@@ -413,6 +414,15 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             groupsComboBox.setEnabled(true);
             componentsComboBox.setEnabled(false);
             donorsComboBox.setEnabled(false);
+        }
+        String group = groupsComboBox.getSelectedItem().toString();
+        System.out.println(group);
+        BloodPacket[] results = handler.searchByGroup(group);
+        
+        for(BloodPacket packet:results){
+            String[] row = {packet.getPacketID(),packet.getBloodGroup(),packet.getBloodType(),packet.getNic(),packet.getDateOfExpiry().toString(),packet.getDateOfDonation().toString(),Integer.toString(packet.getIsCrossmatched()),Integer.toString(packet.getIsUnderObservation())};
+            
+            dtm.addRow(row);
         }
         
         

@@ -11,7 +11,7 @@
 
 package gui.Anu;
 
-import Controller.Anu.BloodGroupController;
+import data_access.anu.BloodGroupDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -40,7 +40,7 @@ public class AddBloodGroups extends javax.swing.JInternalFrame {
         try {
             groupsDtm = new DefaultTableModel(title, 0);
             groupsTable.setModel(groupsDtm);
-            ResultSet rst = BloodGroupController.getAllGroups();
+            ResultSet rst = BloodGroupDA.getAllGroups();
             while (rst.next()) {
                 String groupName = rst.getString("groupName");
                 String[] data = {groupName};
@@ -243,7 +243,7 @@ public class AddBloodGroups extends javax.swing.JInternalFrame {
         try {
             String groupName = groupNameText.getText();
             BloodGroup group = new BloodGroup(groupName);
-            int res = BloodGroupController.addGroup(group);
+            int res = BloodGroupDA.addGroup(group);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Added Succesfully");
                 groupNameText.setText("");
@@ -281,7 +281,7 @@ public class AddBloodGroups extends javax.swing.JInternalFrame {
         try {
             BloodGroup oldGroup = new BloodGroup(oldGroupName);
             BloodGroup newGroup = new BloodGroup(editGroupText.getText());
-            int res = BloodGroupController.updateGroup(oldGroup, newGroup);
+            int res = BloodGroupDA.updateGroup(oldGroup, newGroup);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Updated Succesfully");
                 editGroupText.setText("");
@@ -299,7 +299,7 @@ public class AddBloodGroups extends javax.swing.JInternalFrame {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         try {
             BloodGroup deletedGroup = new BloodGroup(editGroupText.getText());
-            int res = BloodGroupController.deleteGroup(deletedGroup);
+            int res = BloodGroupDA.deleteGroup(deletedGroup);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Deleted Succesfully");
                 editGroupText.setText("");

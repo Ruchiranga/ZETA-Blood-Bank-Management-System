@@ -19,11 +19,9 @@ import java.sql.SQLException;
 public class BloodGroupingAndTTIDA {
 
     public ResultSet getAllUntestedPackets() throws ClassNotFoundException, SQLException {
-<<<<<<< HEAD
+
         String query = "Select packetID, nic, bloodGroup, bloodType,  dateOfDonation, dateOfExpiry, packetFrom, bloodBank,campID From BloodPacket where bloodGroup is NULL AND isDiscarded = 0";
-=======
-        String query = "Select packetID, nic, bloodBank ,  dateOfDonation, dateOfExpiry, bloodType , packetFrom,campID,bloodGroup From BloodPacket where bloodGroup is NULL AND isDiscarded = 0";
->>>>>>> 7df6c09bcd9c0643a4e156b78da5f5657b7941be
+
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.getData(connection, query);
     }
