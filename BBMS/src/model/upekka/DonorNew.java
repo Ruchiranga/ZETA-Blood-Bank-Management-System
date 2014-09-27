@@ -19,6 +19,7 @@ public class DonorNew {
     private Date dob;
     private String gender;
     private int age;
+    private int weight;
     private String homeAddress;
     private String officeAddress;
     private int homeTp;
@@ -45,12 +46,13 @@ public class DonorNew {
     private int dentalSurgeryUsedAntibioticsMedicine;
     private boolean blacklisted;
 
-    public DonorNew(String nic, String name, Date dob, String gender, int age, String homeAddress, String officeAddress, int homeTp, int officeTp, int mobileTp, String email, int previouslyDonated, String difficultiesAfterDonation, int goodHealth, String diseases, int usingMedicine, int surgeries, int heavyWork, int pregnantLactationAbortion, int immunized, int piercedTatooed, int imprisone, int youOrSpouceGoneAbroad, int youOrSpouceTakenBlood,int sufferedFromYelowFeverHepatitis, int sufferedFromTuberculosis, int sufferedFromMalaria, int sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, int dentalSurgeryUsedAntibioticsMedicine) {
+    public DonorNew(String nic, String name, Date dob, String gender, int age,int weight, String homeAddress, String officeAddress, int homeTp, int officeTp, int mobileTp, String email, int previouslyDonated, String difficultiesAfterDonation, int goodHealth, String diseases, int usingMedicine, int surgeries, int heavyWork, int pregnantLactationAbortion, int immunized, int piercedTatooed, int imprisone, int youOrSpouceGoneAbroad, int youOrSpouceTakenBlood,int sufferedFromYelowFeverHepatitis, int sufferedFromTuberculosis, int sufferedFromMalaria, int sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, int dentalSurgeryUsedAntibioticsMedicine) {
         this.nic = nic;
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.age = age;
+        this.weight=weight;
         this.homeAddress = homeAddress;
         this.officeAddress = officeAddress;
         this.homeTp = homeTp;
@@ -494,6 +496,20 @@ public class DonorNew {
      */
     public void setSufferedFromYelowFeverHepatitis(int sufferedFromYelowFeverHepatitis) {
         this.sufferedFromYelowFeverHepatitis = sufferedFromYelowFeverHepatitis;
+    }
+
+    /**
+     * @return the weight
+     */
+    public int getWeight() {
+        return weight;
+    }
+
+    /**
+     * @param weight the weight to set
+     */
+    public void setWeight(int weight) {
+        this.weight = weight;
     }
 
     

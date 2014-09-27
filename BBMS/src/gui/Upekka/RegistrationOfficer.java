@@ -373,12 +373,12 @@ public class RegistrationOfficer extends javax.swing.JFrame {
 }//GEN-LAST:event_jButton3ActionPerformed
 
     private void updateDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDonorButtonActionPerformed
-        UpdateDonor update = new UpdateDonor();
+        /*UpdateDonor update = new UpdateDonor();
         update.setClosable(true);
         update.setMaximizable(true);
         jDesktopPane1.add(update);
         jDesktopPane1.setRequestFocusEnabled(true);
-        update.show();
+        update.show();*/
     }//GEN-LAST:event_updateDonorButtonActionPerformed
 
     /**
