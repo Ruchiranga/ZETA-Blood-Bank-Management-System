@@ -37,7 +37,7 @@ public class AvailabilityDA {
     }
     
     public ResultSet getAvailablePackets() throws ClassNotFoundException, SQLException{
-        String query = "select packetID,bloodGroup,bloodType,nic,dateOFExpiry,dateOfDonation,isCrossmatched,isUnderObservation from bloodpacket where isdiscarded = 0 AND isissued = 0";
+        String query = "select packetID,bloodGroup,bloodType,nic,dateOFExpiry,dateOfDonation,isCrossmatched,isUnderObservation from bloodpacket where isdiscarded = 0 AND isissued = 0 AND bloodGroup is not NULL";
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.getData(connection, query);
     }

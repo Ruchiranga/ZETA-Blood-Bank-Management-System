@@ -46,25 +46,32 @@
                       <EmptySpace min="-2" pref="20" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel5" alignment="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="313" max="32767" attributes="0"/>
-                  </Group>
               </Group>
           </Group>
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="32767" attributes="0"/>
+              <Component id="markUncrossMatchedButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="markCrossMatchedButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButton1" linkSize="2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButton2" linkSize="2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="252" max="-2" attributes="0"/>
+              <Component id="jLabel4" min="-2" pref="402" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jLabel4" min="-2" pref="55" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="sbygroupRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="sbyComponentRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -76,14 +83,14 @@
                   <Component id="jPanel4" max="32767" attributes="0"/>
                   <Component id="jPanel1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="19" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="markCrossMatchedButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="markUncrossMatchedButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -97,6 +104,7 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sbygroupRadioButtonActionPerformed"/>
+        <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="sbygroupRadioButtonPropertyChange"/>
       </Events>
     </Component>
     <Component class="javax.swing.JRadioButton" name="sbyComponentRadioButton">
@@ -153,6 +161,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupsComboBoxActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -203,6 +214,9 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="componentsComboBoxActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -230,7 +244,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                  <Component id="donorsComboBox" max="32767" attributes="0"/>
+                  <Component id="donorsComboBox" pref="379" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -261,89 +275,9 @@
             </Property>
             <Property name="enabled" type="boolean" value="false"/>
           </Properties>
-        </Component>
-      </SubComponents>
-    </Container>
-    <Container class="javax.swing.JPanel" name="jPanel2">
-      <Properties>
-        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Sort By"/>
-          </Border>
-        </Property>
-      </Properties>
-
-      <Layout>
-        <DimensionLayout dim="0">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <Component id="doeRadioButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="donorNameRadioButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="componentRadioButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="groupRadioButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="rhRadioButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="recievedFromRadioButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
-              </Group>
-          </Group>
-        </DimensionLayout>
-        <DimensionLayout dim="1">
-          <Group type="103" groupAlignment="0" attributes="0">
-              <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="doeRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="donorNameRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="componentRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="groupRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="rhRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="recievedFromRadioButton" alignment="3" min="-2" max="-2" attributes="0"/>
-                  </Group>
-              </Group>
-          </Group>
-        </DimensionLayout>
-      </Layout>
-      <SubComponents>
-        <Component class="javax.swing.JRadioButton" name="doeRadioButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Date of Expiry"/>
-          </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="doeRadioButtonActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donorsComboBoxActionPerformed"/>
           </Events>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="donorNameRadioButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Donor Name"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donorNameRadioButtonActionPerformed"/>
-          </Events>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="componentRadioButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Component"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="groupRadioButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Group"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="rhRadioButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Rh"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JRadioButton" name="recievedFromRadioButton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="Recieved from"/>
-          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -405,11 +339,35 @@
     </Component>
     <Component class="javax.swing.JButton" name="jButton2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Cnacel"/>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
       </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="markCrossMatchedButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Mark Cross Matched"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markCrossMatchedButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="markUncrossMatchedButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Mark Uncross Matched"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markUncrossMatchedButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="jLabel4">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Monotype Corsiva" size="36" style="1"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="View Packet Availablility"/>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>

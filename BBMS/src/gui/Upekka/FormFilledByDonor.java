@@ -1329,7 +1329,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
         DonorNew existingDonor=DonorDA.searchDonor(nicTextField.getText());
         if(existingDonor!=null){
             nameTextField.setText(existingDonor.getName());
-            if(genderButtonGroup.getSelection()==maleRadioButton.getModel()){
+            if(genderButtonGroup.getSelection()==maleRadioButton){
                maleRadioButton.setSelected(true);
             }else{
                 femaleRadioButton.setSelected(true);
