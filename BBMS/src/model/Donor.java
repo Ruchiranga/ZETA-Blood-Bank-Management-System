@@ -375,7 +375,7 @@ public class Donor {
     /**
      * @return the imprisone
      */
-    public int getImprisone() {
+    public int getImprisoned() {
         return imprisone;
     }
 

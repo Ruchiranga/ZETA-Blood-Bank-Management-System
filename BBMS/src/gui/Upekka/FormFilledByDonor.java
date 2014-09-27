@@ -1344,69 +1344,90 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             mobileTPTextField.setText(Integer.toString(existingDonor.getMobileTp()));
             emailTextField.setText(existingDonor.getEmail() );
             
-            if(previouslyDonatedbuttonGroup.getSelection()==previouslyDonatedRadioButton){
+            if(existingDonor.getPreviouslyDonated()==1){
                 previouslyDonatedRadioButton.setSelected(true);
             }else{
                 notpreviouslyDonatedRadioButton.setSelected(true);
             }
             difficultiesTextField.setText(existingDonor.getDifficultiesAfterDonation());
             
-            if(goodHealthRadioButtonbuttonGroup.getSelection()==goodHealthRadioButton){
+            if(existingDonor.getGoodHealth()==1){
                 goodHealthRadioButton.setSelected(true);
             }else{
                 nogoodHealthRadioButton.setSelected(true);
             }
-            if(usingMedicinebuttonGroup.getSelection()==usingMedicineRadioButton){
+            if(existingDonor.getUsingMedicine()==1){
                 usingMedicineRadioButton.setSelected(true);    
             }else{
                 notusingMedicineRadioButton.setSelected(true);
             }
-            if(surgeriesbuttonGroup.getSelection()==surgeriesRadioButton){
+            if(existingDonor.getSurgeries()==1){
                 surgeriesRadioButton.setSelected(true);    
             }else{
                 nosurgeriesRadioButton.setSelected(true);
             }
-            if(heavyWorkbuttonGroup.getSelection()==heavyWorkRadioButton){
+            if(existingDonor.getHeavyWork()==1){
                 heavyWorkRadioButton.setSelected(true);    
             }else{
                 noheavyWorkRadioButton.setSelected(true);
             }
-            if(pregnantLactationAbortionbuttonGroup.getSelection()==pregnantLactationAbortionRadioButton){
+            if(existingDonor.getPregnantLactationAbortion()==1){
                 pregnantLactationAbortionRadioButton.setSelected(true);    
             }else{
                 nopregnantLactationAbortionRadioButton.setSelected(true);
             }
-             if(immunizedbuttonGroup.getSelection()==immunizedRadioButton){
+             if(existingDonor.getImmunized()==1){
                 immunizedRadioButton.setSelected(true);    
             }else{
                 noimmunizedRadioButton.setSelected(true);
             }
              
-             if(piercedTatooedbuttonGroup.getSelection()==piercedTatooedRadioButton){
+             if(existingDonor.getPiercedTatooed()==1 ){
                  piercedTatooedRadioButton.setSelected(true);
              }else{
                  nopiercedTatooedRadioButton.setSelected(true);
              }
              
-            if(imprisonedbuttonGroup.getSelection()==imprisonedRadioButton){
+            if(existingDonor.getImprisoned()==1){
                 imprisonedRadioButton.setSelected(true);
             }else{
                 noimprisonedRadioButton.setSelected(true);
             } 
-            if(youOrSpouceGoneAbroadbuttonGroup.getSelection()==youOrSpouceGoneAbroadRadioButton ){
+            if(existingDonor.getYouOrSpouceGoneAbroad()==1 ){
                 youOrSpouceGoneAbroadRadioButton.setSelected(true);
             }else{
                 noyouOrSpouceGoneAbroadRadioButton.setSelected(true);
             }  
-            if(youOrSpouceTakenBloodbuttonGroup.getSelection()==youOrSpouceTakenBloodRadioButton){
+            if(existingDonor.getYouOrSpouceTakenBlood()==1){
                 youOrSpouceTakenBloodRadioButton.setSelected(true);
             }else{
                 noyouOrSpouceTakenBloodRadioButton.setSelected(true);
             }
-            if(buttonGroup14.getSelection()==sufferedFromYelowFeverHepatitisRadioButton){
+            if(existingDonor.getSufferedFromYelowFeverHepatitis()==1){
                 sufferedFromYelowFeverHepatitisRadioButton.setSelected(true);
+            }else{
+                nosufferedFromYelowFeverHepatitisRadioButton.setSelected(true);
             }
-            
+            if(existingDonor.getSufferedFromTuberculosis()==1){
+                sufferedFromTuberculosisRadioButton.setSelected(true);
+            }else{
+                nosufferedFromTuberculosisRadioButton.setSelected(true);
+            }
+            if(existingDonor.getSufferedFromMalaria()==1){
+                sufferedFromMalariaRadioButton.setSelected(true);
+            }else{
+                nosufferedFromMalariaRadioButton.setSelected(true);
+            }
+            if(existingDonor.getSufferedFromChickenpoxMeaselsRubellaDiarrheaDengue()==1 ){
+                sufferedFromChickenpoxMeaselsRubellaDiarrheaDengueRadioButton.setSelected(true);
+            }else{
+                nosufferedFromMalariaRadioButton.setSelected(true);
+            }
+            if(existingDonor.getDentalSurgeryUsedAntibioticsMedicine()==1){
+                dentalSurgeryUsedAntibioticsMedicineRadioButton.setSelected(true);
+            }else{
+                nodentalSurgeryUsedAntibioticsMedicineRadioButton.setSelected(true);
+            }
             
             
             
