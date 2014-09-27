@@ -21,7 +21,7 @@ public class controller {
     public Connection createConnection() {
         try {
             String myDriver = "com.mysql.jdbc.Driver";
-            String myUrl = "jdbc:mysql://localhost/bloodbank";
+            String myUrl = "jdbc:mysql://localhost/BBMS";
             Class.forName(myDriver);
             Connection conn = DriverManager.getConnection(myUrl, "root", "zeta");
             return conn;

@@ -1,5 +1,6 @@
-package gui.Pubudu;
-
+package gui.Pubudu;//GEN-FIRST:event_jButton1ActionPerformed
+//GEN-LAST:event_jButton1ActionPerformed
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +10,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 
 public class MobileCampTable extends javax.swing.JFrame {
 
@@ -19,10 +23,11 @@ public class MobileCampTable extends javax.swing.JFrame {
         initComponents();
         dtm = (DefaultTableModel) TableBlooodCamp.getModel();
         addTable();
+        resizeColumnWidth(TableBlooodCamp);
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
@@ -127,11 +132,11 @@ public class MobileCampTable extends javax.swing.JFrame {
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }// </editor-fold>                        
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         System.exit(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }                                        
 
     public static void main(String args[]) {
 
@@ -146,7 +151,7 @@ public class MobileCampTable extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
+    // Variables declaration - do not modify                     
     private javax.swing.JTable TableBlooodCamp;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
@@ -156,7 +161,7 @@ public class MobileCampTable extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    // End of variables declaration//GEN-END:variables
+    // End of variables declaration                   
 
     private void addTable() throws SQLException {
 
@@ -177,7 +182,7 @@ public class MobileCampTable extends javax.swing.JFrame {
 
             cpId = rs.getString("CAMP_ID");
             place = rs.getString("PLACE");
-            date = rs.getString("DATE");
+            date = rs.getString("DATE").substring(0,10);
             
             System.out.println(date);
                     
@@ -202,4 +207,17 @@ public class MobileCampTable extends javax.swing.JFrame {
         return pre_month;
 
     }
+    
+    public void resizeColumnWidth(JTable table) {
+    final TableColumnModel columnModel = table.getColumnModel();
+    for (int column = 0; column < table.getColumnCount(); column++) {
+        int width = 50; // Min width
+        for (int row = 0; row < table.getRowCount(); row++) {
+            TableCellRenderer renderer = table.getCellRenderer(row, column);
+            Component comp = table.prepareRenderer(renderer, row, column);
+            width = Math.max(comp.getPreferredSize().width, width);
+        }
+        columnModel.getColumn(column).setPreferredWidth(width);
+    }
+}
 }

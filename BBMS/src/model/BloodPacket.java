@@ -13,76 +13,39 @@ import java.sql.Date;
 public class BloodPacket {
 
     private String packetID;
-    private String nic;
-    private String bloodBank;
+    private String nic;    
     private Date dateOfDonation;
     private Date dateOfExpiry;
     private String bloodType; //FreshBlood, FFP, CRYO, Plasma, Platelets
-    private int isCrossmatched;
-    private int isSpecialReservation;
-    private int isUnderObservation;
-    private String packetFrom;
-    private int isIssued;
-    private String campID;
-    private int isDiscarded;
+    private byte isCrossmatched;
+    private byte isSpecialReservation;
+    private byte isUnderObservation;  
+    private String campID;      
+    private byte isDiscarded;
     private String bloodGroup;
     private Date discardedDate;
-    private Date issuedDate;
-    private String groupComment;
+    private String returnID;
+    private String patientIssueID;
+    private String comment;
+    private String bullkissueID;
 
-    public BloodPacket(String packetID, String nic, String bloodBank, Date dateOfDonation, Date dateOfExpiry, String bloodType, int isCrossmatched, int isSpecialReservation, int isUnderObservation, String packetFrom, int isIssued, String campID, int isDiscarded, String bloodGroup, Date discardedDate, Date issuedDate, String groupComment) {
+    public BloodPacket(String packetID, String nic, Date dateOfDonation, Date dateOfExpiry, String bloodType, byte isCrossmatched, byte isSpecialReservation, byte isUnderObservation, String campID, byte isDiscarded, String bloodGroup, Date discardedDate, String returnID, String patientIssueID, String comment, String bullkissueID) {
         this.packetID = packetID;
         this.nic = nic;
-        this.bloodBank = bloodBank;
         this.dateOfDonation = dateOfDonation;
         this.dateOfExpiry = dateOfExpiry;
         this.bloodType = bloodType;
         this.isCrossmatched = isCrossmatched;
         this.isSpecialReservation = isSpecialReservation;
         this.isUnderObservation = isUnderObservation;
-        this.packetFrom = packetFrom;
-        this.isIssued = isIssued;
         this.campID = campID;
         this.isDiscarded = isDiscarded;
         this.bloodGroup = bloodGroup;
         this.discardedDate = discardedDate;
-        this.issuedDate = issuedDate;
-        this.groupComment = groupComment;
-    }
-
-    public BloodPacket(String packetID, String nic, String bloodBank, Date dateOfDonation, Date dateOfExpiry, String bloodType, String packetFrom, String campID, String bloodGroup) {
-        this.packetID = packetID;
-        this.nic = nic;
-        this.bloodBank = bloodBank;
-        this.dateOfDonation = dateOfDonation;
-        this.dateOfExpiry = dateOfExpiry;
-        this.bloodType = bloodType;
-        this.packetFrom = packetFrom;
-        this.campID = campID;
-        this.bloodGroup = bloodGroup;
-    }
-
-    public BloodPacket(String packetID, String bloodGroup, String bloodType, String nic, Date dateOfExpiry, Date dateOfDonation, int isCrossmatched, int isUnderObservation) {
-        this.packetID = packetID;
-        this.nic = nic;
-        this.dateOfDonation = dateOfDonation;
-        this.dateOfExpiry = dateOfExpiry;
-        this.bloodType = bloodType;
-        this.bloodGroup = bloodGroup;
-        this.isCrossmatched = isCrossmatched;
-        this.isUnderObservation = isUnderObservation;
-    }
-    
-    public BloodPacket(String packetID, String nic, String bloodGroup, String bloodType, Date dateOfDonation, Date dateOfExpiry, String packetFrom, String bloodBank, String campID) {
-        this.packetID = packetID;
-        this.nic = nic;
-        this.bloodGroup = bloodGroup;
-        this.bloodType = bloodType;
-        this.dateOfDonation = dateOfDonation;
-        this.dateOfExpiry = dateOfExpiry;
-        this.packetFrom = packetFrom;
-        this.bloodBank = bloodBank;
-        this.campID = campID;
+        this.returnID = returnID;
+        this.patientIssueID = patientIssueID;
+        this.comment = comment;
+        this.bullkissueID = bullkissueID;
     }
 
     /**
@@ -114,34 +77,6 @@ public class BloodPacket {
     }
 
     /**
-     * @return the bloodGroup
-     */
-    public String getBloodGroup() {
-        return bloodGroup;
-    }
-
-    /**
-     * @param bloodGroup the bloodGroup to set
-     */
-    public void setBloodGroup(String bloodGroup) {
-        this.bloodGroup = bloodGroup;
-    }
-
-    /**
-     * @return the bloodType
-     */
-    public String getBloodType() {
-        return bloodType;
-    }
-
-    /**
-     * @param bloodType the bloodType to set
-     */
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
-    }
-
-    /**
      * @return the dateOfDonation
      */
     public Date getDateOfDonation() {
@@ -170,31 +105,59 @@ public class BloodPacket {
     }
 
     /**
-     * @return the packetFrom
+     * @return the bloodType
      */
-    public String getPacketFrom() {
-        return packetFrom;
+    public String getBloodType() {
+        return bloodType;
     }
 
     /**
-     * @param packetFrom the packetFrom to set
+     * @param bloodType the bloodType to set
      */
-    public void setPacketFrom(String packetFrom) {
-        this.packetFrom = packetFrom;
+    public void setBloodType(String bloodType) {
+        this.bloodType = bloodType;
     }
 
     /**
-     * @return the bloodBank
+     * @return the isCrossmatched
      */
-    public String getBloodBank() {
-        return bloodBank;
+    public byte isIsCrossmatched() {
+        return isCrossmatched;
     }
 
     /**
-     * @param bloodBank the bloodBank to set
+     * @param isCrossmatched the isCrossmatched to set
      */
-    public void setBloodBank(String bloodBank) {
-        this.bloodBank = bloodBank;
+    public void setIsCrossmatched(byte isCrossmatched) {
+        this.isCrossmatched = isCrossmatched;
+    }
+
+    /**
+     * @return the isSpecialReservation
+     */
+    public byte isIsSpecialReservation() {
+        return isSpecialReservation;
+    }
+
+    /**
+     * @param isSpecialReservation the isSpecialReservation to set
+     */
+    public void setIsSpecialReservation(byte isSpecialReservation) {
+        this.isSpecialReservation = isSpecialReservation;
+    }
+
+    /**
+     * @return the isUnderObservation
+     */
+    public byte isIsUnderObservation() {
+        return isUnderObservation;
+    }
+
+    /**
+     * @param isUnderObservation the isUnderObservation to set
+     */
+    public void setIsUnderObservation(byte isUnderObservation) {
+        this.isUnderObservation = isUnderObservation;
     }
 
     /**
@@ -212,87 +175,102 @@ public class BloodPacket {
     }
 
     /**
-     * @return the isCrossmatched
-     */
-    public int getIsCrossmatched() {
-        return isCrossmatched;
-    }
-
-    /**
-     * @param isCrossmatched the isCrossmatched to set
-     */
-    public void setIsCrossmatched(int isCrossmatched) {
-        this.isCrossmatched = isCrossmatched;
-    }
-
-    /**
-     * @return the isSpecialReservation
-     */
-    public int getIsSpecialReservation() {
-        return isSpecialReservation;
-    }
-
-    /**
-     * @param isSpecialReservation the isSpecialReservation to set
-     */
-    public void setIsSpecialReservation(int isSpecialReservation) {
-        this.isSpecialReservation = isSpecialReservation;
-    }
-
-    /**
-     * @return the isUnderObservation
-     */
-    public int getIsUnderObservation() {
-        return isUnderObservation;
-    }
-
-    /**
-     * @param isUnderObservation the isUnderObservation to set
-     */
-    public void setIsUnderObservation(int isUnderObservation) {
-        this.isUnderObservation = isUnderObservation;
-    }
-
-    /**
      * @return the isDiscarded
      */
-    public int getIsDiscarded() {
+    public byte isIsDiscarded() {
         return isDiscarded;
     }
 
     /**
      * @param isDiscarded the isDiscarded to set
      */
-    public void setIsDiscarded(int isDiscarded) {
+    public void setIsDiscarded(byte isDiscarded) {
         this.isDiscarded = isDiscarded;
     }
 
     /**
-     * @return the isIssued
+     * @return the bloodGroup
      */
-    public int getIsIssued() {
-        return isIssued;
+    public String getBloodGroup() {
+        return bloodGroup;
     }
 
     /**
-     * @param isIssued the isIssued to set
+     * @param bloodGroup the bloodGroup to set
      */
-    public void setIsIssued(int isIssued) {
-        this.isIssued = isIssued;
+    public void setBloodGroup(String bloodGroup) {
+        this.bloodGroup = bloodGroup;
     }
 
     /**
-     * @return the issuedDate
+     * @return the discardedDate
      */
-    public Date getIssuedDate() {
-        return issuedDate;
+    public Date getDiscardedDate() {
+        return discardedDate;
     }
 
     /**
-     * @param issuedDate the issuedDate to set
+     * @param discardedDate the discardedDate to set
      */
-    public void setIssuedDate(Date issuedDate) {
-        this.issuedDate = issuedDate;
+    public void setDiscardedDate(Date discardedDate) {
+        this.discardedDate = discardedDate;
     }
 
+    /**
+     * @return the returnID
+     */
+    public String getReturnID() {
+        return returnID;
+    }
+
+    /**
+     * @param returnID the returnID to set
+     */
+    public void setReturnID(String returnID) {
+        this.returnID = returnID;
+    }
+
+    /**
+     * @return the patientIssueID
+     */
+    public String getPatientIssueID() {
+        return patientIssueID;
+    }
+
+    /**
+     * @param patientIssueID the patientIssueID to set
+     */
+    public void setPatientIssueID(String patientIssueID) {
+        this.patientIssueID = patientIssueID;
+    }
+
+    /**
+     * @return the comment
+     */
+    public String getComment() {
+        return comment;
+    }
+
+    /**
+     * @param comment the comment to set
+     */
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
+    /**
+     * @return the bullkissueID
+     */
+    public String getBullkissueID() {
+        return bullkissueID;
+    }
+
+    /**
+     * @param bullkissueID the bullkissueID to set
+     */
+    public void setBullkissueID(String bullkissueID) {
+        this.bullkissueID = bullkissueID;
+    }
+
+   
 }

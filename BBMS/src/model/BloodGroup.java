@@ -1,36 +1,29 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+
 
 package model;
 
-/**
- *
- * @author Anuradha
- */
 public class BloodGroup {
 
-    private String groupName;
+    private String bloodgroup;
 
-    public BloodGroup(String groupName) {
-        this.groupName = groupName;
+    public BloodGroup(String bloodgroup) {
+        this.bloodgroup = bloodgroup;
     }
 
     /**
-     * @return the groupName
+     * @return the bloodgroup
      */
-    public String getGroupName() {
-        return groupName;
+    public String getBloodgroup() {
+        return bloodgroup;
     }
 
     /**
-     * @param groupName the groupName to set
+     * @param bloodgroup the bloodgroup to set
      */
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
+    public void setBloodgroup(String bloodgroup) {
+        this.bloodgroup = bloodgroup;
     }
-
     
+       
 
 }

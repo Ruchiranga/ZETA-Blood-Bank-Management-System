@@ -65,8 +65,8 @@ public class PHI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton25 = new javax.swing.JButton();
         jButton32 = new javax.swing.JButton();
-        jButton33 = new javax.swing.JButton();
-        jButton34 = new javax.swing.JButton();
+        buttonBDC = new javax.swing.JButton();
+        buttonMobileDates = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -121,28 +121,28 @@ public class PHI extends javax.swing.JFrame {
         jLayeredPane1.add(jButton32);
         jButton32.setBounds(0, 120, 200, 30);
 
-        jButton33.setText("Blood Donation Camps");
-        jButton33.addActionListener(new java.awt.event.ActionListener() {
+        buttonBDC.setText("Blood Donation Camps");
+        buttonBDC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton33ActionPerformed(evt);
+                buttonBDCActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton33);
-        jButton33.setBounds(0, 90, 200, 30);
+        jLayeredPane1.add(buttonBDC);
+        buttonBDC.setBounds(0, 90, 200, 30);
 
-        jButton34.setText("Mobile Dates");
-        jButton34.addActionListener(new java.awt.event.ActionListener() {
+        buttonMobileDates.setText("Mobile Dates");
+        buttonMobileDates.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton34ActionPerformed(evt);
+                buttonMobileDatesActionPerformed(evt);
             }
         });
-        jButton34.addKeyListener(new java.awt.event.KeyAdapter() {
+        buttonMobileDates.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                jButton34KeyPressed(evt);
+                buttonMobileDatesKeyPressed(evt);
             }
         });
-        jLayeredPane1.add(jButton34);
-        jButton34.setBounds(0, 60, 200, 30);
+        jLayeredPane1.add(buttonMobileDates);
+        buttonMobileDates.setBounds(0, 60, 200, 30);
 
         jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 08.png"))); // NOI18N
         jButton19.addActionListener(new java.awt.event.ActionListener() {
@@ -319,9 +319,9 @@ public class PHI extends javax.swing.JFrame {
         // TODO add your handling code here:
 }//GEN-LAST:event_jButton32ActionPerformed
 
-    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+    private void buttonBDCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonBDCActionPerformed
        new MobileCampDetails(this, true).setVisible(true);
-}//GEN-LAST:event_jButton33ActionPerformed
+}//GEN-LAST:event_buttonBDCActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
@@ -381,13 +381,13 @@ public class PHI extends javax.swing.JFrame {
         p.show();
 }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton34KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jButton34KeyPressed
+    private void buttonMobileDatesKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_buttonMobileDatesKeyPressed
         
-    }//GEN-LAST:event_jButton34KeyPressed
+    }//GEN-LAST:event_buttonMobileDatesKeyPressed
 
-    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+    private void buttonMobileDatesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonMobileDatesActionPerformed
         
-    }//GEN-LAST:event_jButton34ActionPerformed
+    }//GEN-LAST:event_buttonMobileDatesActionPerformed
 
     /**
     * @param args the command line arguments
@@ -405,6 +405,8 @@ public class PHI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonBDC;
+    private javax.swing.JButton buttonMobileDates;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -414,8 +416,6 @@ public class PHI extends javax.swing.JFrame {
     private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton32;
-    private javax.swing.JButton jButton33;
-    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;

@@ -40,7 +40,7 @@ public class MobileCampDetails extends javax.swing.JFrame {
 
     MobileCampDetails(PHI aThis, boolean b) {
         initComponents();
-        FillComboBox.fillComboDatabase(comboNIC, "Orgnizer", "NIC_No");
+        FillComboBox.fillComboDatabase(comboNIC, "Organizer", "NIC_No");
         ComboSearch cs = new ComboSearch();
         cs.setSearchableCombo(comboNIC, true, "No NIC");
     }
@@ -565,8 +565,11 @@ private void addOrganizer() throws ClassNotFoundException, SQLException {
 
        // Date StartDate1 = df.parse(txtStartDate.getText());
         //java.sql.Date StartDate = new java.sql.Date(StartDate1.getTime());
-
-        return SDF.format(calender.getDate());
+        String datewithouttime;
+        datewithouttime = SDF.format(calender.getDate()).toString().substring(0,10);
+        System.out.println(".....................");
+        System.out.println(datewithouttime);
+        return datewithouttime;
     }
 
     private void addBloodCamp() throws ClassNotFoundException, SQLException {
@@ -575,6 +578,7 @@ private void addOrganizer() throws ClassNotFoundException, SQLException {
         int ExpDonars = Integer.parseInt(textexpdonors.getText());
         String nIC = comboNIC.getSelectedItem() + "";
         String Date = getDate();
+       
         
         String query = "INSERT INTO bloodcamp (PLACE, DATE, EXP_DON, NIC_No) VALUES('" + place + "','" + Date + "','" + ExpDonars + "','" + nIC + "')";
         DBHandler.setData(DBConnection.getConnectionToDB(), query);
