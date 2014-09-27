@@ -633,12 +633,12 @@ public class MedicalOfficer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        RequestForBlood platelet = new RequestForBlood(jDesktopPane1.getSize());
-        platelet.setClosable(true);
-        platelet.setMaximizable(true);
-        jDesktopPane1.add(platelet);
+        IssueOfBlood issue = new IssueOfBlood(jDesktopPane1.getSize());
+        issue.setClosable(true);
+        issue.setMaximizable(true);
+        jDesktopPane1.add(issue);
         jDesktopPane1.setRequestFocusEnabled(true);
-        platelet.show();
+        issue.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

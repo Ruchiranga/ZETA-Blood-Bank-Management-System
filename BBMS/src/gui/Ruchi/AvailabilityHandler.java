@@ -5,11 +5,16 @@
  */
 package gui.Ruchi;
 
+import connection.DBConnection;
+import connection.DBHandler;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import model.BloodPacket;
 import model.Test;
 
@@ -21,6 +26,7 @@ public class AvailabilityHandler {
 
     AvailabilityDA dataAccess;
     ArrayList<BloodPacket> packets;
+    ArrayList<BloodPacket> results;
 
     public AvailabilityHandler() {
         dataAccess = new AvailabilityDA();
@@ -38,7 +44,7 @@ public class AvailabilityHandler {
         } catch (SQLException ex) {
             Logger.getLogger(AvailabilityHandler.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }
 
     String[] getGroupList() throws SQLException, ClassNotFoundException {
@@ -83,14 +89,86 @@ public class AvailabilityHandler {
         }
         return donors;
     }
-    
-    BloodPacket[] searchByGroup(String group){
-        ArrayList<BloodPacket> results = new ArrayList<BloodPacket>();
-        for(BloodPacket packet:packets){
-            if(packet.getBloodGroup().equals(group)){
+
+    BloodPacket[] searchByGroup(String group) {
+
+        results = new ArrayList<BloodPacket>();
+        for (BloodPacket packet : packets) {
+            if (packet.getBloodGroup().equals(group)) {
                 results.add(packet);
             }
         }
-        return (BloodPacket[]) results.toArray();
+        BloodPacket[] res = new BloodPacket[results.size()];
+        for (int i = 0; i < results.size(); i++) {
+            res[i] = results.get(i);
+        }
+        return res;
     }
+
+    String getDonorNameOf(String nic) throws SQLException, ClassNotFoundException {
+        String query = "select name from donor where nic = '" + nic + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet data = DBHandler.getData(connection, query);
+        data.next();
+        return data.getString("name");
+    }
+    
+    String getDonorNICOf(String name) throws SQLException, ClassNotFoundException {
+        String query = "select nic from donor where name = '" + name + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet data = DBHandler.getData(connection, query);
+        data.next();
+        return data.getString("nic");
+    }
+
+    void clearTable(DefaultTableModel availabilityTable) {
+        while(availabilityTable.getRowCount()>0){
+            availabilityTable.removeRow(availabilityTable.getRowCount()-1);
+        }
+    }
+
+    BloodPacket[] searchByComponent(String component) {
+        results = new ArrayList<BloodPacket>();
+        for (BloodPacket packet : packets) {
+            if (packet.getBloodType().equals(component)) {
+                results.add(packet);
+            }
+        }
+        BloodPacket[] res = new BloodPacket[results.size()];
+        for (int i = 0; i < results.size(); i++) {
+            res[i] = results.get(i);
+        }
+        return res;
+    }
+
+    BloodPacket[] searchByDonor(String donor) throws SQLException, ClassNotFoundException {
+        results = new ArrayList<BloodPacket>();
+        for (BloodPacket packet : packets) {
+            String nic = getDonorNICOf(donor);
+            if (packet.getNic().equals(nic)) {
+                results.add(packet);
+            }
+        }
+        BloodPacket[] res = new BloodPacket[results.size()];
+        for (int i = 0; i < results.size(); i++) {
+            res[i] = results.get(i);
+        }
+        return res;
+    }
+
+    int setAsCrossMatched(String packetID) throws ClassNotFoundException, SQLException {
+        String query = "update bloodpacket set isCrossmatched = 1 where packetID = '"+packetID+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        int res = DBHandler.setData(connection, query);
+        return res;
+    }
+
+    int setAsUncrossMatched(String packetID) throws SQLException, ClassNotFoundException {
+        String query = "update bloodpacket set isCrossmatched = 0 where packetID = '"+packetID+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        int res = DBHandler.setData(connection, query);
+        return res;
+    }
+
+
 }

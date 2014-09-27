@@ -63,8 +63,8 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jDesktopPane1 = new javax.swing.JDesktopPane();
         jLabel3 = new javax.swing.JLabel();
-        jButton33 = new javax.swing.JButton();
-        jButton34 = new javax.swing.JButton();
+        viewDonorRegisterButton = new javax.swing.JButton();
+        addNewDonorButton = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -78,6 +78,8 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         jButton7 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
+        deleteDonorButton = new javax.swing.JButton();
+        updateDonorButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -101,23 +103,23 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(jDesktopPane1);
         jDesktopPane1.setBounds(200, 60, 1170, 650);
 
-        jButton33.setText("Donor Register");
-        jButton33.addActionListener(new java.awt.event.ActionListener() {
+        viewDonorRegisterButton.setText("Donor Register");
+        viewDonorRegisterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton33ActionPerformed(evt);
+                viewDonorRegisterButtonActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton33);
-        jButton33.setBounds(0, 90, 200, 30);
+        jLayeredPane1.add(viewDonorRegisterButton);
+        viewDonorRegisterButton.setBounds(0, 60, 200, 30);
 
-        jButton34.setText("Donor Registration");
-        jButton34.addActionListener(new java.awt.event.ActionListener() {
+        addNewDonorButton.setText("Add New Donor");
+        addNewDonorButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton34ActionPerformed(evt);
+                addNewDonorButtonActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton34);
-        jButton34.setBounds(0, 60, 200, 30);
+        jLayeredPane1.add(addNewDonorButton);
+        addNewDonorButton.setBounds(0, 90, 200, 30);
 
         jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 08.png"))); // NOI18N
         jButton19.addActionListener(new java.awt.event.ActionListener() {
@@ -234,6 +236,19 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(jLabel2);
         jLabel2.setBounds(420, 0, 530, 50);
 
+        deleteDonorButton.setText("Delete Donor");
+        jLayeredPane1.add(deleteDonorButton);
+        deleteDonorButton.setBounds(0, 150, 200, 30);
+
+        updateDonorButton.setText("Update Donor");
+        updateDonorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDonorButtonActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(updateDonorButton);
+        updateDonorButton.setBounds(0, 120, 200, 30);
+
         jMenu1.setText("File");
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -280,18 +295,24 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
+    private void viewDonorRegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDonorRegisterButtonActionPerformed
         // TODO add your handling code here:
-}//GEN-LAST:event_jButton33ActionPerformed
+        ViewDonorRegister donorRegister = new ViewDonorRegister();
+        donorRegister.setClosable(true);
+        donorRegister.setMaximizable(true);
+        jDesktopPane1.add(donorRegister);
+        jDesktopPane1.setRequestFocusEnabled(true);
+        donorRegister.show();
+}//GEN-LAST:event_viewDonorRegisterButtonActionPerformed
 
-    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
+    private void addNewDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewDonorButtonActionPerformed
         FormFilledByDonor donor = new FormFilledByDonor();
         donor.setClosable(true);
         donor.setMaximizable(true);
         jDesktopPane1.add(donor);
         jDesktopPane1.setRequestFocusEnabled(true);
         donor.show();
-}//GEN-LAST:event_jButton34ActionPerformed
+}//GEN-LAST:event_addNewDonorButtonActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
@@ -351,6 +372,15 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         p.show();
 }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void updateDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDonorButtonActionPerformed
+        UpdateDonor update = new UpdateDonor();
+        update.setClosable(true);
+        update.setMaximizable(true);
+        jDesktopPane1.add(update);
+        jDesktopPane1.setRequestFocusEnabled(true);
+        update.show();
+    }//GEN-LAST:event_updateDonorButtonActionPerformed
+
     /**
     * @param args the command line arguments
     */
@@ -367,6 +397,8 @@ public class RegistrationOfficer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addNewDonorButton;
+    private javax.swing.JButton deleteDonorButton;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -374,8 +406,6 @@ public class RegistrationOfficer extends javax.swing.JFrame {
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton33;
-    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
@@ -393,6 +423,8 @@ public class RegistrationOfficer extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JButton updateDonorButton;
+    private javax.swing.JButton viewDonorRegisterButton;
     // End of variables declaration//GEN-END:variables
 
 }
