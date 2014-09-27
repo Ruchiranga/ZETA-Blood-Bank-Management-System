@@ -5,7 +5,7 @@
  */
 package gui.Ruchi;
 
-import Controller.Anu.IDGenerator;
+import idgenerator.IDGenerator;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;

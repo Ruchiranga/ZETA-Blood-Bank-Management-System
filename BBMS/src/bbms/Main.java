@@ -5,12 +5,8 @@
 
 package bbms;
 
-import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
-import gui.Naduni.MedicalOfficer;
 import gui.Login;
-import gui.Anu.Nurse;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.UIManager;

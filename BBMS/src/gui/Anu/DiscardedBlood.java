@@ -10,12 +10,13 @@
  */
 package gui.Anu;
 
-import data_access.anu.BloodPacketDA;
+import controller.anu.BloodPacketDA;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -33,6 +34,24 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
     public DiscardedBlood() {
         
         initComponents();
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        
+        durationRadioBtn.setSelected(false);
+        Calendar currenttime = Calendar.getInstance();
+        java.util.Date today = new java.util.Date((currenttime.getTime()).getTime());
+        
+        dtm = new DefaultTableModel(title, 0);
+        discardedBloodTable.setModel(dtm);
+        
+        startDateCalendar.setDate(today);
+        endDateCalendar.setDate(today);
+//        
+//        startDateCalendar.setEnabled(true);
+//        endDateCalendar.setEnabled(true);
+//        monthCalendar.setEnabled(false);
+//        yearCalendar.setEnabled(false);
+//
+//        displayDiscardedBloodPacketsByDuration();
         
     }
 
@@ -185,7 +204,9 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         discardedBloodTable = new javax.swing.JTable();
         jLabel50 = new javax.swing.JLabel();
 
-        jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 1, 14));
+        jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Discarded Blood"));
 
@@ -288,7 +309,6 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         jLabel3.setText("End Date");
 
         startDateCalendar.setDateFormatString("yyyy-MM-dd");
-        startDateCalendar.setEnabled(false);
         startDateCalendar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 startDateCalendarMouseClicked(evt);
@@ -304,7 +324,6 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         });
 
         endDateCalendar.setDateFormatString("yyyy-MM-dd");
-        endDateCalendar.setEnabled(false);
         endDateCalendar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 endDateCalendarMouseClicked(evt);
@@ -413,14 +432,13 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(21, 21, 21)))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(382, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RefreshBtn)
                     .addComponent(jButton4)
@@ -533,33 +551,33 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         displayDiscardedBloodPacketsByMonth();
 }//GEN-LAST:event_monthCalendarPropertyChange
 
-    private void startDateCalendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startDateCalendarMouseClicked
-
-}//GEN-LAST:event_startDateCalendarMouseClicked
-
-    private void startDateCalendarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startDateCalendarMousePressed
-
-}//GEN-LAST:event_startDateCalendarMousePressed
-
-    private void startDateCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_startDateCalendarPropertyChange
-        displayDiscardedBloodPacketsByDuration();
-}//GEN-LAST:event_startDateCalendarPropertyChange
-
-    private void endDateCalendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_endDateCalendarMouseClicked
-
-}//GEN-LAST:event_endDateCalendarMouseClicked
-
-    private void endDateCalendarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_endDateCalendarMousePressed
-
-}//GEN-LAST:event_endDateCalendarMousePressed
-
-    private void endDateCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_endDateCalendarPropertyChange
-        displayDiscardedBloodPacketsByDuration();
-}//GEN-LAST:event_endDateCalendarPropertyChange
-
     private void yearCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_yearCalendarPropertyChange
         displayDiscardedBloodPacketsByYear();
 }//GEN-LAST:event_yearCalendarPropertyChange
+
+    private void endDateCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_endDateCalendarPropertyChange
+        displayDiscardedBloodPacketsByDuration();
+    }//GEN-LAST:event_endDateCalendarPropertyChange
+
+    private void endDateCalendarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_endDateCalendarMousePressed
+
+    }//GEN-LAST:event_endDateCalendarMousePressed
+
+    private void endDateCalendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_endDateCalendarMouseClicked
+
+    }//GEN-LAST:event_endDateCalendarMouseClicked
+
+    private void startDateCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_startDateCalendarPropertyChange
+        displayDiscardedBloodPacketsByDuration();
+    }//GEN-LAST:event_startDateCalendarPropertyChange
+
+    private void startDateCalendarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startDateCalendarMousePressed
+
+    }//GEN-LAST:event_startDateCalendarMousePressed
+
+    private void startDateCalendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startDateCalendarMouseClicked
+
+    }//GEN-LAST:event_startDateCalendarMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RefreshBtn;

@@ -1388,7 +1388,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                  nopiercedTatooedRadioButton.setSelected(true);
              }
              
-            if(existingDonor.getImprisoned()==1){
+            if(existingDonor.getImprisone()==1){
                 imprisonedRadioButton.setSelected(true);
             }else{
                 noimprisonedRadioButton.setSelected(true);

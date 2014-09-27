@@ -11,7 +11,7 @@
 
 package gui.Anu;
 
-import data_access.anu.RequesteeDA;
+import controller.anu.RequesteeDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;

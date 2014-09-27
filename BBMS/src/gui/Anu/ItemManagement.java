@@ -10,9 +10,9 @@
  */
 package gui.Anu;
 
-import data_access.anu.ItemDA;
-import data_access.anu.ReagentRequestDA;
-import data_access.anu.RecievedLogDA;
+import controller.anu.ItemDA;
+import controller.anu.ReagentRequestDA;
+import controller.anu.RecievedLogDA;
 import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.Item;
 import model.ReagentRequest;
-import model.ReceivedLog;
+import model.ItemReceivedLog;
 
 /**
  *
@@ -1143,7 +1143,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             java.sql.Date sqlDateR = new java.sql.Date(dateR.getTime());
             double recievedQty = Double.parseDouble(recievedQtyText.getText());
             String from = fromText.getText();
-            ReceivedLog receivedLog = new ReceivedLog(itemID, sqlDateR, recievedQty, from);
+            ItemReceivedLog receivedLog = new ItemReceivedLog(itemID, sqlDateR, recievedQty, from);
             int added = RecievedLogDA.addReceivedLog(receivedLog);
 
             if (added == 1) {

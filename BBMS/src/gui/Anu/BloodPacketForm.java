@@ -10,12 +10,9 @@
  */
 package gui.Anu;
 
-import data_access.anu.BloodPacketDA;
-import java.awt.Dimension;
-import java.sql.Date;
+import controller.anu.BloodPacketDA;
 import java.sql.SQLException;
 import java.text.DateFormat;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -98,7 +95,12 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         bloodTypeCombo1 = new javax.swing.JComboBox();
         jLabel52 = new javax.swing.JLabel();
 
-        jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+
+        jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+
+        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 204), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)));
+
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Add blood packet details"));
 
@@ -301,7 +303,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel11Layout.createSequentialGroup()
                         .addGap(301, 301, 301)
                         .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -310,10 +312,12 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Add Blood Packet", jPanel11);
+
+        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 204), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Add blood packet details"));
 
@@ -511,7 +515,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(284, 284, 284)
                         .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -520,7 +524,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(37, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Update Blood Packet", jPanel2);
@@ -538,7 +542,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 522, Short.MAX_VALUE)
+                .addComponent(jTabbedPane3)
                 .addContainerGap())
         );
 
@@ -589,6 +593,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 CampIDCombo.setEnabled(true);
                 campNIC = "" + CampIDCombo.getSelectedItem();
             }
+            
             BloodPacket newPacket = new BloodPacket(packetID, nic, bloodGroup, bloodType, sqlDateC, sqlDateE, packetFrom, bloodBank, campNIC);
             int added = BloodPacketDA.addPacket(newPacket);
             if(added == 1){
