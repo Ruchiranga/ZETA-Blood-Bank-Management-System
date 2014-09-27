@@ -1,0 +1,15 @@
+gui.Anu.BloodPacketForm
+gui.Anu.BloodPacketForm$13
+gui.Anu.BloodPacketForm$12
+gui.Anu.BloodPacketForm$14
+gui.Anu.BloodPacketForm$2
+gui.Anu.BloodPacketForm$1
+gui.Anu.BloodPacketForm$11
+gui.Anu.BloodPacketForm$10
+gui.Anu.BloodPacketForm$6
+gui.Anu.BloodPacketForm$5
+gui.Anu.BloodPacketForm$4
+gui.Anu.BloodPacketForm$3
+gui.Anu.BloodPacketForm$7
+gui.Anu.BloodPacketForm$8
+gui.Anu.BloodPacketForm$9

@@ -10,7 +10,7 @@
  */
 package gui.Anu;
 
-import Controller.Anu.BloodPacketController;
+import data_access.anu.BloodPacketDA;
 import java.awt.Dimension;
 import java.sql.SQLException;
 import java.util.Calendar;
@@ -34,70 +34,70 @@ public class ComponentsStock extends javax.swing.JInternalFrame {
     private void setData() {
         try {
             /* Inhouse blood and components */
-            int freshBloodInhouse = BloodPacketController.getInhouseCollectedBlood("Fresh blood", sqldate);
+            int freshBloodInhouse = BloodPacketDA.getInhouseCollectedBlood("Fresh blood", sqldate);
             bloodInhouseTxt.setText("" + freshBloodInhouse);
-            int plateletsInhouse = BloodPacketController.getInhouseCollectedBlood("Platelets", sqldate);
+            int plateletsInhouse = BloodPacketDA.getInhouseCollectedBlood("Platelets", sqldate);
             plateletsInhouseTxt.setText("" + plateletsInhouse);
-            int ffpInhouse = BloodPacketController.getInhouseCollectedBlood("FFP", sqldate);
+            int ffpInhouse = BloodPacketDA.getInhouseCollectedBlood("FFP", sqldate);
             ffpInhouseTxt.setText("" + ffpInhouse);
-            int cryoInhouse = BloodPacketController.getInhouseCollectedBlood("CRYO", sqldate);
+            int cryoInhouse = BloodPacketDA.getInhouseCollectedBlood("CRYO", sqldate);
             cryoInhouseStock.setText("" + cryoInhouse);
-            int plasmaInhouse = BloodPacketController.getInhouseCollectedBlood("Plasma/CSP", sqldate);
+            int plasmaInhouse = BloodPacketDA.getInhouseCollectedBlood("Plasma/CSP", sqldate);
             plasmaInhouseTxt.setText("" + plasmaInhouse);
             /* Mobile blood and components */
-            int freshBloodMobile = BloodPacketController.getMobileCollectedBlood("Fresh blood", sqldate);
+            int freshBloodMobile = BloodPacketDA.getMobileCollectedBlood("Fresh blood", sqldate);
             bloodMobileTxt.setText("" + freshBloodMobile);
-            int plateletsMobile = BloodPacketController.getMobileCollectedBlood("Platelets", sqldate);
+            int plateletsMobile = BloodPacketDA.getMobileCollectedBlood("Platelets", sqldate);
             plateletsMobileTxt.setText("" + plateletsMobile);
-            int ffpMobile = BloodPacketController.getMobileCollectedBlood("FFP", sqldate);
+            int ffpMobile = BloodPacketDA.getMobileCollectedBlood("FFP", sqldate);
             ffpMobileTxt.setText("" + ffpMobile);
-            int cryoMobile = BloodPacketController.getMobileCollectedBlood("CRYO", sqldate);
+            int cryoMobile = BloodPacketDA.getMobileCollectedBlood("CRYO", sqldate);
             cryoMobileTxt.setText("" + cryoMobile);
-            int plasmaMobile = BloodPacketController.getMobileCollectedBlood("Plasma/CSP", sqldate);
+            int plasmaMobile = BloodPacketDA.getMobileCollectedBlood("Plasma/CSP", sqldate);
             plasmaMobileTxt.setText("" + plasmaMobile);
             /* Recieved blood and components */
-            int freshBloodRecieved = BloodPacketController.getRecievedBlood("Fresh blood", sqldate);
+            int freshBloodRecieved = BloodPacketDA.getRecievedBlood("Fresh blood", sqldate);
             bloodRecievedTxt.setText("" + freshBloodRecieved);
-            int plateletsRecieved = BloodPacketController.getRecievedBlood("Platelets", sqldate);
+            int plateletsRecieved = BloodPacketDA.getRecievedBlood("Platelets", sqldate);
             palateletsRecievedText.setText("" + plateletsRecieved);
-            int ffpRecieved = BloodPacketController.getRecievedBlood("FFP", sqldate);
+            int ffpRecieved = BloodPacketDA.getRecievedBlood("FFP", sqldate);
             ffpRecievedtext.setText("" + ffpRecieved);
-            int cryoRecieved = BloodPacketController.getRecievedBlood("CRYO", sqldate);
+            int cryoRecieved = BloodPacketDA.getRecievedBlood("CRYO", sqldate);
             cryoRecievedText.setText("" + cryoRecieved);
-            int plasmaRecieved = BloodPacketController.getRecievedBlood("Plasma/CSP", sqldate);
+            int plasmaRecieved = BloodPacketDA.getRecievedBlood("Plasma/CSP", sqldate);
             plasmarecievedText.setText("" + plasmaRecieved);
             /* Returned blood and components */
-            int freshBloodReturned = BloodPacketController.getReturnedBlood("Fresh blood", sqldate);
+            int freshBloodReturned = BloodPacketDA.getReturnedBlood("Fresh blood", sqldate);
             bloodReturnTxt.setText("" + freshBloodReturned);
-            int plateletsReturned = BloodPacketController.getReturnedBlood("Platelets", sqldate);
+            int plateletsReturned = BloodPacketDA.getReturnedBlood("Platelets", sqldate);
             pleteletsReturnTxt.setText("" + plateletsReturned);
-            int ffpRetruned = BloodPacketController.getReturnedBlood("FFP", sqldate);
+            int ffpRetruned = BloodPacketDA.getReturnedBlood("FFP", sqldate);
             ffpReturnTxt.setText("" + ffpRetruned);
-            int cryoReturned = BloodPacketController.getReturnedBlood("CRYO", sqldate);
+            int cryoReturned = BloodPacketDA.getReturnedBlood("CRYO", sqldate);
             cryoReturnTxt.setText("" + cryoReturned);
-            int plasmaReturned = BloodPacketController.getReturnedBlood("Plasma/CSP", sqldate);
+            int plasmaReturned = BloodPacketDA.getReturnedBlood("Plasma/CSP", sqldate);
             plasmaReturnTxt.setText("" + plasmaReturned);
             /* Issued blood and components */
-            int freshBloodIssued = BloodPacketController.getIssuedBlood("Fresh blood", sqldate);
+            int freshBloodIssued = BloodPacketDA.getIssuedBlood("Fresh blood", sqldate);
             bloodIssueTxt.setText("" + freshBloodIssued);
-            int plateletsIssued = BloodPacketController.getIssuedBlood("Platelets", sqldate);
+            int plateletsIssued = BloodPacketDA.getIssuedBlood("Platelets", sqldate);
             plateletsIssueTxt.setText("" + plateletsIssued);
-            int ffpIssued = BloodPacketController.getIssuedBlood("FFP", sqldate);
+            int ffpIssued = BloodPacketDA.getIssuedBlood("FFP", sqldate);
             ffpIssueTxt.setText("" + ffpIssued);
-            int cryoIssued = BloodPacketController.getIssuedBlood("CRYO", sqldate);
+            int cryoIssued = BloodPacketDA.getIssuedBlood("CRYO", sqldate);
             cryoIssueTxt.setText("" + cryoIssued);
-            int plasmaIssued = BloodPacketController.getIssuedBlood("Plasma/CSP", sqldate);
+            int plasmaIssued = BloodPacketDA.getIssuedBlood("Plasma/CSP", sqldate);
             plasmaIssueTxt.setText("" + plasmaIssued);
             /* Discarded blood and components */
-            int freshBloodDiscarded = BloodPacketController.getDiscardedBlood("Fresh blood", sqldate);
+            int freshBloodDiscarded = BloodPacketDA.getDiscardedBlood("Fresh blood", sqldate);
             bloodDiscardTxt.setText("" + freshBloodDiscarded);
-            int plateletsDiscarded = BloodPacketController.getDiscardedBlood("Platelets", sqldate);
+            int plateletsDiscarded = BloodPacketDA.getDiscardedBlood("Platelets", sqldate);
             plateletsDiscardTxt.setText("" + plateletsDiscarded);
-            int ffpDiscarded = BloodPacketController.getDiscardedBlood("FFP", sqldate);
+            int ffpDiscarded = BloodPacketDA.getDiscardedBlood("FFP", sqldate);
             ffpDiscardTxt.setText("" + ffpDiscarded);
-            int cryoDiscarded = BloodPacketController.getDiscardedBlood("CRYO", sqldate);
+            int cryoDiscarded = BloodPacketDA.getDiscardedBlood("CRYO", sqldate);
             cryoDiscardTxt.setText("" + cryoDiscarded);
-            int plasmaDiscarded = BloodPacketController.getDiscardedBlood("Plasma/CSP", sqldate);
+            int plasmaDiscarded = BloodPacketDA.getDiscardedBlood("Plasma/CSP", sqldate);
             plasmaDiscardTxt.setText("" + plasmaDiscarded);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ComponentsStock.class.getName()).log(Level.SEVERE, null, ex);

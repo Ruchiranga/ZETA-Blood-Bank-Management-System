@@ -1,5 +1,6 @@
 package gui.Pubudu;
 
+
 import com.sun.glass.events.KeyEvent;
 import connection.DBConnection;
 import connection.DBHandler;
@@ -17,6 +18,7 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+
 
 public class MobileCampDetails extends javax.swing.JFrame {
     
@@ -558,13 +560,13 @@ private void addOrganizer() throws ClassNotFoundException, SQLException {
     }
 
     private String getDate() {
-        //SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd");
+       // DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
 
-        //Date StartDate1 = df.parse(txtStartDate.getText());
-        java.sql.Date StartDate = new java.sql.Date(StartDate1.getTime());
+       // Date StartDate1 = df.parse(txtStartDate.getText());
+        //java.sql.Date StartDate = new java.sql.Date(StartDate1.getTime());
 
-        //return SDF.format(calender.getDate());
+        return SDF.format(calender.getDate());
     }
 
     private void addBloodCamp() throws ClassNotFoundException, SQLException {

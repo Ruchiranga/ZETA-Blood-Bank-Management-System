@@ -11,7 +11,7 @@
 
 package gui.Anu;
 
-import Controller.Anu.RequesteeController;
+import data_access.anu.RequesteeDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -35,7 +35,7 @@ public class AddRequestee extends javax.swing.JInternalFrame {
     private void setComboData() {
         try {
             requesteeCombo.removeAllItems();
-            ResultSet rst = RequesteeController.getAllRequestees();
+            ResultSet rst = RequesteeDA.getAllRequestees();
             while (rst.next()) {
                 String requestee = rst.getString("RequesteeName");
                 requesteeCombo.addItem(requestee);
@@ -246,7 +246,7 @@ public class AddRequestee extends javax.swing.JInternalFrame {
         try {
             Requestee oldRequestee = new Requestee(oldRequesteeName);
             Requestee newRequestee = new Requestee(updateRequesteeText.getText());
-            int res = RequesteeController.updateRequestee(oldRequestee, newRequestee);
+            int res = RequesteeDA.updateRequestee(oldRequestee, newRequestee);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Updated Succesfully");
                 updateRequesteeText.setText("");
@@ -265,7 +265,7 @@ public class AddRequestee extends javax.swing.JInternalFrame {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         try {
             Requestee deletedRequestee = new Requestee(updateRequesteeText.getText());
-            int res = RequesteeController.deleteRequestee(deletedRequestee);
+            int res = RequesteeDA.deleteRequestee(deletedRequestee);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Deleted Succesfully");
                 setComboData();
@@ -283,7 +283,7 @@ public class AddRequestee extends javax.swing.JInternalFrame {
         try {
             String newRequestee = addRequesteeText.getText();
             Requestee requestee = new Requestee(newRequestee);
-            int res = RequesteeController.addRequestee(requestee);
+            int res = RequesteeDA.addRequestee(requestee);
 
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Added Succesfully");

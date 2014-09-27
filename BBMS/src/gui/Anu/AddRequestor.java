@@ -10,9 +10,8 @@
  */
 package gui.Anu;
 
-import Controller.Anu.BloodTypeController;
-import Controller.Anu.RequestorController;
-import Controller.Anu.WardController;
+import data_access.anu.RequestorDA;
+import data_access.anu.WardDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -29,18 +28,20 @@ public class AddRequestor extends javax.swing.JInternalFrame {
 
     private String oldHospitalName = "";
     private String oldWardName = "";
+    PatientRequestsIn requestsForm = null;
 
     /** Creates new form AddRequestor */
-    public AddRequestor() {
+    public AddRequestor(PatientRequestsIn requestsForm) {
         initComponents();
         setComboData();
         setWardComboData();
+        this.requestsForm = requestsForm;
     }
 
     private void setComboData() {
         try {
             hospitalCombo.removeAllItems();
-            ResultSet rst = RequestorController.getAllHospitals();
+            ResultSet rst = RequestorDA.getAllHospitals();
             while (rst.next()) {
                 String hospital = rst.getString("Hospital");
                 hospitalCombo.addItem(hospital);
@@ -55,7 +56,7 @@ public class AddRequestor extends javax.swing.JInternalFrame {
     private void setWardComboData() {
         try {
             wardCombo.removeAllItems();
-            ResultSet rst = WardController.getAllWards();
+            ResultSet rst = WardDA.getAllWards();
             while (rst.next()) {
                 String ward = rst.getString("WardName");
                 wardCombo.addItem(ward);
@@ -368,12 +369,16 @@ public class AddRequestor extends javax.swing.JInternalFrame {
         try {
             String hospital = addHospitalText.getText();
             Requestor requestor = new Requestor(hospital);
-            int res = RequestorController.addRequestor(requestor);
+            int res = RequestorDA.addRequestor(requestor);
 
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Added Succesfully");
                 addHospitalText.setText("");
                 setComboData();
+                if(requestsForm != null){
+                    requestsForm.setHospitalComboItems(requestsForm.getAddHospitalCombo());
+                    requestsForm.setHospitalComboItems(requestsForm.getUpdateHospitalcombo());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Error!");
             }
@@ -390,12 +395,16 @@ public class AddRequestor extends javax.swing.JInternalFrame {
         try {
             String newWard = addWardText.getText();
             Ward ward = new Ward(newWard);
-            int res = WardController.addWard(ward);
+            int res = WardDA.addWard(ward);
 
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Added Succesfully");
                 addWardText.setText("");
                 setWardComboData();
+                if(requestsForm != null){
+                    requestsForm.setWardComboItems(requestsForm.getAddWardCombo());
+                    requestsForm.setWardComboItems(requestsForm.getUpdateWardCombo());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Error!");
             }
@@ -429,12 +438,16 @@ public class AddRequestor extends javax.swing.JInternalFrame {
         try {
             Requestor oldHospital = new Requestor(oldHospitalName);
             Requestor newHospital = new Requestor(updateHospitalText.getText());
-            int res = RequestorController.updateHospital(oldHospital, newHospital);
+            int res = RequestorDA.updateHospital(oldHospital, newHospital);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Updated Succesfully");
                 updateHospitalText.setText("");
                 setComboData();
                 updateHospitalBtn.setEnabled(false);
+                if(requestsForm != null){
+                    requestsForm.setHospitalComboItems(requestsForm.getAddHospitalCombo());
+                    requestsForm.setHospitalComboItems(requestsForm.getUpdateHospitalcombo());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Error!");
             }
@@ -449,12 +462,16 @@ public class AddRequestor extends javax.swing.JInternalFrame {
         try {
             Ward oldWard = new Ward(oldWardName);
             Ward newWard = new Ward(UpdateWardText.getText());
-            int res = WardController.updateWard(oldWard, newWard);
+            int res = WardDA.updateWard(oldWard, newWard);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Updated Succesfully");
                 UpdateWardText.setText("");
                 setWardComboData();
                 updateWardBtn.setEnabled(false);
+                if(requestsForm != null){
+                    requestsForm.setWardComboItems(requestsForm.getAddWardCombo());
+                    requestsForm.setWardComboItems(requestsForm.getUpdateWardCombo());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Error!");
             }
@@ -468,10 +485,14 @@ public class AddRequestor extends javax.swing.JInternalFrame {
     private void deleteHospitalBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteHospitalBtnActionPerformed
         try {
             Requestor deletedHospital = new Requestor(updateHospitalText.getText());
-            int res = RequestorController.deleteHospital(deletedHospital);
+            int res = RequestorDA.deleteHospital(deletedHospital);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Deleted Succesfully");
                 setComboData();
+                if(requestsForm != null){
+                    requestsForm.setHospitalComboItems(requestsForm.getAddHospitalCombo());
+                    requestsForm.setHospitalComboItems(requestsForm.getUpdateHospitalcombo());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Error!");
             }
@@ -485,10 +506,16 @@ public class AddRequestor extends javax.swing.JInternalFrame {
     private void deleteWardBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteWardBtnActionPerformed
         try {
             Ward deletedWard = new Ward(UpdateWardText.getText());
-            int res = WardController.deleteWard(deletedWard);
+            int res = WardDA.deleteWard(deletedWard);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Deleted Succesfully");
                 setWardComboData();
+                if(requestsForm != null){
+                    requestsForm.setHospitalComboItems(requestsForm.getAddHospitalCombo());
+                    requestsForm.setHospitalComboItems(requestsForm.getAddWardCombo());
+                    requestsForm.setWardComboItems(requestsForm.getUpdateHospitalcombo());
+                    requestsForm.setWardComboItems(requestsForm.getUpdateWardCombo());
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Error!");
             }

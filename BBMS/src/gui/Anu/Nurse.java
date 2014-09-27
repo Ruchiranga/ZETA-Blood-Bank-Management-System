@@ -10,12 +10,8 @@
  */
 package gui.Anu;
 
-import Controller.Anu.BloodPacketController;
-import de.javasoft.plaf.synthetica.SyntheticaBlackStarLookAndFeel;
-import de.javasoft.plaf.synthetica.SyntheticaBlueMoonLookAndFeel;
-import de.javasoft.plaf.synthetica.SyntheticaMauveMetallicLookAndFeel;
+import data_access.anu.BloodPacketDA;
 import gui.ChangePassword;
-import gui.Personalize;
 import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
@@ -24,15 +20,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Calendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -90,7 +84,7 @@ public class Nurse extends javax.swing.JFrame {
             ImageIcon myImg = new ImageIcon(bi);
             this.setIconImage(myImg.getImage());
 
-            ResultSet rst = BloodPacketController.getExpiredBloodPackets(sqldate);
+            ResultSet rst = BloodPacketDA.getExpiredBloodPackets(sqldate);
             String packetID = null;
             String bloodType = null;
             String bloodGroup = null;
@@ -117,6 +111,10 @@ public class Nurse extends javax.swing.JFrame {
         }
     }
 
+    public JDesktopPane getDesktop(){
+        return this.NurseDesktop;
+    }
+
     private void setDailyStockBalance() {
         try {
 
@@ -125,83 +123,83 @@ public class Nurse extends javax.swing.JFrame {
             /* Updating Components Table */
 
             //platelets
-            int platelet_A_plus_count = BloodPacketController.getBloodComponentCount("Platelets", "A+");
+            int platelet_A_plus_count = BloodPacketDA.getBloodComponentCount("Platelets", "A+");
             componenetStockDtm.setValueAt("" + platelet_A_plus_count, 0, 1);
-            int platelet_A_min_count = BloodPacketController.getBloodComponentCount("Platelets", "A-");
+            int platelet_A_min_count = BloodPacketDA.getBloodComponentCount("Platelets", "A-");
             componenetStockDtm.setValueAt("" + platelet_A_min_count, 0, 2);
-            int platelet_B_plus_count = BloodPacketController.getBloodComponentCount("Platelets", "B+");
+            int platelet_B_plus_count = BloodPacketDA.getBloodComponentCount("Platelets", "B+");
             componenetStockDtm.setValueAt("" + platelet_B_plus_count, 0, 3);
-            int platelet_B_min_count = BloodPacketController.getBloodComponentCount("Platelets", "B-");
+            int platelet_B_min_count = BloodPacketDA.getBloodComponentCount("Platelets", "B-");
             componenetStockDtm.setValueAt("" + platelet_B_min_count, 0, 4);
-            int platelet_AB_plus_count = BloodPacketController.getBloodComponentCount("Platelets", "AB+");
+            int platelet_AB_plus_count = BloodPacketDA.getBloodComponentCount("Platelets", "AB+");
             componenetStockDtm.setValueAt("" + platelet_AB_plus_count, 0, 5);
-            int platelet_AB_min_count = BloodPacketController.getBloodComponentCount("Platelets", "AB-");
+            int platelet_AB_min_count = BloodPacketDA.getBloodComponentCount("Platelets", "AB-");
             componenetStockDtm.setValueAt("" + platelet_AB_min_count, 0, 6);
-            int platelet_O_plus_count = BloodPacketController.getBloodComponentCount("Platelets", "O+");
+            int platelet_O_plus_count = BloodPacketDA.getBloodComponentCount("Platelets", "O+");
             componenetStockDtm.setValueAt("" + platelet_O_plus_count, 0, 7);
-            int platelet_O_min_count = BloodPacketController.getBloodComponentCount("Platelets", "O-");
+            int platelet_O_min_count = BloodPacketDA.getBloodComponentCount("Platelets", "O-");
             componenetStockDtm.setValueAt("" + platelet_O_min_count, 0, 8);
-            int platelet_unknown_count = BloodPacketController.getBloodComponentCount("Platelets", null);
+            int platelet_unknown_count = BloodPacketDA.getBloodComponentCount("Platelets", null);
             componenetStockDtm.setValueAt("" + platelet_unknown_count, 0, 9);
 
             //ffp
-            int ffp_A_plus_count = BloodPacketController.getBloodComponentCount("FFP", "A+");
+            int ffp_A_plus_count = BloodPacketDA.getBloodComponentCount("FFP", "A+");
             componenetStockDtm.setValueAt("" + ffp_A_plus_count, 1, 1);
-            int ffp_A_min_count = BloodPacketController.getBloodComponentCount("FFP", "A-");
+            int ffp_A_min_count = BloodPacketDA.getBloodComponentCount("FFP", "A-");
             componenetStockDtm.setValueAt("" + ffp_A_min_count, 1, 2);
-            int ffp_B_plus_count = BloodPacketController.getBloodComponentCount("FFP", "B+");
+            int ffp_B_plus_count = BloodPacketDA.getBloodComponentCount("FFP", "B+");
             componenetStockDtm.setValueAt("" + ffp_B_plus_count, 1, 3);
-            int ffp_B_min_count = BloodPacketController.getBloodComponentCount("FFP", "B-");
+            int ffp_B_min_count = BloodPacketDA.getBloodComponentCount("FFP", "B-");
             componenetStockDtm.setValueAt("" + ffp_B_min_count, 1, 4);
-            int ffp_AB_plus_count = BloodPacketController.getBloodComponentCount("FFP", "AB+");
+            int ffp_AB_plus_count = BloodPacketDA.getBloodComponentCount("FFP", "AB+");
             componenetStockDtm.setValueAt("" + ffp_AB_plus_count, 1, 5);
-            int ffp_AB_min_count = BloodPacketController.getBloodComponentCount("FFP", "AB-");
+            int ffp_AB_min_count = BloodPacketDA.getBloodComponentCount("FFP", "AB-");
             componenetStockDtm.setValueAt("" + ffp_AB_min_count, 1, 6);
-            int ffp_O_plus_count = BloodPacketController.getBloodComponentCount("FFP", "O+");
+            int ffp_O_plus_count = BloodPacketDA.getBloodComponentCount("FFP", "O+");
             componenetStockDtm.setValueAt("" + ffp_O_plus_count, 1, 7);
-            int ffp_O_min_count = BloodPacketController.getBloodComponentCount("FFP", "O-");
+            int ffp_O_min_count = BloodPacketDA.getBloodComponentCount("FFP", "O-");
             componenetStockDtm.setValueAt("" + ffp_O_min_count, 1, 8);
-            int ffp_unknown_count = BloodPacketController.getBloodComponentCount("FFP", null);
+            int ffp_unknown_count = BloodPacketDA.getBloodComponentCount("FFP", null);
             componenetStockDtm.setValueAt("" + ffp_unknown_count, 1, 9);
 
             //cryo
-            int cryo_A_plus_count = BloodPacketController.getBloodComponentCount("CRYO", "A+");
+            int cryo_A_plus_count = BloodPacketDA.getBloodComponentCount("CRYO", "A+");
             componenetStockDtm.setValueAt("" + cryo_A_plus_count, 2, 1);
-            int cryo_A_min_count = BloodPacketController.getBloodComponentCount("CRYO", "A-");
+            int cryo_A_min_count = BloodPacketDA.getBloodComponentCount("CRYO", "A-");
             componenetStockDtm.setValueAt("" + cryo_A_min_count, 2, 2);
-            int cryo_B_plus_count = BloodPacketController.getBloodComponentCount("CRYO", "B+");
+            int cryo_B_plus_count = BloodPacketDA.getBloodComponentCount("CRYO", "B+");
             componenetStockDtm.setValueAt("" + cryo_B_plus_count, 2, 3);
-            int cryo_B_min_count = BloodPacketController.getBloodComponentCount("CRYO", "B-");
+            int cryo_B_min_count = BloodPacketDA.getBloodComponentCount("CRYO", "B-");
             componenetStockDtm.setValueAt("" + cryo_B_min_count, 2, 4);
-            int cryo_AB_plus_count = BloodPacketController.getBloodComponentCount("CRYO", "AB+");
+            int cryo_AB_plus_count = BloodPacketDA.getBloodComponentCount("CRYO", "AB+");
             componenetStockDtm.setValueAt("" + cryo_AB_plus_count, 2, 5);
-            int cryo_AB_min_count = BloodPacketController.getBloodComponentCount("CRYO", "AB-");
+            int cryo_AB_min_count = BloodPacketDA.getBloodComponentCount("CRYO", "AB-");
             componenetStockDtm.setValueAt("" + cryo_AB_min_count, 2, 6);
-            int cryo_O_plus_count = BloodPacketController.getBloodComponentCount("CRYO", "O+");
+            int cryo_O_plus_count = BloodPacketDA.getBloodComponentCount("CRYO", "O+");
             componenetStockDtm.setValueAt("" + cryo_O_plus_count, 2, 7);
-            int cryo_O_min_count = BloodPacketController.getBloodComponentCount("CRYO", "O-");
+            int cryo_O_min_count = BloodPacketDA.getBloodComponentCount("CRYO", "O-");
             componenetStockDtm.setValueAt("" + cryo_O_min_count, 2, 8);
-            int cryo_unknown_count = BloodPacketController.getBloodComponentCount("CRYO", null);
+            int cryo_unknown_count = BloodPacketDA.getBloodComponentCount("CRYO", null);
             componenetStockDtm.setValueAt("" + cryo_unknown_count, 2, 9);
 
             //plasma
-            int plasma_A_plus_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "A+");
+            int plasma_A_plus_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "A+");
             componenetStockDtm.setValueAt("" + plasma_A_plus_count, 3, 1);
-            int plasma_A_min_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "A-");
+            int plasma_A_min_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "A-");
             componenetStockDtm.setValueAt("" + plasma_A_min_count, 3, 2);
-            int plasma_B_plus_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "B+");
+            int plasma_B_plus_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "B+");
             componenetStockDtm.setValueAt("" + plasma_B_plus_count, 3, 3);
-            int plasma_B_min_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "B-");
+            int plasma_B_min_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "B-");
             componenetStockDtm.setValueAt("" + plasma_B_min_count, 3, 4);
-            int plasma_AB_plus_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "AB+");
+            int plasma_AB_plus_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "AB+");
             componenetStockDtm.setValueAt("" + plasma_AB_plus_count, 3, 5);
-            int plasma_AB_min_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "AB-");
+            int plasma_AB_min_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "AB-");
             componenetStockDtm.setValueAt("" + plasma_AB_min_count, 3, 6);
-            int plasma_O_plus_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "O+");
+            int plasma_O_plus_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "O+");
             componenetStockDtm.setValueAt("" + plasma_O_plus_count, 3, 7);
-            int plasma_O_min_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", "O-");
+            int plasma_O_min_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", "O-");
             componenetStockDtm.setValueAt("" + plasma_O_min_count, 3, 8);
-            int plasma_unknown_count = BloodPacketController.getBloodComponentCount("Plasma/CSP", null);
+            int plasma_unknown_count = BloodPacketDA.getBloodComponentCount("Plasma/CSP", null);
             componenetStockDtm.setValueAt("" + plasma_unknown_count, 3, 9);
 
             /* Calculate component total */
@@ -217,83 +215,83 @@ public class Nurse extends javax.swing.JFrame {
 
             /*Fresh Blood Stock Balance Table */
             //A+
-            int fresh_blood_A_plus_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("A+");
+            int fresh_blood_A_plus_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("A+");
             bloodStockDtm.setValueAt(fresh_blood_A_plus_UnX, 0, 1);
-            int fresh_blood_A_plus_X = BloodPacketController.getCrossmatchedFreshBloodCount("A+");
+            int fresh_blood_A_plus_X = BloodPacketDA.getCrossmatchedFreshBloodCount("A+");
             bloodStockDtm.setValueAt(fresh_blood_A_plus_X, 0, 2);
-            int fresh_blood_A_plus_SR = BloodPacketController.getSpecialReservationFreshBloodCount("A+");
+            int fresh_blood_A_plus_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("A+");
             bloodStockDtm.setValueAt(fresh_blood_A_plus_SR, 0, 3);
-            int fresh_blood_A_plus_UO = BloodPacketController.getUnderObservationFreshBloodCount("A+");
+            int fresh_blood_A_plus_UO = BloodPacketDA.getUnderObservationFreshBloodCount("A+");
             bloodStockDtm.setValueAt(fresh_blood_A_plus_UO, 0, 4);
 
             //B+
-            int fresh_blood_B_plus_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("B+");
+            int fresh_blood_B_plus_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("B+");
             bloodStockDtm.setValueAt(fresh_blood_B_plus_UnX, 1, 1);
-            int fresh_blood_B_plus_X = BloodPacketController.getCrossmatchedFreshBloodCount("B+");
+            int fresh_blood_B_plus_X = BloodPacketDA.getCrossmatchedFreshBloodCount("B+");
             bloodStockDtm.setValueAt(fresh_blood_B_plus_X, 1, 2);
-            int fresh_blood_B_plus_SR = BloodPacketController.getSpecialReservationFreshBloodCount("B+");
+            int fresh_blood_B_plus_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("B+");
             bloodStockDtm.setValueAt(fresh_blood_B_plus_SR, 1, 3);
-            int fresh_blood_B_plus_UO = BloodPacketController.getUnderObservationFreshBloodCount("B+");
+            int fresh_blood_B_plus_UO = BloodPacketDA.getUnderObservationFreshBloodCount("B+");
             bloodStockDtm.setValueAt(fresh_blood_B_plus_UO, 1, 4);
 
             //AB+
-            int fresh_blood_AB_plus_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("AB+");
+            int fresh_blood_AB_plus_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("AB+");
             bloodStockDtm.setValueAt(fresh_blood_AB_plus_UnX, 2, 1);
-            int fresh_blood_AB_plus_X = BloodPacketController.getCrossmatchedFreshBloodCount("AB+");
+            int fresh_blood_AB_plus_X = BloodPacketDA.getCrossmatchedFreshBloodCount("AB+");
             bloodStockDtm.setValueAt(fresh_blood_AB_plus_X, 2, 2);
-            int fresh_blood_AB_plus_SR = BloodPacketController.getSpecialReservationFreshBloodCount("AB+");
+            int fresh_blood_AB_plus_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("AB+");
             bloodStockDtm.setValueAt(fresh_blood_AB_plus_SR, 2, 3);
-            int fresh_blood_AB_plus_UO = BloodPacketController.getUnderObservationFreshBloodCount("AB+");
+            int fresh_blood_AB_plus_UO = BloodPacketDA.getUnderObservationFreshBloodCount("AB+");
             bloodStockDtm.setValueAt(fresh_blood_AB_plus_UO, 2, 4);
 
             //O+
-            int fresh_blood_O_plus_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("O+");
+            int fresh_blood_O_plus_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("O+");
             bloodStockDtm.setValueAt(fresh_blood_O_plus_UnX, 3, 1);
-            int fresh_blood_O_plus_X = BloodPacketController.getCrossmatchedFreshBloodCount("O+");
+            int fresh_blood_O_plus_X = BloodPacketDA.getCrossmatchedFreshBloodCount("O+");
             bloodStockDtm.setValueAt(fresh_blood_O_plus_X, 3, 2);
-            int fresh_blood_O_plus_SR = BloodPacketController.getSpecialReservationFreshBloodCount("O+");
+            int fresh_blood_O_plus_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("O+");
             bloodStockDtm.setValueAt(fresh_blood_O_plus_SR, 3, 3);
-            int fresh_blood_O_plus_UO = BloodPacketController.getUnderObservationFreshBloodCount("O+");
+            int fresh_blood_O_plus_UO = BloodPacketDA.getUnderObservationFreshBloodCount("O+");
             bloodStockDtm.setValueAt(fresh_blood_O_plus_UO, 3, 4);
 
             //A-
-            int fresh_blood_A_min_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("A-");
+            int fresh_blood_A_min_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("A-");
             bloodStockDtm.setValueAt(fresh_blood_A_min_UnX, 4, 1);
-            int fresh_blood_A_min_X = BloodPacketController.getCrossmatchedFreshBloodCount("A-");
+            int fresh_blood_A_min_X = BloodPacketDA.getCrossmatchedFreshBloodCount("A-");
             bloodStockDtm.setValueAt(fresh_blood_A_min_X, 4, 2);
-            int fresh_blood_A_min_SR = BloodPacketController.getSpecialReservationFreshBloodCount("A-");
+            int fresh_blood_A_min_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("A-");
             bloodStockDtm.setValueAt(fresh_blood_A_min_SR, 4, 3);
-            int fresh_blood_A_min_UO = BloodPacketController.getUnderObservationFreshBloodCount("A-");
+            int fresh_blood_A_min_UO = BloodPacketDA.getUnderObservationFreshBloodCount("A-");
             bloodStockDtm.setValueAt(fresh_blood_A_min_UO, 4, 4);
 
             //B-
-            int fresh_blood_B_min_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("B-");
+            int fresh_blood_B_min_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("B-");
             bloodStockDtm.setValueAt(fresh_blood_B_min_UnX, 5, 1);
-            int fresh_blood_B_min_X = BloodPacketController.getCrossmatchedFreshBloodCount("B-");
+            int fresh_blood_B_min_X = BloodPacketDA.getCrossmatchedFreshBloodCount("B-");
             bloodStockDtm.setValueAt(fresh_blood_B_min_X, 5, 2);
-            int fresh_blood_B_min_SR = BloodPacketController.getSpecialReservationFreshBloodCount("B-");
+            int fresh_blood_B_min_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("B-");
             bloodStockDtm.setValueAt(fresh_blood_B_min_SR, 5, 3);
-            int fresh_blood_B_min_UO = BloodPacketController.getUnderObservationFreshBloodCount("B-");
+            int fresh_blood_B_min_UO = BloodPacketDA.getUnderObservationFreshBloodCount("B-");
             bloodStockDtm.setValueAt(fresh_blood_B_min_UO, 5, 4);
 
             //AB-
-            int fresh_blood_AB_min_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("AB-");
+            int fresh_blood_AB_min_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("AB-");
             bloodStockDtm.setValueAt(fresh_blood_AB_min_UnX, 6, 1);
-            int fresh_blood_AB_min_X = BloodPacketController.getCrossmatchedFreshBloodCount("AB-");
+            int fresh_blood_AB_min_X = BloodPacketDA.getCrossmatchedFreshBloodCount("AB-");
             bloodStockDtm.setValueAt(fresh_blood_AB_min_X, 6, 2);
-            int fresh_blood_AB_min_SR = BloodPacketController.getSpecialReservationFreshBloodCount("AB-");
+            int fresh_blood_AB_min_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("AB-");
             bloodStockDtm.setValueAt(fresh_blood_AB_min_SR, 6, 3);
-            int fresh_blood_AB_min_UO = BloodPacketController.getUnderObservationFreshBloodCount("AB-");
+            int fresh_blood_AB_min_UO = BloodPacketDA.getUnderObservationFreshBloodCount("AB-");
             bloodStockDtm.setValueAt(fresh_blood_AB_min_UO, 6, 4);
 
             //O-
-            int fresh_blood_O_min_UnX = BloodPacketController.getUncrossmatchedFreshBloodCount("O-");
+            int fresh_blood_O_min_UnX = BloodPacketDA.getUncrossmatchedFreshBloodCount("O-");
             bloodStockDtm.setValueAt(fresh_blood_O_min_UnX, 7, 1);
-            int fresh_blood_O_min_X = BloodPacketController.getCrossmatchedFreshBloodCount("O-");
+            int fresh_blood_O_min_X = BloodPacketDA.getCrossmatchedFreshBloodCount("O-");
             bloodStockDtm.setValueAt(fresh_blood_O_min_X, 7, 2);
-            int fresh_blood_O_min_SR = BloodPacketController.getSpecialReservationFreshBloodCount("O-");
+            int fresh_blood_O_min_SR = BloodPacketDA.getSpecialReservationFreshBloodCount("O-");
             bloodStockDtm.setValueAt(fresh_blood_O_min_SR, 7, 3);
-            int fresh_blood_O_min_UO = BloodPacketController.getUnderObservationFreshBloodCount("O-");
+            int fresh_blood_O_min_UO = BloodPacketDA.getUnderObservationFreshBloodCount("O-");
             bloodStockDtm.setValueAt(fresh_blood_O_min_UO, 7, 4);
 
             /* Calculate blood total */
@@ -311,7 +309,7 @@ public class Nurse extends javax.swing.JFrame {
             }
             bloodStockDtm.setValueAt("" + netTotal_Tested, i, j);
 
-            int fresh_blood_untested = BloodPacketController.getUntestedFreshBloodCount("");
+            int fresh_blood_untested = BloodPacketDA.getUntestedFreshBloodCount("");
             bloodStockDtm.setValueAt(fresh_blood_untested, i + 1, j);
 
             int grantTotal = netTotal_Tested + fresh_blood_untested;
@@ -355,23 +353,23 @@ public class Nurse extends javax.swing.JFrame {
         componentStockTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton35 = new javax.swing.JButton();
-        jButton33 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
-        jButton25 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jButton37 = new javax.swing.JButton();
         jButton38 = new javax.swing.JButton();
         bloodReturnBtn = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jButton8 = new javax.swing.JButton();
         addRequesteeBtn = new javax.swing.JButton();
         addRequestorBtn = new javax.swing.JButton();
         addBloodTypesBtn = new javax.swing.JButton();
         addBloodGroupBtn = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton35 = new javax.swing.JButton();
+        jButton25 = new javax.swing.JButton();
+        jButton33 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
         jButton36 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -516,7 +514,7 @@ public class Nurse extends javax.swing.JFrame {
                 .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addGap(11, 11, 11))
+                .addGap(13, 13, 13))
         );
 
         jPanel2.setBounds(220, 0, 690, 380);
@@ -526,58 +524,21 @@ public class Nurse extends javax.swing.JFrame {
         jLayeredPane1.add(NurseDesktop, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel1.setFont(new java.awt.Font("Vijaya", 1, 36));
+        jLabel1.setFont(new java.awt.Font("Vijaya", 1, 36)); // NOI18N
         jLabel1.setText("Karapitiya Blood Bank Management System - Nurse Form");
         jLabel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 153, 255)));
         jLabel1.setBounds(360, 0, 710, 60);
         jLayeredPane1.add(jLabel1, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton35.setText("Issue Register");
-        jButton35.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton35ActionPerformed(evt);
-            }
-        });
-        jButton35.setBounds(0, 210, 200, 30);
-        jLayeredPane1.add(jButton35, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jButton33.setBackground(new java.awt.Color(255, 0, 0));
-        jButton33.setText("Blood Discard");
-        jButton33.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton33ActionPerformed(evt);
-            }
-        });
-        jButton33.setBounds(0, 120, 200, 30);
-        jLayeredPane1.add(jButton33, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
+        jButton22.setBackground(new java.awt.Color(255, 0, 0));
         jButton22.setText("Inhouse/Mobile");
         jButton22.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton22ActionPerformed(evt);
             }
         });
-        jButton22.setBounds(0, 150, 200, 30);
+        jButton22.setBounds(0, 60, 200, 30);
         jLayeredPane1.add(jButton22, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jButton25.setText("Blood Issue");
-        jButton25.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton25ActionPerformed(evt);
-            }
-        });
-        jButton25.setBounds(0, 90, 200, 30);
-        jLayeredPane1.add(jButton25, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jButton18.setBackground(new java.awt.Color(255, 0, 0));
-        jButton18.setText("Blood Stock");
-        jButton18.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton18ActionPerformed(evt);
-            }
-        });
-        jButton18.setBounds(0, 60, 200, 30);
-        jLayeredPane1.add(jButton18, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/bb1.png"))); // NOI18N
         jLabel2.setBounds(0, 490, 200, 198);
@@ -587,23 +548,23 @@ public class Nurse extends javax.swing.JFrame {
         jLabel4.setBounds(-10, 290, 240, 210);
         jLayeredPane1.add(jLabel4, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton37.setBackground(new java.awt.Color(255, 0, 0));
         jButton37.setText("Blood Recieval");
         jButton37.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton37ActionPerformed(evt);
             }
         });
-        jButton37.setBounds(0, 180, 200, 30);
+        jButton37.setBounds(0, 90, 200, 30);
         jLayeredPane1.add(jButton37, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton38.setText("Returned Blood Packets");
+        jButton38.setBackground(new java.awt.Color(255, 0, 0));
+        jButton38.setText("Patient Blood Requests");
         jButton38.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton38ActionPerformed(evt);
             }
         });
-        jButton38.setBounds(0, 270, 200, 30);
+        jButton38.setBounds(0, 120, 200, 30);
         jLayeredPane1.add(jButton38, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         bloodReturnBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/I03.png"))); // NOI18N
@@ -616,12 +577,6 @@ public class Nurse extends javax.swing.JFrame {
         });
         bloodReturnBtn.setBounds(300, 0, 60, 60);
         jLayeredPane1.add(bloodReturnBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
-
-        jLabel5.setFont(new java.awt.Font("Monotype Corsiva", 1, 28));
-        jLabel5.setText("Zeta troubleshoot");
-        jLabel5.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(102, 255, 255), new java.awt.Color(51, 102, 255)));
-        jLabel5.setBounds(1070, 0, 240, 60);
-        jLayeredPane1.add(jLabel5, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jLabel6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/final1.png"))); // NOI18N
         jLabel6.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(102, 255, 255), new java.awt.Color(51, 153, 255)));
@@ -682,14 +637,57 @@ public class Nurse extends javax.swing.JFrame {
         addBloodGroupBtn.setBounds(0, 0, 60, 60);
         jLayeredPane1.add(addBloodGroupBtn, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
-        jButton36.setBackground(new java.awt.Color(255, 0, 0));
+        jButton2.setFont(new java.awt.Font("Monotype Corsiva", 1, 20)); // NOI18N
+        jButton2.setText("View Daily Issue/Requests");
+        jButton2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
+        jButton2.setBounds(1070, 0, 240, 60);
+        jLayeredPane1.add(jButton2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton35.setText("Issue Register");
+        jButton35.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton35ActionPerformed(evt);
+            }
+        });
+        jButton35.setBounds(0, 150, 200, 30);
+        jLayeredPane1.add(jButton35, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton25.setBackground(new java.awt.Color(255, 0, 0));
+        jButton25.setText("Blood Return");
+        jButton25.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton25ActionPerformed(evt);
+            }
+        });
+        jButton25.setBounds(0, 180, 200, 30);
+        jLayeredPane1.add(jButton25, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton33.setText("Blood Discard");
+        jButton33.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton33ActionPerformed(evt);
+            }
+        });
+        jButton33.setBounds(0, 210, 200, 30);
+        jLayeredPane1.add(jButton33, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
+        jButton18.setBackground(new java.awt.Color(255, 0, 0));
+        jButton18.setText("Blood Stock");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+        jButton18.setBounds(0, 240, 200, 30);
+        jLayeredPane1.add(jButton18, javax.swing.JLayeredPane.DEFAULT_LAYER);
+
         jButton36.setText("Item Stock");
         jButton36.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton36ActionPerformed(evt);
             }
         });
-        jButton36.setBounds(0, 240, 200, 30);
+        jButton36.setBounds(0, 270, 200, 30);
         jLayeredPane1.add(jButton36, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jMenu1.setText("File");
@@ -791,7 +789,7 @@ public class Nurse extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton36ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        bloodPacketForm packetForm = new bloodPacketForm(NurseDesktop.getSize());
+        BloodPacketForm packetForm = new BloodPacketForm();
 
         packetForm.setClosable(true);
         packetForm.setMaximizable(true);
@@ -812,7 +810,11 @@ public class Nurse extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton37ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
-        // TODO add your handling code here:
+        PatientRequestsIn requests = new PatientRequestsIn(this);
+        requests.setClosable(true);
+        NurseDesktop.add(requests);
+        NurseDesktop.setRequestFocusEnabled(true);
+        requests.show();
     }//GEN-LAST:event_jButton38ActionPerformed
 
     private void bloodReturnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodReturnBtnActionPerformed
@@ -851,7 +853,7 @@ public class Nurse extends javax.swing.JFrame {
     }//GEN-LAST:event_addBloodTypesBtnActionPerformed
 
     private void addRequestorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addRequestorBtnActionPerformed
-        AddRequestor requestor = new AddRequestor();
+        AddRequestor requestor = new AddRequestor(null);
         requestor.setClosable(true);
         NurseDesktop.add(requestor);
         NurseDesktop.setRequestFocusEnabled(true);
@@ -867,7 +869,7 @@ public class Nurse extends javax.swing.JFrame {
     }//GEN-LAST:event_addBloodGroupBtnActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        DiscardedBlood discardedBlood = new DiscardedBlood(NurseDesktop.getSize());
+        DiscardedBlood discardedBlood = new DiscardedBlood();
         discardedBlood.setClosable(true);
         discardedBlood.setMaximizable(true);
         NurseDesktop.add(discardedBlood);
@@ -880,7 +882,7 @@ public class Nurse extends javax.swing.JFrame {
         expiredBloodPacketsTable.setModel(dtm);
 
         try {
-            ResultSet rst = BloodPacketController.getExpiredBloodPackets(sqldate);
+            ResultSet rst = BloodPacketDA.getExpiredBloodPackets(sqldate);
             String packetID = null;
             String bloodType = null;
             String bloodGroup = null;
@@ -911,14 +913,14 @@ public class Nurse extends javax.swing.JFrame {
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     String packID = "" + dtm.getValueAt(row, 0);
-                    int discarded = BloodPacketController.discardPacket(packID, sqldate);
+                    int discarded = BloodPacketDA.discardPacket(packID, sqldate);
                     if (discarded == 1) {
                         JOptionPane.showMessageDialog(null, "Blood packet discarded succesfully!");
                         dtm = new DefaultTableModel(title, 0);
                         expiredBloodPacketsTable.setModel(dtm);
 
                         try {
-                            ResultSet rst = BloodPacketController.getExpiredBloodPackets(sqldate);
+                            ResultSet rst = BloodPacketDA.getExpiredBloodPackets(sqldate);
                             String packetID = null;
                             String bloodType = null;
                             String bloodGroup = null;
@@ -1005,6 +1007,7 @@ public class Nurse extends javax.swing.JFrame {
     private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton25;
@@ -1020,7 +1023,6 @@ public class Nurse extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;

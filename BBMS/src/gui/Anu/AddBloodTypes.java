@@ -10,8 +10,8 @@
  */
 package gui.Anu;
 
-import Controller.Anu.BloodGroupController;
-import Controller.Anu.BloodTypeController;
+import data_access.anu.BloodGroupDA;
+import data_access.anu.BloodTypeDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -41,7 +41,7 @@ public class AddBloodTypes extends javax.swing.JInternalFrame {
         try {
             typesDtm = new DefaultTableModel(title, 0);
             typesTable.setModel(typesDtm);
-            ResultSet rst = BloodTypeController.getAllTypes();
+            ResultSet rst = BloodTypeDA.getAllTypes();
             while (rst.next()) {
                 String typeName = rst.getString("BloodType");
                 String[] data = {typeName};
@@ -244,7 +244,7 @@ public class AddBloodTypes extends javax.swing.JInternalFrame {
         try {
             String typeName = typeNameText.getText();
             BloodType type = new BloodType(typeName);
-            int res = BloodTypeController.addType(type);
+            int res = BloodTypeDA.addType(type);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Added Succesfully");
                 typeNameText.setText("");
@@ -281,7 +281,7 @@ public class AddBloodTypes extends javax.swing.JInternalFrame {
         try {
             BloodType oldType = new BloodType(oldTypeName);
             BloodType newType = new BloodType(editTypeText.getText());
-            int res = BloodTypeController.updateType(oldType, newType);
+            int res = BloodTypeDA.updateType(oldType, newType);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Updated Succesfully");
                 editTypeText.setText("");
@@ -300,7 +300,7 @@ public class AddBloodTypes extends javax.swing.JInternalFrame {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         try {
             BloodType deletedType = new BloodType(editTypeText.getText());
-            int res = BloodTypeController.deleteType(deletedType);
+            int res = BloodTypeDA.deleteType(deletedType);
             if (res == 1) {
                 JOptionPane.showMessageDialog(null, "Deleted Succesfully");
                 editTypeText.setText("");

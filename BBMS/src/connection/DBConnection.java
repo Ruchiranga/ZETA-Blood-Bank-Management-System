@@ -14,7 +14,9 @@ import java.sql.Statement;
  * @author Anuradha
  */
 public class DBConnection {
+
     private static final String URL = "jdbc:mysql://localhost/Bloodbank";//BBMS_Test";
+
     private static final String USER = "root";
     private static final String PASSWORD = "zeta";
     private static DBConnection dbconnection = null;
