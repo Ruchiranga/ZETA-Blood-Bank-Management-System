@@ -12,7 +12,7 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import model.upekka.DonorNew;
+import model.Donor;
 
 /**
  *
@@ -1297,7 +1297,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             if(dentalSurgeryUsedAntibioticsMedicineRadioButton.isSelected()){
                 dentalSurgeryUsedAntibioticsMedicine = 1;
             }
-            DonorNew newDonor=new DonorNew(nic, name,sqlDoB, gender, age, weight, homeAddress, officeAddress, homeTp, officeTp, mobileTp, email, previouslyDonated, difficultiesAfterDonation, goodHealth, diseases, usingMedicine, surgeries, heavyWork, pregnantLactationAbortion, immunized, piercedTatooed, imprisoned, youOrSpouceGoneAbroad, youOrSpouceTakenBlood, sufferedFromYelowFeverHepatitis, sufferedFromTuberculosis, sufferedFromMalaria, sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, dentalSurgeryUsedAntibioticsMedicine);
+            Donor newDonor=new Donor(nic, name,sqlDoB, gender, age, weight, homeAddress, officeAddress, homeTp, officeTp, mobileTp, email, previouslyDonated, difficultiesAfterDonation, goodHealth, diseases, usingMedicine, surgeries, heavyWork, pregnantLactationAbortion, immunized, piercedTatooed, imprisoned, youOrSpouceGoneAbroad, youOrSpouceTakenBlood, sufferedFromYelowFeverHepatitis, sufferedFromTuberculosis, sufferedFromMalaria, sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, dentalSurgeryUsedAntibioticsMedicine);
             int added = DonorDA.addDonor(newDonor);
             if(added == 1){
                 JOptionPane.showMessageDialog(null, "Added Succesfully");
@@ -1326,10 +1326,10 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
 
     private void searchDonorbyNic() throws ClassNotFoundException, SQLException{
         
-        DonorNew existingDonor=DonorDA.searchDonor(nicTextField.getText());
+        Donor existingDonor=DonorDA.searchDonor(nicTextField.getText());
         if(existingDonor!=null){
             nameTextField.setText(existingDonor.getName());
-            if(genderButtonGroup.getSelection()==maleRadioButton){
+            if(existingDonor.getGender().equals("male")){
                maleRadioButton.setSelected(true);
             }else{
                 femaleRadioButton.setSelected(true);
