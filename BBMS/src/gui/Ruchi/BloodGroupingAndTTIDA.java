@@ -20,7 +20,7 @@ public class BloodGroupingAndTTIDA {
 
     public ResultSet getAllUntestedPackets() throws ClassNotFoundException, SQLException {
 
-        String query = "Select packetID, nic, bloodGroup, bloodType,  dateOfDonation, dateOfExpiry, packetFrom, bloodBank,campID From BloodPacket where bloodGroup is NULL AND isDiscarded = 0";
+        String query = "Select packetID, nic, bloodGroup, bloodType,  dateOfDonation, dateOfExpiry,isCrossmatched,isUnderObservation From BloodPacket where bloodGroup = 'UG' AND isDiscarded = 0";
 
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.getData(connection, query);
@@ -76,16 +76,17 @@ public class BloodGroupingAndTTIDA {
     }
 
     int setBloodGroup(String packetID, String group, String groupComment) throws SQLException, ClassNotFoundException {
-        String query = "UPDATE bloodpacket SET bloodGroup='"+group+"',groupComment='"+groupComment+"' where packetID = '"+packetID+"'";
+        String query = "UPDATE bloodpacket SET bloodGroup='"+group+"',Comment='"+groupComment+"' where packetID = '"+packetID+"'";
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.setData(connection, query);
     }
 
-    int addResult(String resID, String testID, String packetID, String result, String comment, String date, String doneByID, String checkedByID) throws SQLException, ClassNotFoundException {
+    int addPacketResult(String resID, String testID, String packetID, String result, String comment, String date, String doneByID, String checkedByID) throws SQLException, ClassNotFoundException {
         String query = "Insert INTO testresult (ResultID,TestID,packetID,Result,Comment,Date,DoneBy,CheckedBy) Values ('"+resID+"','"+testID+"','"+packetID+"','"+result+"','"+comment+"','"+date+"','"+doneByID+"','"+checkedByID+"')";
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.setData(connection, query);
     }
+
 
     int discardPacket(String packetID,String date) throws SQLException, ClassNotFoundException {
         String query = "UPDATE bloodpacket SET isDiscarded=1,discardedDate='"+date+"' where packetID = '"+packetID+"'";

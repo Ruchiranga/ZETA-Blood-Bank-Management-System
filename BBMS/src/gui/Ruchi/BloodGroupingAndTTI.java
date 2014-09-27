@@ -379,7 +379,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(packetIDListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(packetIDListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -519,7 +519,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         if (isBlackListed) {
             blacklistdonerButton.setText("Blacklisted");
-            blacklistdonerButton.setForeground(Color.RED);
             blacklistdonerButton.setEnabled(false);
         } else {
             blacklistdonerButton.setText("Blacklist Donor");
