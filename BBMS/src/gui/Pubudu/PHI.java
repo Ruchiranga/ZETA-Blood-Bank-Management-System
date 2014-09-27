@@ -320,7 +320,7 @@ public class PHI extends javax.swing.JFrame {
 }//GEN-LAST:event_jButton32ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        // TODO add your handling code here:
+       new MobileCampDetails(this, true).setVisible(true);
 }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
@@ -386,7 +386,7 @@ public class PHI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton34KeyPressed
 
     private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        new MobileDates(this, true).setVisible(true);
+        
     }//GEN-LAST:event_jButton34ActionPerformed
 
     /**
