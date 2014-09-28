@@ -151,7 +151,7 @@ public class BloodGroupingAndTTIHandler {
         try {
             curID = rst.getString(1);
         } catch (SQLException e) {
-            return "R00001";
+            return "RS00000001";
         }
 
         return IDGenerator.generateNextID(curID);

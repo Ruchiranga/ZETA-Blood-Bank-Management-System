@@ -5,6 +5,7 @@
  */
 package gui.Ruchi;
 
+import Controller.TableResizer;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -94,6 +95,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
 
         availabilityTable.setAutoCreateRowSorter(true);
         availabilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableResizer.resizeColumnWidth(availabilityTable);
 
     }
 

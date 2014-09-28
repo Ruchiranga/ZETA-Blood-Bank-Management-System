@@ -3,13 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.Ruchi;
 
+import Controller.Ruchi.BloodGroupController;
+import Controller.Ruchi.BloodPacketController;
+import Controller.Ruchi.BloodTypeController;
+import Controller.Ruchi.DonorController;
+import Controller.Ruchi.EmployeeController;
+import Controller.TableCleaner;
+import Controller.TableResizer;
+import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import model.BloodPacket;
@@ -19,24 +27,34 @@ import model.BloodPacket;
  * @author ruchiranga
  */
 public class CrossMatch extends javax.swing.JInternalFrame {
-AvailabilityHandler handler;
+
+    BloodPacketController packetController;
+    BloodGroupController groupController;
+    BloodTypeController typeController;
+    DonorController donorController;
+    EmployeeController employeeController;
     DefaultTableModel dtm;
+    DefaultTableModel dtmCom;
     Requests parent;
 
     /**
      * Creates new form CrossMatch
      */
-    public CrossMatch() {
+    public CrossMatch(String requestNo) {
         initComponents();
-        handler = new AvailabilityHandler();
+        packetController = new BloodPacketController();
+        groupController = new BloodGroupController();
+        typeController = new BloodTypeController();
+        donorController = new DonorController();
+        employeeController = new EmployeeController();
 
         ButtonGroup search_radios = new ButtonGroup();
         search_radios.add(sByDonorRadioButton);
         search_radios.add(sbyComponentRadioButton);
         search_radios.add(sbygroupRadioButton);
 
-        String[] columns = {"Packet ID", "Blood group", "Component Type", "Recieved By", "Date of expiry", "Date of collection", "Cross matched", "Under observation"};
-        dtm = new DefaultTableModel(columns, 0) {
+        String[] availabilityColumns = {"Packet ID", "Recieved By", "Blood group", "Component Type", "Date of expiry"};
+        dtm = new DefaultTableModel(availabilityColumns, 0) {
 
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -45,10 +63,20 @@ AvailabilityHandler handler;
         };
         availabilityTable.setModel(dtm);
 
+        String[] compatabilityColumns = {"No.", "Packet ID", "Recieved By", "Blood group", "Date of expiry"};
+        dtmCom = new DefaultTableModel(compatabilityColumns, 0) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        compatabilityTable.setModel(dtmCom);
+
         String[] groupList = null;
 
         try {
-            groupList = handler.getGroupList();
+            groupList = groupController.getGroupList();
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -62,7 +90,7 @@ AvailabilityHandler handler;
         String[] compList = null;
 
         try {
-            compList = handler.getComponentList();
+            compList = typeController.getComponentList();
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -76,7 +104,7 @@ AvailabilityHandler handler;
         String[] donorList = null;
 
         try {
-            donorList = handler.getDonorList();
+            donorList = donorController.getDonorList();
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -87,10 +115,31 @@ AvailabilityHandler handler;
             donorsComboBox.addItem(donor);
         }
 
+        String[] emp = null;
+
+        try {
+            emp = employeeController.getEmployeeList();
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (String name : emp) {
+            medOfficerComboBox.addItem(name);
+        }
+
         sbygroupRadioButton.setSelected(true);
 
         availabilityTable.setAutoCreateRowSorter(true);
         availabilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
+        TableResizer.resizeColumnWidth(availabilityTable);
+        TableResizer.resizeColumnWidth(compatabilityTable);
+
+        dateChooser.setDateFormatString("YYYY-MM-dd");
+        dateChooser.setDate(new java.util.Date());
+        dateChooser.getDateEditor().setEnabled(false);
     }
 
     /**
@@ -117,16 +166,19 @@ AvailabilityHandler handler;
         jPanel5 = new javax.swing.JPanel();
         tableScrollPane = new javax.swing.JScrollPane();
         availabilityTable = new javax.swing.JTable();
+        addToListButton = new javax.swing.JButton();
         jLayeredPane1 = new javax.swing.JLayeredPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        compatabilityTable = new javax.swing.JTable();
+        clearListButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
-        jComboBox4 = new javax.swing.JComboBox();
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jButton2 = new javax.swing.JButton();
+        dateChooser = new com.toedter.calendar.JDateChooser();
+        medOfficerComboBox = new javax.swing.JComboBox();
+        specialReservationCheckBox = new javax.swing.JCheckBox();
+        jButton1 = new javax.swing.JButton();
+        markCrossMatchedButton = new javax.swing.JButton();
 
         sbygroupRadioButton.setText("Search by Group");
         sbygroupRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -249,7 +301,7 @@ AvailabilityHandler handler;
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Available Blood Packets"));
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Available Blood Packets to be Crossmatched"));
 
         availabilityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -277,20 +329,34 @@ AvailabilityHandler handler;
         availabilityTable.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         tableScrollPane.setViewportView(availabilityTable);
 
+        addToListButton.setText("Add to list");
+        addToListButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addToListButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tableScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 937, Short.MAX_VALUE)
+            .addComponent(tableScrollPane)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(0, 856, Short.MAX_VALUE)
+                .addComponent(addToListButton))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addComponent(tableScrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(addToListButton)
+                .addContainerGap())
         );
 
         jLayeredPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Compatible With"));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        compatabilityTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 { new Integer(1), null, null, null, null},
                 { new Integer(2), null, null, null, null},
@@ -311,7 +377,16 @@ AvailabilityHandler handler;
                 return types [columnIndex];
             }
         });
-        jScrollPane2.setViewportView(jTable2);
+        compatabilityTable.setEnabled(false);
+        jScrollPane2.setViewportView(compatabilityTable);
+
+        clearListButton.setText("Clear List");
+        clearListButton.setEnabled(false);
+        clearListButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearListButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jLayeredPane1Layout = new javax.swing.GroupLayout(jLayeredPane1);
         jLayeredPane1.setLayout(jLayeredPane1Layout);
@@ -319,16 +394,22 @@ AvailabilityHandler handler;
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jLayeredPane1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2))
+                .addGroup(jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
+                    .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(clearListButton))))
         );
         jLayeredPane1Layout.setVerticalGroup(
             jLayeredPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jLayeredPane1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
+            .addGroup(jLayeredPane1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 13, Short.MAX_VALUE)
+                .addComponent(clearListButton))
         );
         jLayeredPane1.setLayer(jScrollPane2, javax.swing.JLayeredPane.DEFAULT_LAYER);
+        jLayeredPane1.setLayer(clearListButton, javax.swing.JLayeredPane.DEFAULT_LAYER);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
 
@@ -336,9 +417,7 @@ AvailabilityHandler handler;
 
         jLabel10.setText("Name of the Medical Officer:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Names of med offs", " " }));
-
-        jCheckBox1.setText("Special Reservation");
+        specialReservationCheckBox.setText("Special Reservation");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -350,12 +429,12 @@ AvailabilityHandler handler;
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel9)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(dateChooser, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72)
-                .addComponent(jCheckBox1)
+                .addComponent(medOfficerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(specialReservationCheckBox)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -364,16 +443,23 @@ AvailabilityHandler handler;
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
-                    .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jCheckBox1))
+                    .addComponent(medOfficerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(specialReservationCheckBox))
                 .addContainerGap())
         );
 
-        jButton2.setText("Add to list");
+        jButton1.setText("Cancel");
+
+        markCrossMatchedButton.setText("Mark Crossmatcehd");
+        markCrossMatchedButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                markCrossMatchedButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -401,14 +487,19 @@ AvailabilityHandler handler;
                         .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addContainerGap())))
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLayeredPane1))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton2)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLayeredPane1)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(markCrossMatchedButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -416,11 +507,11 @@ AvailabilityHandler handler;
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(sbyComponentRadioButton)
                             .addComponent(sByDonorRadioButton))
-                        .addGap(12, 12, 12)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -430,13 +521,15 @@ AvailabilityHandler handler;
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(markCrossMatchedButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -444,25 +537,25 @@ AvailabilityHandler handler;
     }// </editor-fold>//GEN-END:initComponents
 
     private void sbygroupRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbygroupRadioButtonActionPerformed
-        handler.clearTable(dtm);
+        TableCleaner.clearTable(dtm);
         if (sbygroupRadioButton.isSelected()) {
             groupsComboBox.setEnabled(true);
             componentsComboBox.setEnabled(false);
             donorsComboBox.setEnabled(false);
         }
         String group = groupsComboBox.getSelectedItem().toString();
-        BloodPacket[] results = handler.searchByGroup(group);
+        BloodPacket[] results = packetController.searchByGroup(group);
 
         for (BloodPacket packet : results) {
             String donorName = null;
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
@@ -470,57 +563,57 @@ AvailabilityHandler handler;
     }//GEN-LAST:event_sbygroupRadioButtonActionPerformed
 
     private void sbygroupRadioButtonPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sbygroupRadioButtonPropertyChange
-        handler.clearTable(dtm);
+        TableCleaner.clearTable(dtm);
         if (sbygroupRadioButton.isSelected()) {
             groupsComboBox.setEnabled(true);
             componentsComboBox.setEnabled(false);
             donorsComboBox.setEnabled(false);
         }
         String group = groupsComboBox.getSelectedItem().toString();
-        BloodPacket[] results = handler.searchByGroup(group);
-
+        BloodPacket[] results = packetController.searchByGroup(group);
         for (BloodPacket packet : results) {
             String donorName = null;
+
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
     }//GEN-LAST:event_sbygroupRadioButtonPropertyChange
 
     private void sbyComponentRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sbyComponentRadioButtonActionPerformed
-        handler.clearTable(dtm);
+        TableCleaner.clearTable(dtm);
         if (sbyComponentRadioButton.isSelected()) {
             groupsComboBox.setEnabled(false);
             componentsComboBox.setEnabled(true);
             donorsComboBox.setEnabled(false);
         }
         String component = componentsComboBox.getSelectedItem().toString();
-        BloodPacket[] results = handler.searchByComponent(component);
+        BloodPacket[] results = packetController.searchByComponent(component);
 
         for (BloodPacket packet : results) {
             String donorName = null;
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
     }//GEN-LAST:event_sbyComponentRadioButtonActionPerformed
 
     private void sByDonorRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sByDonorRadioButtonActionPerformed
-        handler.clearTable(dtm);
+        TableCleaner.clearTable(dtm);
         if (sByDonorRadioButton.isSelected()) {
             groupsComboBox.setEnabled(false);
             componentsComboBox.setEnabled(false);
@@ -529,7 +622,7 @@ AvailabilityHandler handler;
         String donor = donorsComboBox.getSelectedItem().toString();
         BloodPacket[] results = null;
         try {
-            results = handler.searchByDonor(donor);
+            results = packetController.searchByDonor(donor);
         } catch (SQLException ex) {
             Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -539,13 +632,13 @@ AvailabilityHandler handler;
         for (BloodPacket packet : results) {
             String donorName = null;
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
@@ -553,55 +646,56 @@ AvailabilityHandler handler;
 
     private void groupsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupsComboBoxActionPerformed
         if (dtm != null) {
-            handler.clearTable(dtm);
+            TableCleaner.clearTable(dtm);
         }
 
         String group = groupsComboBox.getSelectedItem().toString();
-        BloodPacket[] results = handler.searchByGroup(group);
+        BloodPacket[] results = packetController.searchByGroup(group);
 
         for (BloodPacket packet : results) {
+
             String donorName = null;
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
     }//GEN-LAST:event_groupsComboBoxActionPerformed
 
     private void componentsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_componentsComboBoxActionPerformed
-        handler.clearTable(dtm);
-
+        TableCleaner.clearTable(dtm);
         String component = componentsComboBox.getSelectedItem().toString();
-        BloodPacket[] results = handler.searchByComponent(component);
+        BloodPacket[] results = packetController.searchByComponent(component);
 
         for (BloodPacket packet : results) {
+
             String donorName = null;
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
     }//GEN-LAST:event_componentsComboBoxActionPerformed
 
     private void donorsComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorsComboBoxActionPerformed
-        handler.clearTable(dtm);
-
+        TableCleaner.clearTable(dtm);
         String donor = donorsComboBox.getSelectedItem().toString();
         BloodPacket[] results = null;
         try {
-            results = handler.searchByDonor(donor);
+            results = packetController.searchByDonor(donor);
+
         } catch (SQLException ex) {
             Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -609,30 +703,109 @@ AvailabilityHandler handler;
         }
 
         for (BloodPacket packet : results) {
+
             String donorName = null;
             try {
-                donorName = handler.getDonorNameOf(packet.getNic());
+                donorName = donorController.getDonorNameOf(packet.getNic());
             } catch (SQLException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), (Integer.toString(packet.isIsCrossmatched()).equals("0")) ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
             dtm.addRow(row);
         }
     }//GEN-LAST:event_donorsComboBoxActionPerformed
 
+    private void addToListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToListButtonActionPerformed
+        boolean rowSelected = false;
+        int selectedRow = 0;
+        for (int i = 0; i < availabilityTable.getRowCount(); i++) {
+            if (availabilityTable.isRowSelected(i)) {
+                rowSelected = true;
+                selectedRow = i;
+                break;
+            }
+        }
+        if (!rowSelected) {
+            JOptionPane.showMessageDialog(this, "Please select the record of which packet you want to mark as Cross Matched");
+        } else {
+
+            String no = null;
+            if (dtmCom.getRowCount() == 0) {
+                no = "1";
+            } else {
+                no = "" + (dtmCom.getRowCount() + 1);
+            }
+            String packetID = (String) dtm.getValueAt(selectedRow, 0);
+            String recievedBy = (String) dtm.getValueAt(selectedRow, 1);
+            String bloodGroup = (String) dtm.getValueAt(selectedRow, 2);
+            String doe = (String) dtm.getValueAt(selectedRow, 4);
+
+            String[] row = {no, packetID, recievedBy, bloodGroup, doe};
+            dtm.removeRow(selectedRow);
+            dtmCom.addRow(row);
+
+            if (dtm.getRowCount() == 0) {
+                addToListButton.setEnabled(false);
+            } else {
+                addToListButton.setEnabled(true);
+            }
+            if (dtmCom.getRowCount() > 0) {
+                clearListButton.setEnabled(true);
+            } else {
+                clearListButton.setEnabled(false);
+            }
+
+        }
+
+    }//GEN-LAST:event_addToListButtonActionPerformed
+
+    private void clearListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearListButtonActionPerformed
+        TableCleaner.clearTable(dtmCom);
+        if (groupsComboBox.isEnabled()) {
+            groupsComboBox.setSelectedIndex(groupsComboBox.getSelectedIndex());
+        } else if (componentsComboBox.isEnabled()) {
+            componentsComboBox.setSelectedIndex(componentsComboBox.getSelectedIndex());
+        } else {
+            donorsComboBox.setSelectedIndex(donorsComboBox.getSelectedIndex());
+        }
+
+        if (dtmCom.getRowCount() == 0) {
+            clearListButton.setEnabled(false);
+        } else {
+            clearListButton.setEnabled(true);
+        }
+        if (dtm.getRowCount() > 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
+        }
+    }//GEN-LAST:event_clearListButtonActionPerformed
+
+    private void markCrossMatchedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markCrossMatchedButtonActionPerformed
+        if(dtmCom.getRowCount()==0){
+            JOptionPane.showMessageDialog(this,  "Please add the blood packets needed to be crossmatched to the list","", JOptionPane.ERROR_MESSAGE);
+        }else{
+            if(specialReservationCheckBox.isSelected()){
+                
+                String query = "UPDATE bbms.bloodpacket SET `IsSpecialReservation` = true WHERE `PacketID` = 'KP000000000000000005'";
+            }
+        }
+    }//GEN-LAST:event_markCrossMatchedButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addToListButton;
     private javax.swing.JTable availabilityTable;
+    private javax.swing.JButton clearListButton;
+    private javax.swing.JTable compatabilityTable;
     private javax.swing.JComboBox componentsComboBox;
+    private com.toedter.calendar.JDateChooser dateChooser;
     private javax.swing.JComboBox donorsComboBox;
     private javax.swing.JComboBox groupsComboBox;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox jComboBox4;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -645,10 +818,12 @@ AvailabilityHandler handler;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
+    private javax.swing.JButton markCrossMatchedButton;
+    private javax.swing.JComboBox medOfficerComboBox;
     private javax.swing.JRadioButton sByDonorRadioButton;
     private javax.swing.JRadioButton sbyComponentRadioButton;
     private javax.swing.JRadioButton sbygroupRadioButton;
+    private javax.swing.JCheckBox specialReservationCheckBox;
     private javax.swing.JScrollPane tableScrollPane;
     // End of variables declaration//GEN-END:variables
 }
