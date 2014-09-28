@@ -76,7 +76,7 @@ public class BloodPacketController {
     public BloodPacket[] searchByGroup(String group) {
         results = new ArrayList<BloodPacket>();
         for (BloodPacket packet : packets) {
-            if (packet.getBloodGroup().equals(group)) {
+            if (packet.getBloodGroup().equals(group)&&packet.isIsCrossmatched()==0&&!packet.getBloodGroup().equals("UG")) {
                 results.add(packet);
             }
         }
@@ -90,7 +90,7 @@ public class BloodPacketController {
     public BloodPacket[] searchByComponent(String component) {
         results = new ArrayList<BloodPacket>();
         for (BloodPacket packet : packets) {
-            if (packet.getBloodType().equals(component)) {
+            if (packet.getBloodType().equals(component)&&packet.isIsCrossmatched()==0&&!packet.getBloodGroup().equals("UG")) {
                 results.add(packet);
             }
         }
@@ -109,7 +109,7 @@ public class BloodPacketController {
             ResultSet data = DBHandler.getData(connection, query);
             data.next();
             String nic = data.getString("nic");
-            if (packet.getNic().equals(nic)) {
+            if (packet.getNic().equals(nic)&&packet.isIsCrossmatched()==0&&!packet.getBloodGroup().equals("UG")) {
                 results.add(packet);
             }
         }
@@ -118,6 +118,18 @@ public class BloodPacketController {
             res[i] = results.get(i);
         }
         return res;
+    }
+    
+    public int markCrossMatched(String packetID) throws ClassNotFoundException, SQLException{
+        String query = "UPDATE bloodpacket SET `IsCrossmatched` = true WHERE `PacketID` = '"+packetID+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.setData(connection, query);
+    }
+    
+    public int markSpecialReservation(String packetID) throws ClassNotFoundException, SQLException{
+        String query = "UPDATE bloodpacket SET `IsSpecialReservation` = true WHERE `PacketID` = '"+packetID+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.setData(connection, query);
     }
 
 }

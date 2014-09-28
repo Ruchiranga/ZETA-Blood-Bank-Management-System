@@ -264,7 +264,7 @@ public class Requests extends javax.swing.JInternalFrame {
     private void crossmatchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crossmatchButtonActionPerformed
         CrossMatch window;
         if (requestNoComboBox.getSelectedIndex() >= 0) {
-            window = new CrossMatch((String) requestNoComboBox.getSelectedItem());
+            window = new CrossMatch((String) requestNoComboBox.getSelectedItem(),this);
             this.hide();
             window.setClosable(true);
             window.setMaximizable(true);

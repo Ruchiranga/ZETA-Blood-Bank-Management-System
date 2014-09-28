@@ -34,5 +34,13 @@ public class EmployeeController {
         }
         return names;
     }
+
+    public String getIDOf(String doneByName) throws ClassNotFoundException, SQLException {
+        String query = "Select EmpID From employee where Name = '"+doneByName+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet rst =  DBHandler.getData(connection, query);
+        rst.next();
+        return rst.getString("EmpID");
+    }
     
 }

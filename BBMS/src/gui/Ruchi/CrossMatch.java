@@ -8,6 +8,7 @@ package gui.Ruchi;
 import Controller.Ruchi.BloodGroupController;
 import Controller.Ruchi.BloodPacketController;
 import Controller.Ruchi.BloodTypeController;
+import Controller.Ruchi.CrossMatchDetailController;
 import Controller.Ruchi.DonorController;
 import Controller.Ruchi.EmployeeController;
 import Controller.TableCleaner;
@@ -21,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import model.BloodPacket;
+import model.CrossMatchDetail;
 
 /**
  *
@@ -33,20 +35,25 @@ public class CrossMatch extends javax.swing.JInternalFrame {
     BloodTypeController typeController;
     DonorController donorController;
     EmployeeController employeeController;
+    CrossMatchDetailController cdetailController;
     DefaultTableModel dtm;
     DefaultTableModel dtmCom;
     Requests parent;
+    String requestNo;
 
     /**
      * Creates new form CrossMatch
      */
-    public CrossMatch(String requestNo) {
+    public CrossMatch(String requestNo, Requests parent) {
         initComponents();
         packetController = new BloodPacketController();
         groupController = new BloodGroupController();
         typeController = new BloodTypeController();
         donorController = new DonorController();
         employeeController = new EmployeeController();
+        cdetailController = new CrossMatchDetailController();
+        this.requestNo = requestNo;
+        this.parent = parent;
 
         ButtonGroup search_radios = new ButtonGroup();
         search_radios.add(sByDonorRadioButton);
@@ -133,13 +140,22 @@ public class CrossMatch extends javax.swing.JInternalFrame {
 
         availabilityTable.setAutoCreateRowSorter(true);
         availabilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        
+
         TableResizer.resizeColumnWidth(availabilityTable);
         TableResizer.resizeColumnWidth(compatabilityTable);
 
         dateChooser.setDateFormatString("YYYY-MM-dd");
         dateChooser.setDate(new java.util.Date());
         dateChooser.getDateEditor().setEnabled(false);
+    }
+
+    private boolean isAlreadyAddedToList(String packetID) {
+        for (int i = 0; i < dtmCom.getRowCount(); i++) {
+            if (dtmCom.getValueAt(i, 1).toString().equals(packetID)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -453,6 +469,11 @@ public class CrossMatch extends javax.swing.JInternalFrame {
         );
 
         jButton1.setText("Cancel");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         markCrossMatchedButton.setText("Mark Crossmatcehd");
         markCrossMatchedButton.addActionListener(new java.awt.event.ActionListener() {
@@ -556,10 +577,16 @@ public class CrossMatch extends javax.swing.JInternalFrame {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
-
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
         }
 
+        if (dtm.getRowCount() >= 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
+        }
     }//GEN-LAST:event_sbygroupRadioButtonActionPerformed
 
     private void sbygroupRadioButtonPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_sbygroupRadioButtonPropertyChange
@@ -583,7 +610,9 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
         }
     }//GEN-LAST:event_sbygroupRadioButtonPropertyChange
 
@@ -608,7 +637,15 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
+        }
+
+        if (dtm.getRowCount() >= 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
         }
     }//GEN-LAST:event_sbyComponentRadioButtonActionPerformed
 
@@ -640,7 +677,14 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
+        }
+        if (dtm.getRowCount() >= 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
         }
     }//GEN-LAST:event_sByDonorRadioButtonActionPerformed
 
@@ -664,7 +708,15 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
+        }
+
+        if (dtm.getRowCount() >= 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
         }
     }//GEN-LAST:event_groupsComboBoxActionPerformed
 
@@ -685,7 +737,14 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
+        }
+        if (dtm.getRowCount() >= 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
         }
     }//GEN-LAST:event_componentsComboBoxActionPerformed
 
@@ -714,7 +773,15 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
             String[] row = {packet.getPacketID(), donorName, packet.getBloodGroup(), packet.getBloodType(), packet.getDateOfExpiry().toString()};
 
-            dtm.addRow(row);
+            if (!isAlreadyAddedToList(packet.getPacketID())) {
+                dtm.addRow(row);
+            }
+        }
+
+        if (dtm.getRowCount() >= 0) {
+            addToListButton.setEnabled(true);
+        } else {
+            addToListButton.setEnabled(false);
         }
     }//GEN-LAST:event_donorsComboBoxActionPerformed
 
@@ -785,15 +852,61 @@ public class CrossMatch extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_clearListButtonActionPerformed
 
     private void markCrossMatchedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markCrossMatchedButtonActionPerformed
-        if(dtmCom.getRowCount()==0){
-            JOptionPane.showMessageDialog(this,  "Please add the blood packets needed to be crossmatched to the list","", JOptionPane.ERROR_MESSAGE);
-        }else{
-            if(specialReservationCheckBox.isSelected()){
-                
-                String query = "UPDATE bbms.bloodpacket SET `IsSpecialReservation` = true WHERE `PacketID` = 'KP000000000000000005'";
+        if (dtmCom.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(this, "Please add the blood packets needed to be crossmatched to the list", "", JOptionPane.ERROR_MESSAGE);
+        } else {
+            for (int i = 0; i < dtmCom.getRowCount(); i++) {
+                String packetID = (String) dtmCom.getValueAt(i, 1);
+                int packetRes = 0;
+                int specialRes = 0;
+                int addDetailRes = 0;
+
+                try {
+
+                    packetRes = packetController.markCrossMatched(packetID);
+                    if (specialReservationCheckBox.isSelected()) {
+                        specialRes = packetController.markSpecialReservation(packetID);
+                    }
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                java.util.Date chosenDate = dateChooser.getDate();
+                Date date = new Date(chosenDate.getTime());
+                String doneByName = (String) medOfficerComboBox.getSelectedItem();
+                String doneByID;
+                try {
+                    doneByID = employeeController.getIDOf(doneByName);
+                    addDetailRes = cdetailController.addDetail(new CrossMatchDetail(requestNo, packetID, date, doneByID));
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (SQLException ex) {
+                    Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                if (specialReservationCheckBox.isSelected() && packetRes == 1 && specialRes == 1 && addDetailRes == 1) {
+                    JOptionPane.showMessageDialog(this, "Database updated successfully", "", JOptionPane.INFORMATION_MESSAGE);
+                    parent.show();
+                    this.dispose();
+                } else if (!specialReservationCheckBox.isSelected() && packetRes == 1 && addDetailRes == 1) {
+                    JOptionPane.showMessageDialog(this, "Database updated successfully", "", JOptionPane.INFORMATION_MESSAGE);
+                    parent.show();
+                    this.dispose();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error in adding data to the database", "", JOptionPane.ERROR_MESSAGE);
+
+                    this.dispose();
+                    parent.show();
+                }
             }
         }
     }//GEN-LAST:event_markCrossMatchedButtonActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        this.dispose();
+        parent.show();
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
