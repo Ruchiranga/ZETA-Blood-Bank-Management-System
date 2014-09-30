@@ -10,7 +10,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import model.Donor;
+import model.DonorRegisterRecord;
 
 /**
  *
@@ -58,10 +61,21 @@ public class DonorDA {
     }
     
     //I have to implement this method
-    public static int getListOfDonors(){
+    public static List<DonorRegisterRecord> getListOfDonors() throws ClassNotFoundException, SQLException{
         String query1="Select pkt.DateOfDonation as Date, pkt.PacketID as UnitNo, d.name as DonorName, d.homeAddress as DonorAddress,pkt.Nic as NICNo, d.mobileTp as TelNo,d.age, d.gender as Sex, d.weight, pkt.BloodGroup From Donor d NATURAL JOIN bloodpacket pkt;";
         String query2="select d.nic , count(*) as NoOfDonations From Donor d NATURAL JOIN bloodpacket pkt GROUP BY d.nic;";
-        return 0;
+        Connection connection = DBConnection.getConnectionToDB();
+        Statement stm = connection.createStatement();
+        ResultSet rst = stm.executeQuery(query1);
+        List<DonorRegisterRecord> donorRegister = new ArrayList<DonorRegisterRecord>();
+        int serialNo=1;
+        int noOfDonations=0;
+        while (rst.next()) {
+                DonorRegisterRecord record=new DonorRegisterRecord(rst.getDate("Date"), serialNo, rst.getString("UnitNo"), rst.getString("DonorName"), rst.getString("DonorAddress"), rst.getString("NICNo"), rst.getInt("TelNo"), rst.getInt("age"), rst.getString("Sex"), rst.getInt("weight"), noOfDonations, rst.getString("BloodGroup"));
+                serialNo++; 
+                donorRegister.add(record);
+            }
+        return donorRegister;
     }
     
 }
