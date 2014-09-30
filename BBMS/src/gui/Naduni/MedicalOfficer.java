@@ -21,7 +21,7 @@ import gui.Ruchi.BloodAndComponentAvailability;
 import gui.Ruchi.BloodGroupingAndTTI;
 import gui.Ruchi.BloodRequest;
 import gui.Ruchi.Compatability2;
-import gui.Ruchi.CompatibilityReport;
+import gui.Ruchi.Requests;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
@@ -55,9 +55,9 @@ public class MedicalOfficer extends javax.swing.JFrame {
         ImageIcon myImg = new ImageIcon(bi);
         this.setIconImage(myImg.getImage());
         
-        Initial first = new Initial(jDesktopPane1.getSize());
-        jDesktopPane1.removeAll();
-        jDesktopPane1.add(first);
+        Initial first = new Initial(desktopPane.getSize());
+        desktopPane.removeAll();
+        desktopPane.add(first);
         first.setVisible(true);
         
         setLocationRelativeTo(null);
@@ -65,7 +65,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
     }
 
     public JDesktopPane getDesktop() {
-        return jDesktopPane1;
+        return desktopPane;
     }
 
     /**
@@ -103,7 +103,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jButton17 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         testingButton = new javax.swing.JButton();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        desktopPane = new javax.swing.JDesktopPane();
         jPanel1 = new javax.swing.JPanel();
         jButton15 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -350,19 +350,19 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(testingButton);
         testingButton.setBounds(0, 430, 200, 30);
 
-        javax.swing.GroupLayout jDesktopPane1Layout = new javax.swing.GroupLayout(jDesktopPane1);
-        jDesktopPane1.setLayout(jDesktopPane1Layout);
-        jDesktopPane1Layout.setHorizontalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
+        desktopPane.setLayout(desktopPaneLayout);
+        desktopPaneLayout.setHorizontalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 1170, Short.MAX_VALUE)
         );
-        jDesktopPane1Layout.setVerticalGroup(
-            jDesktopPane1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        desktopPaneLayout.setVerticalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 630, Short.MAX_VALUE)
         );
 
-        jLayeredPane1.add(jDesktopPane1);
-        jDesktopPane1.setBounds(200, 60, 1170, 630);
+        jLayeredPane1.add(desktopPane);
+        desktopPane.setBounds(200, 60, 1170, 630);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Requests"), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14))); // NOI18N
         jPanel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
@@ -470,8 +470,8 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         BloodRequest bloodRequest = new BloodRequest();
         bloodRequest.setClosable(true);
-        jDesktopPane1.add(bloodRequest);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(bloodRequest);
+        desktopPane.setRequestFocusEnabled(true);
         bloodRequest.show();
     }//GEN-LAST:event_jButton15ActionPerformed
 
@@ -479,16 +479,16 @@ public class MedicalOfficer extends javax.swing.JFrame {
         Compatability2 compatability2 = new Compatability2(this, true);
         compatability2.setClosable(true);
         compatability2.setMaximizable(true);
-        jDesktopPane1.add(compatability2);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(compatability2);
+        desktopPane.setRequestFocusEnabled(true);
         compatability2.show();
     }//GEN-LAST:event_jButton34ActionPerformed
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         StockBalance stock = new StockBalance();
         stock.setClosable(true);
-        jDesktopPane1.add(stock);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(stock);
+        desktopPane.setRequestFocusEnabled(true);
         stock.show();
     }//GEN-LAST:event_jButton18ActionPerformed
 
@@ -496,8 +496,8 @@ public class MedicalOfficer extends javax.swing.JFrame {
 //        try {
 //            StockBalance2 stock2 = new StockBalance2();
 //            stock2.setClosable(true);
-//            jDesktopPane1.add(stock2);
-//            jDesktopPane1.setRequestFocusEnabled(true);
+//            desktopPane.add(stock2);
+//            desktopPane.setRequestFocusEnabled(true);
 //            stock2.show();
 //        } catch (IOException ex) {
 //            Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
@@ -532,7 +532,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
         try {
             ChangePassword p = new ChangePassword();
             p.setClosable(true);
-            jDesktopPane1.add(p);
+            desktopPane.add(p);
             p.show();
         } catch (IOException ex) {
             Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
@@ -562,43 +562,43 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Personalize p = new Personalize(this, true);
         p.setClosable(true);
-        jDesktopPane1.add(p);
+        desktopPane.add(p);
         p.show();
 }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        AdverseEvent event= new AdverseEvent(jDesktopPane1.getSize());
+        AdverseEvent event= new AdverseEvent(desktopPane.getSize());
         event.setClosable(true);
         event.setMaximizable(true);
-        jDesktopPane1.add(event);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(event);
+        desktopPane.setRequestFocusEnabled(true);
         event.show();
     }//GEN-LAST:event_jButton33ActionPerformed
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
-        Immunohaematology im = new Immunohaematology(jDesktopPane1.getSize());
+        Immunohaematology im = new Immunohaematology(desktopPane.getSize());
         im.setClosable(true);
         im.setMaximizable(true);
-        jDesktopPane1.add(im);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(im);
+        desktopPane.setRequestFocusEnabled(true);
         im.show();
     }//GEN-LAST:event_jButton32ActionPerformed
 
     private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        BloodReport report = new BloodReport(jDesktopPane1.getSize());
+        BloodReport report = new BloodReport(desktopPane.getSize());
         report.setClosable(true);
         report.setMaximizable(true);
-        jDesktopPane1.add(report);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(report);
+        desktopPane.setRequestFocusEnabled(true);
         report.show();
     }//GEN-LAST:event_jButton17ActionPerformed
 
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
-        CompatibilityReport reportC = new CompatibilityReport();
+        Requests reportC = new Requests(desktopPane);
         reportC.setClosable(true);
         reportC.setMaximizable(true);
-        jDesktopPane1.add(reportC);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(reportC);
+        desktopPane.setRequestFocusEnabled(true);
         reportC.show();
     }//GEN-LAST:event_jButton22ActionPerformed
 
@@ -609,8 +609,8 @@ public class MedicalOfficer extends javax.swing.JFrame {
 
         groupform.setClosable(true);
         groupform.setMaximizable(true);
-        jDesktopPane1.add(groupform);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(groupform);
+        desktopPane.setRequestFocusEnabled(true);
         groupform.show();
 
     }//GEN-LAST:event_BloodGroupButtonActionPerformed
@@ -619,26 +619,26 @@ public class MedicalOfficer extends javax.swing.JFrame {
         BloodAndComponentAvailability availailityform = new BloodAndComponentAvailability();
         availailityform.setClosable(true);
         availailityform.setMaximizable(true);
-        jDesktopPane1.add(availailityform);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(availailityform);
+        desktopPane.setRequestFocusEnabled(true);
         availailityform.show();
     }//GEN-LAST:event_testingButtonActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RedCellProducts redcell = new RedCellProducts(jDesktopPane1.getSize());
+        RedCellProducts redcell = new RedCellProducts(desktopPane.getSize());
         redcell.setClosable(true);
         redcell.setMaximizable(true);
-        jDesktopPane1.add(redcell);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(redcell);
+        desktopPane.setRequestFocusEnabled(true);
         redcell.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        RequestForBlood platelet = new RequestForBlood(jDesktopPane1.getSize());
+        RequestForBlood platelet = new RequestForBlood(desktopPane.getSize());
         platelet.setClosable(true);
         platelet.setMaximizable(true);
-        jDesktopPane1.add(platelet);
-        jDesktopPane1.setRequestFocusEnabled(true);
+        desktopPane.add(platelet);
+        desktopPane.setRequestFocusEnabled(true);
         platelet.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -659,6 +659,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BloodGroupButton;
+    private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -684,7 +685,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
     private javax.swing.JMenu jMenu1;

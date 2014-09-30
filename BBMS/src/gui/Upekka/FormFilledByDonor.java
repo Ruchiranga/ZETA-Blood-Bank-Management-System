@@ -4,7 +4,7 @@
  */
 package gui.Upekka;
 
-import dataaccess.upekka.DonorDA;
+import Controller.Upekka.DonorDA;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -157,7 +157,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
         goodHealthRadioButton = new javax.swing.JRadioButton();
         nogoodHealthRadioButton = new javax.swing.JRadioButton();
         saveButton = new javax.swing.JButton();
-        clearButton = new javax.swing.JButton();
+        exitButton = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -264,13 +264,24 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(10, 10, 10)
                                         .addComponent(femaleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jLabel2)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(31, 31, 31)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nicTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(dobDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(nicTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18)
+                                .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(jLabel14)
+                                .addGap(29, 29, 29)
+                                .addComponent(weightTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -283,52 +294,46 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                                 .addComponent(officeAddressTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel12)
                                         .addGap(30, 30, 30)
-                                        .addComponent(emailTextField))
+                                        .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel8)
                                         .addGap(25, 25, 25)
                                         .addComponent(jLabel9)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(homeTpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
+                                        .addComponent(homeTpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jLabel10)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(officeTpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(12, 12, 12)
+                                        .addComponent(officeTpTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jLabel11)
                                 .addGap(14, 14, 14)
-                                .addComponent(mobileTPTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addComponent(mobileTPTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(dobDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(57, 57, 57)
-                        .addComponent(jLabel5)
-                        .addGap(18, 18, 18)
-                        .addComponent(ageTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(48, 48, 48)
-                        .addComponent(jLabel14)
-                        .addGap(29, 29, 29)
-                        .addComponent(weightTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(216, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel2)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(83, 83, 83)
+                                .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jLabel13)
-                .addGap(15, 15, 15)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nicTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nicTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(maleRadioButton)
@@ -363,7 +368,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(emailTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(195, Short.MAX_VALUE))
+                .addContainerGap(221, Short.MAX_VALUE))
         );
 
         jScrollPane3.setViewportView(jPanel1);
@@ -416,7 +421,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             }
         });
 
-        paralysisCheckBox.setText("paralysis");
+        paralysisCheckBox.setText("Paralysis");
         paralysisCheckBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 paralysisCheckBoxActionPerformed(evt);
@@ -989,10 +994,11 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             }
         });
 
-        clearButton.setText("Clear");
-        clearButton.addActionListener(new java.awt.event.ActionListener() {
+        exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/gui/Upekka/SYSTEM ALERT STOP ICON.png"))); // NOI18N
+        exitButton.setText("Exit");
+        exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                clearButtonActionPerformed(evt);
+                exitButtonActionPerformed(evt);
             }
         });
 
@@ -1007,8 +1013,8 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(171, 171, 171)
                 .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(225, 225, 225)
-                .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(159, 159, 159)
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -1023,8 +1029,10 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 444, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(clearButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(saveButton, javax.swing.GroupLayout.DEFAULT_SIZE, 53, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -1164,16 +1172,13 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_homeTpTextFieldActionPerformed
 
-    private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_clearButtonActionPerformed
-
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
        
         try {
-            //Basic detais of the donor
-            String nic =nicTextField.getText();
-            String name =nameTextField.getText();
+            String nic="";
+            nic = nicTextField.getText();
+            String name="";
+            name = nameTextField.getText();
             
             
             java.util.Date dateOfBirth= dobDateChooser.getDate();
@@ -1181,7 +1186,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             String dob = df.format(dateOfBirth);
             java.sql.Date sqlDoB = new java.sql.Date(dateOfBirth.getTime());
             
-            String gender=null;
+            String gender="";
             if(maleRadioButton.isSelected()){
                 gender = "male";
             }
@@ -1189,22 +1194,31 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 gender = "female";
             }
             
-            int age =Integer.parseInt(ageTextField.getText());
-            int weight =Integer.parseInt(weightTextField.getText());
+            int age=0;
+            age = Integer.parseInt(ageTextField.getText());
+            int weight=0;
+            weight = Integer.parseInt(weightTextField.getText());
             
-            String homeAddress= homeAddressTextField.getText();
-            String officeAddress= officeAddressTextField.getText();
-            int homeTp= Integer.parseInt(homeTpTextField.getText());
-            int officeTp= Integer.parseInt(officeTpTextField.getText());
-            int mobileTp= Integer.parseInt(mobileTPTextField.getText());
-            String email=emailTextField.getText();
+            String homeAddress="";
+            homeAddress = homeAddressTextField.getText();
+            String officeAddress="";
+            officeAddress = officeAddressTextField.getText();
+            int homeTp=0;
+            homeTp = Integer.parseInt(homeTpTextField.getText());
+            int officeTp=0;
+            officeTp = Integer.parseInt(officeTpTextField.getText());
+            int mobileTp=0;
+            mobileTp = Integer.parseInt(mobileTPTextField.getText());
+            String email="";
+            email = emailTextField.getText();
             
             //Questionnairie
             int previouslyDonated=0;
             if(previouslyDonatedRadioButton.isSelected()){
                 previouslyDonated = 1;
             }
-            String difficultiesAfterDonation= difficultiesTextField.getText();
+            String difficultiesAfterDonation="";
+            difficultiesAfterDonation = difficultiesTextField.getText();
             int goodHealth=0;
             if(goodHealthRadioButton.isSelected()) {
                 goodHealth = 1;
@@ -1215,15 +1229,15 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             
             //get the list of diseases ticked by the donor
             String diseases = "";
-            if(heartDiseaseCheckBox.isSelected()) diseases= diseases+" "+ heartDiseaseCheckBox.getText();
-            if(paralysisCheckBox.isSelected()) diseases= diseases+" "+ paralysisCheckBox.getText();
-            if(kidneyDiseaseCheckBox.isSelected()) diseases= diseases+" "+ kidneyDiseaseCheckBox.getText();
-            if(diabetiesCheckBox.isSelected()) diseases= diseases+" "+ diabetiesCheckBox.getText();
-            if(asthmaLundCancerCheckBox.isSelected()) diseases= diseases+" "+ asthmaLundCancerCheckBox.getText();
-            if(bloodDiseasesCheckBox.isSelected()) diseases= diseases+" "+ bloodDiseasesCheckBox.getText();
-            if(fitsCheckBox.isSelected()) diseases= diseases+" "+ fitsCheckBox.getText();
-            if(liverDiseaseCheckBox.isSelected()) diseases= diseases+" "+ liverDiseaseCheckBox.getText();
-            if(cancerCheckBox.isSelected()) diseases= diseases+" "+ cancerCheckBox.getText();
+            if(heartDiseaseCheckBox.isSelected()) diseases= diseases+" , "+ heartDiseaseCheckBox.getText();
+            if(paralysisCheckBox.isSelected()) diseases= diseases+" , "+ paralysisCheckBox.getText();
+            if(kidneyDiseaseCheckBox.isSelected()) diseases= diseases+" , "+ kidneyDiseaseCheckBox.getText();
+            if(diabetiesCheckBox.isSelected()) diseases= diseases+" , "+ diabetiesCheckBox.getText();
+            if(asthmaLundCancerCheckBox.isSelected()) diseases= diseases+" , "+ asthmaLundCancerCheckBox.getText();
+            if(bloodDiseasesCheckBox.isSelected()) diseases= diseases+" , "+ bloodDiseasesCheckBox.getText();
+            if(fitsCheckBox.isSelected()) diseases= diseases+" , "+ fitsCheckBox.getText();
+            if(liverDiseaseCheckBox.isSelected()) diseases= diseases+" , "+ liverDiseaseCheckBox.getText();
+            if(cancerCheckBox.isSelected()) diseases= diseases+" , "+ cancerCheckBox.getText();
             
             
             //yes no questions
@@ -1324,6 +1338,11 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_weightTextFieldActionPerformed
 
+    private void exitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButtonActionPerformed
+        JOptionPane.showMessageDialog(this, "Are you sure that you want to exit ?");
+        this.setVisible(false);
+    }//GEN-LAST:event_exitButtonActionPerformed
+
     private void searchDonorbyNic() throws ClassNotFoundException, SQLException{
         
         Donor existingDonor=DonorDA.searchDonor(nicTextField.getText());
@@ -1356,6 +1375,16 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             }else{
                 nogoodHealthRadioButton.setSelected(true);
             }
+            if(existingDonor.getDiseases().contains("Heart diseases")){heartDiseaseCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Diabetes")){diabetiesCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Fits")){fitsCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Paralysis")){paralysisCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Asthma/ lung diseases")){asthmaLundCancerCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Liver diseases")){liverDiseaseCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Kidney diseases")){kidneyDiseaseCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Blood diseases")){bloodDiseasesCheckBox.setSelected(true);}
+            if(existingDonor.getDiseases().contains("Cancers")){cancerCheckBox.setSelected(true);}
+            
             if(existingDonor.getUsingMedicine()==1){
                 usingMedicineRadioButton.setSelected(true);    
             }else{
@@ -1451,12 +1480,12 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.JCheckBox cancerCheckBox;
-    private javax.swing.JButton clearButton;
     private javax.swing.JRadioButton dentalSurgeryUsedAntibioticsMedicineRadioButton;
     private javax.swing.JCheckBox diabetiesCheckBox;
     private javax.swing.JTextField difficultiesTextField;
     private com.toedter.calendar.JDateChooser dobDateChooser;
     private javax.swing.JTextField emailTextField;
+    private javax.swing.JButton exitButton;
     private javax.swing.JRadioButton femaleRadioButton;
     private javax.swing.JCheckBox fitsCheckBox;
     private javax.swing.ButtonGroup genderButtonGroup;

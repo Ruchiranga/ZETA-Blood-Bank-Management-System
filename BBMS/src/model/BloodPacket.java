@@ -28,8 +28,9 @@ public class BloodPacket {
     private String patientIssueID;
     private String comment;
     private String bullkissueID;
+    private String recievedID;
 
-    public BloodPacket(String packetID, String nic, Date dateOfDonation, Date dateOfExpiry, String bloodType, byte isCrossmatched, byte isSpecialReservation, byte isUnderObservation, String campID, byte isDiscarded, String bloodGroup, Date discardedDate, String returnID, String patientIssueID, String comment, String bullkissueID) {
+    public BloodPacket(String packetID, String nic, Date dateOfDonation, Date dateOfExpiry, String bloodType, byte isCrossmatched, byte isSpecialReservation, byte isUnderObservation, String campID, byte isDiscarded, String bloodGroup, Date discardedDate, String returnID, String patientIssueID, String comment, String bullkissueID, String recievedID) {
         this.packetID = packetID;
         this.nic = nic;
         this.dateOfDonation = dateOfDonation;
@@ -46,7 +47,21 @@ public class BloodPacket {
         this.patientIssueID = patientIssueID;
         this.comment = comment;
         this.bullkissueID = bullkissueID;
+        this.recievedID = recievedID;
     }
+    
+    public BloodPacket(String packetID, String bloodGroup, String bloodType, String nic, Date dateOfExpiry, Date dateOfDonation, byte isCrossmatched, byte isUnderObservation) {
+        this.packetID = packetID;
+        this.nic = nic;
+        this.dateOfDonation = dateOfDonation;
+        this.dateOfExpiry = dateOfExpiry;
+        this.bloodType = bloodType;
+        this.isCrossmatched = isCrossmatched;
+        this.isUnderObservation = isUnderObservation;
+        this.bloodGroup = bloodGroup;
+    }
+    
+    
 
     /**
      * @return the packetID
@@ -270,6 +285,20 @@ public class BloodPacket {
      */
     public void setBullkissueID(String bullkissueID) {
         this.bullkissueID = bullkissueID;
+    }
+
+    /**
+     * @return the recievedID
+     */
+    public String getRecievedID() {
+        return recievedID;
+    }
+
+    /**
+     * @param recievedID the recievedID to set
+     */
+    public void setRecievedID(String recievedID) {
+        this.recievedID = recievedID;
     }
 
    

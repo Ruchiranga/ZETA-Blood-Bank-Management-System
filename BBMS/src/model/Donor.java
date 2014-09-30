@@ -3,17 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package model;
 
 //import java.sql.Date;
-
 import java.sql.Date;
+
 /**
  *
  * @author Upekka
  */
 public class Donor {
+
     private String nic;
     private String name;
     private Date dob;
@@ -46,13 +46,13 @@ public class Donor {
     private int dentalSurgeryUsedAntibioticsMedicine;
     private boolean blacklisted;
 
-    public Donor(String nic, String name, Date dob, String gender, int age,int weight, String homeAddress, String officeAddress, int homeTp, int officeTp, int mobileTp, String email, int previouslyDonated, String difficultiesAfterDonation, int goodHealth, String diseases, int usingMedicine, int surgeries, int heavyWork, int pregnantLactationAbortion, int immunized, int piercedTatooed, int imprisone, int youOrSpouceGoneAbroad, int youOrSpouceTakenBlood,int sufferedFromYelowFeverHepatitis, int sufferedFromTuberculosis, int sufferedFromMalaria, int sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, int dentalSurgeryUsedAntibioticsMedicine) {
+    public Donor(String nic, String name, Date dob, String gender, int age, int weight, String homeAddress, String officeAddress, int homeTp, int officeTp, int mobileTp, String email, int previouslyDonated, String difficultiesAfterDonation, int goodHealth, String diseases, int usingMedicine, int surgeries, int heavyWork, int pregnantLactationAbortion, int immunized, int piercedTatooed, int imprisone, int youOrSpouceGoneAbroad, int youOrSpouceTakenBlood, int sufferedFromYelowFeverHepatitis, int sufferedFromTuberculosis, int sufferedFromMalaria, int sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, int dentalSurgeryUsedAntibioticsMedicine) {
         this.nic = nic;
         this.name = name;
         this.dob = dob;
         this.gender = gender;
         this.age = age;
-        this.weight=weight;
+        this.weight = weight;
         this.homeAddress = homeAddress;
         this.officeAddress = officeAddress;
         this.homeTp = homeTp;
@@ -72,12 +72,22 @@ public class Donor {
         this.imprisone = imprisone;
         this.youOrSpouceGoneAbroad = youOrSpouceGoneAbroad;
         this.youOrSpouceTakenBlood = youOrSpouceTakenBlood;
-        this.sufferedFromYelowFeverHepatitis=sufferedFromYelowFeverHepatitis;
+        this.sufferedFromYelowFeverHepatitis = sufferedFromYelowFeverHepatitis;
         this.sufferedFromTuberculosis = sufferedFromTuberculosis;
         this.sufferedFromMalaria = sufferedFromMalaria;
         this.sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue = sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue;
         this.dentalSurgeryUsedAntibioticsMedicine = dentalSurgeryUsedAntibioticsMedicine;
         this.blacklisted = false;
+    }
+
+    public Donor(String nic, String name, Date dob, String gender, int age, String homeAddress, boolean blacklisted) {
+        this.nic = nic;
+        this.name = name;
+        this.dob = dob;
+        this.gender = gender;
+        this.age = age;
+        this.homeAddress = homeAddress;
+        this.blacklisted = blacklisted;
     }
 
     /**
@@ -87,7 +97,6 @@ public class Donor {
         return nic;
     }
 
-    
     public void setNic(String nic) {
         this.nic = nic;
     }
@@ -453,7 +462,8 @@ public class Donor {
     }
 
     /**
-     * @param sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue the sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue to set
+     * @param sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue the
+     * sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue to set
      */
     public void setSufferedFromChickenpoxMeaselsRubellaDiarrheaDengue(int sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue) {
         this.sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue = sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue;
@@ -467,7 +477,8 @@ public class Donor {
     }
 
     /**
-     * @param dentalSurgeryUsedAntibiotics_Medicine the dentalSurgeryUsedAntibioticsMedicine to set
+     * @param dentalSurgeryUsedAntibiotics_Medicine the
+     * dentalSurgeryUsedAntibioticsMedicine to set
      */
     public void setDentalSurgeryUsedAntibioticsMedicine(int dentalSurgeryUsedAntibiotics_Medicine) {
         this.dentalSurgeryUsedAntibioticsMedicine = dentalSurgeryUsedAntibiotics_Medicine;
@@ -495,7 +506,8 @@ public class Donor {
     }
 
     /**
-     * @param sufferedFromYelowFeverHepatitis the sufferedFromYelowFeverHepatitis to set
+     * @param sufferedFromYelowFeverHepatitis the
+     * sufferedFromYelowFeverHepatitis to set
      */
     public void setSufferedFromYelowFeverHepatitis(int sufferedFromYelowFeverHepatitis) {
         this.sufferedFromYelowFeverHepatitis = sufferedFromYelowFeverHepatitis;
@@ -515,5 +527,4 @@ public class Donor {
         this.weight = weight;
     }
 
-    
 }

@@ -33,29 +33,30 @@ public class BloodGroupingAndTTIHandler {
         donors = new ArrayList<Donor>();
         employees = new ArrayList<Employee>();
         tests = new ArrayList<Test>();
+        
 
-        ResultSet result = dataAccess.getAllUntestedPackets();
+        ResultSet rst = dataAccess.getAllUntestedPackets();
 
-        for (int i = 0; result.next(); i++) {
-
-            packets.add(new BloodPacket(result.getString(1), result.getString(2), result.getString(3), result.getString(4), result.getDate(5), result.getDate(6), result.getString(7), result.getString(8), result.getString(9)));
+        for (int i = 0; rst.next(); i++) {
+            packets.add(new BloodPacket(rst.getString("packetID"), rst.getString("bloodGroup"), rst.getString("bloodType"), rst.getString("nic"), rst.getDate("dateOFExpiry"), rst.getDate("dateOfDonation"), (byte)rst.getInt("isCrossmatched"), (byte)rst.getInt("isUnderObservation")));
 
         }
+        
 
-        result = dataAccess.getDonors();
+        rst = dataAccess.getDonors();
 
-        for (int i = 0; result.next(); i++) {
-            donors.add(new Donor(result.getString(1), result.getString(2), result.getDate(3), result.getString(4), result.getInt(5), result.getString(6), result.getBoolean(7)));
+        for (int i = 0; rst.next(); i++) {
+            donors.add(new Donor(rst.getString(1), rst.getString(2), rst.getDate(3), rst.getString(4), rst.getInt(5), rst.getString(6), rst.getBoolean(7)));
         }
 
-        result = dataAccess.getEmployees();
-        for (int i = 0; result.next(); i++) {
-            employees.add(new Employee(result.getString(1), result.getString(2)));
+        rst = dataAccess.getEmployees();
+        for (int i = 0; rst.next(); i++) {
+            employees.add(new Employee(rst.getString(1), rst.getString(2)));
         }
 
-        result = dataAccess.getTests();
-        for (int i = 0; result.next(); i++) {
-            tests.add(new Test(result.getString(1), result.getString(2)));
+        rst = dataAccess.getTests();
+        for (int i = 0; rst.next(); i++) {
+            tests.add(new Test(rst.getString(1), rst.getString(2)));
         }
 
     }
@@ -150,7 +151,7 @@ public class BloodGroupingAndTTIHandler {
         try {
             curID = rst.getString(1);
         } catch (SQLException e) {
-            return "R00001";
+            return "RS00000001";
         }
 
         return IDGenerator.generateNextID(curID);
@@ -185,7 +186,7 @@ public class BloodGroupingAndTTIHandler {
             }
         }
              
-        int res = dataAccess.addResult(resID,testID,packetID,result,comment,date,doneByID,checkedByID);
+        int res = dataAccess.addPacketResult(resID,testID,packetID,result,comment,date,doneByID,checkedByID);
         return res;
     }
 

@@ -37,7 +37,7 @@ public class AvailabilityHandler {
             rst = dataAccess.getAvailablePackets();
             int count = getRecordCount(rst);
             for (int i = 0; rst.next(); i++) {
-                packets.add(new BloodPacket(rst.getString(1), rst.getString(2), rst.getString(3), rst.getString(4), rst.getDate(5), rst.getDate(6), rst.getInt(7), rst.getInt(8)));
+                packets.add(new BloodPacket(rst.getString("packetID"), rst.getString("bloodGroup"), rst.getString("bloodType"), rst.getString("nic"), rst.getDate("dateOFExpiry"), rst.getDate("dateOfDonation"), (byte)rst.getInt("isCrossmatched"), (byte)rst.getInt("isUnderObservation")));
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(AvailabilityHandler.class.getName()).log(Level.SEVERE, null, ex);

@@ -5,6 +5,7 @@
  */
 package gui.Ruchi;
 
+import Controller.TableResizer;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
 
     AvailabilityHandler handler;
     DefaultTableModel dtm;
+    Requests parent;
 
     /**
      * Creates new form BloodAndComponentAvailability
@@ -93,7 +95,79 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
 
         availabilityTable.setAutoCreateRowSorter(true);
         availabilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        TableResizer.resizeColumnWidth(availabilityTable);
 
+    }
+
+    BloodAndComponentAvailability(Requests aThis) {
+        initComponents();
+
+        handler = new AvailabilityHandler();
+
+        ButtonGroup search_radios = new ButtonGroup();
+        search_radios.add(sByDonorRadioButton);
+        search_radios.add(sbyComponentRadioButton);
+        search_radios.add(sbygroupRadioButton);
+
+        String[] columns = {"Packet ID", "Blood group", "Component Type", "Recieved By", "Date of expiry", "Date of collection", "Cross matched", "Under observation"};
+        dtm = new DefaultTableModel(columns, 0) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        availabilityTable.setModel(dtm);
+
+        String[] groupList = null;
+
+        try {
+            groupList = handler.getGroupList();
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (String group : groupList) {
+            groupsComboBox.addItem(group);
+        }
+
+        String[] compList = null;
+
+        try {
+            compList = handler.getComponentList();
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (String comp : compList) {
+            componentsComboBox.addItem(comp);
+        }
+
+        String[] donorList = null;
+
+        try {
+            donorList = handler.getDonorList();
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (String donor : donorList) {
+            donorsComboBox.addItem(donor);
+        }
+
+        sbygroupRadioButton.setSelected(true);
+
+        availabilityTable.setAutoCreateRowSorter(true);
+        availabilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        parent = aThis;
+        parent.hide();
     }
 
     /**
@@ -127,6 +201,23 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setTitle("Blood and Component Availability");
+        addInternalFrameListener(new javax.swing.event.InternalFrameListener() {
+            public void internalFrameActivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameClosed(javax.swing.event.InternalFrameEvent evt) {
+                formInternalFrameClosed(evt);
+            }
+            public void internalFrameClosing(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeactivated(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameDeiconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameIconified(javax.swing.event.InternalFrameEvent evt) {
+            }
+            public void internalFrameOpened(javax.swing.event.InternalFrameEvent evt) {
+            }
+        });
 
         sbygroupRadioButton.setText("Search by Group");
         sbygroupRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -414,7 +505,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.getIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -441,7 +532,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.getIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -473,7 +564,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.getIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -498,7 +589,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.getIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -521,7 +612,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.getIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -542,7 +633,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.getIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), Integer.toString(packet.isIsCrossmatched()).equals("0") ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -570,7 +661,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
             }
-            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), (Integer.toString(packet.getIsCrossmatched()).equals("0")) ? "No" : "Yes", Integer.toString(packet.getIsUnderObservation()).equals("0") ? "No" : "Yes"};
+            String[] row = {packet.getPacketID(), packet.getBloodGroup(), packet.getBloodType(), donorName, packet.getDateOfExpiry().toString(), packet.getDateOfDonation().toString(), (Integer.toString(packet.isIsCrossmatched()).equals("0")) ? "No" : "Yes", Integer.toString(packet.isIsUnderObservation()).equals("0") ? "No" : "Yes"};
 
             dtm.addRow(row);
         }
@@ -659,6 +750,12 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
         }
 
     }//GEN-LAST:event_markUncrossMatchedButtonActionPerformed
+
+    private void formInternalFrameClosed(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameClosed
+        if (parent != null) {
+            parent.show();
+        }
+    }//GEN-LAST:event_formInternalFrameClosed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
