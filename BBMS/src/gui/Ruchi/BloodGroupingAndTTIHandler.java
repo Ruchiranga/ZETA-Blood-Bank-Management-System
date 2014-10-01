@@ -129,6 +129,11 @@ public class BloodGroupingAndTTIHandler {
     }
 
     String[] getTestList() throws SQLException, ClassNotFoundException {
+        ResultSet rst = dataAccess.getTests();
+        tests = new ArrayList<Test>();
+        for (int i = 0; rst.next(); i++) {
+            tests.add(new Test(rst.getString(1), rst.getString(2)));
+        }
         String[] list = new String[tests.size()];
         for (int i = 0; i < tests.size(); i++) {
             list[i] = tests.get(i).getName();

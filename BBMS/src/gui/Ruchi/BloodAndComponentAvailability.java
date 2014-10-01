@@ -196,7 +196,6 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
         availabilityTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        markCrossMatchedButton = new javax.swing.JButton();
         markUncrossMatchedButton = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
 
@@ -390,13 +389,6 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
             }
         });
 
-        markCrossMatchedButton.setText("Mark Cross Matched");
-        markCrossMatchedButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                markCrossMatchedButtonActionPerformed(evt);
-            }
-        });
-
         markUncrossMatchedButton.setText("Mark Uncross Matched");
         markUncrossMatchedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -434,8 +426,6 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(markUncrossMatchedButton)
                 .addGap(18, 18, 18)
-                .addComponent(markCrossMatchedButton)
-                .addGap(18, 18, 18)
                 .addComponent(jButton1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton2)
@@ -465,11 +455,10 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 10, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2)
-                    .addComponent(markCrossMatchedButton)
                     .addComponent(markUncrossMatchedButton))
                 .addContainerGap())
         );
@@ -667,48 +656,6 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_donorsComboBoxActionPerformed
 
-    private void markCrossMatchedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markCrossMatchedButtonActionPerformed
-        boolean rowSelected = false;
-        for (int i = 0; i < availabilityTable.getRowCount(); i++) {
-            if (availabilityTable.isRowSelected(i)) {
-                rowSelected = true;
-                break;
-            }
-        }
-        if (!rowSelected) {
-            JOptionPane.showMessageDialog(this, "Please select the record of which packet you want to mark as Cross Matched");
-        } else {
-            int selection = availabilityTable.getSelectedRow();
-            if (dtm.getValueAt(selection, 6).toString().equals("Yes")) {
-                JOptionPane.showMessageDialog(this, "Selected Blood Packet already marked as Cross Matched!", "Error", JOptionPane.ERROR_MESSAGE);
-            } else {
-                int res = JOptionPane.showConfirmDialog(this, "Are you sure?", "Are you sure?", JOptionPane.YES_NO_OPTION);
-                if (res == 0) {
-                    try {
-                        String packetID = (String) dtm.getValueAt(selection, 0);
-
-                        int response;
-                        response = handler.setAsCrossMatched(packetID);
-
-                        if (response == 1) {
-                            dtm.setValueAt("Yes", selection, 6);
-                            JOptionPane.showMessageDialog(this, "Database updated successfully!");
-                        } else {
-                            JOptionPane.showMessageDialog(this, "Error! Failed to update database", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
-                    } catch (ClassNotFoundException ex) {
-                        Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (SQLException ex) {
-                        Logger.getLogger(BloodAndComponentAvailability.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-
-                }
-            }
-
-        }
-
-    }//GEN-LAST:event_markCrossMatchedButtonActionPerformed
-
     private void markUncrossMatchedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_markUncrossMatchedButtonActionPerformed
         boolean rowSelected = false;
         for (int i = 0; i < availabilityTable.getRowCount(); i++) {
@@ -773,7 +720,6 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JButton markCrossMatchedButton;
     private javax.swing.JButton markUncrossMatchedButton;
     private javax.swing.JRadioButton sByDonorRadioButton;
     private javax.swing.JRadioButton sbyComponentRadioButton;

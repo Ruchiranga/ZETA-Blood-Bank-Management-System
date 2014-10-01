@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Controller.Ruchi;
 
 import Controller.RecordCounter;
@@ -12,6 +11,7 @@ import connection.DBHandler;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import model.Donor;
 
 /**
  *
@@ -38,5 +38,34 @@ public class DonorController {
         data.next();
         return data.getString("name");
     }
-    
+
+    public boolean isDonorBlacklisted(String donorID) throws SQLException, ClassNotFoundException {
+        boolean status = false;
+        String query = "select blacklisted from donor where nic = '" + donorID + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet data = DBHandler.getData(connection, query);
+        if (data.next()) {
+            status = data.getBoolean("blacklisted");
+        }
+        return status;
+    }
+
+    public int blackListDonor(String name) throws SQLException, ClassNotFoundException {
+
+        String query = "UPDATE donor SET blacklisted=1 where name = '" + name + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.setData(connection, query);
+    }
+
+    public String getDonorIDOf(String name) throws ClassNotFoundException, SQLException {
+        String query = "select nic from donor where Name = '" + name + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet data = DBHandler.getData(connection, query);
+        String id = null;
+        if (data.next()) {
+            id = data.getString("nic");
+        }
+        return id;
+    }
+
 }

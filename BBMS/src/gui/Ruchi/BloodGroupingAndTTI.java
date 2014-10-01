@@ -5,6 +5,12 @@
  */
 package gui.Ruchi;
 
+import Controller.Ruchi.BloodGroupController;
+import Controller.Ruchi.BloodPacketController;
+import Controller.Ruchi.DonorController;
+import Controller.Ruchi.EmployeeController;
+import Controller.Ruchi.TestController;
+import Controller.Ruchi.TestResultController;
 import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
@@ -14,8 +20,10 @@ import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ButtonGroup;
+import javax.swing.JDesktopPane;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.TestResult;
 
 /**
  *
@@ -24,15 +32,29 @@ import javax.swing.table.DefaultTableModel;
 public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
     BloodGroupingAndTTIHandler handler;
+
     DefaultTableModel dtm;
+    JDesktopPane pane;
+    BloodPacketController packetController;
+    BloodGroupController groupController;
+    TestController testController;
+    EmployeeController employeeController;
+    DonorController donorController;
+    TestResultController testResultController;
 
     /**
      * Creates new form BloodGrouping
      *
      */
-    public BloodGroupingAndTTI() {
+    public BloodGroupingAndTTI(JDesktopPane pane) {
         initComponents();
-
+        this.pane = pane;
+        packetController = new BloodPacketController();
+        groupController = new BloodGroupController();
+        testController = new TestController();
+        employeeController = new EmployeeController();
+        donorController = new DonorController();
+        testResultController = new TestResultController();
         try {
             handler = new BloodGroupingAndTTIHandler();
         } catch (SQLException ex) {
@@ -43,7 +65,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         String[] packetList = null;
         try {
-            packetList = handler.getPacketIDList();
+            packetList = packetController.getPacketIDList();
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -57,7 +79,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         String[] groupList = null;
 
         try {
-            groupList = handler.getGroupList();
+            groupList = groupController.getGroupList();
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -71,7 +93,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         String[] testList = null;
 
         try {
-            testList = handler.getTestList();
+            testList = testController.getTestList();
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -94,7 +116,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         String[] emp = null;
 
         try {
-            emp = handler.getEmployeeList();
+            emp = employeeController.getEmployeeList();
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -136,6 +158,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         testTable = new javax.swing.JTable();
         deleteRowButton = new javax.swing.JButton();
+        addNewTestButton = new javax.swing.JButton();
         doneByComboBox = new javax.swing.JComboBox();
         checkedByComboBox = new javax.swing.JComboBox();
         generateLabelButton = new javax.swing.JButton();
@@ -154,7 +177,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         packetIDListCombo = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
         dateText = new javax.swing.JTextField();
-        jLabel10 = new javax.swing.JLabel();
 
         setTitle("Blood Grouping and TTI");
 
@@ -209,6 +231,13 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             }
         });
 
+        addNewTestButton.setText("Add New Test ");
+        addNewTestButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addNewTestButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -227,12 +256,15 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                                 .addGap(24, 24, 24)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(commentsTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 492, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(testListCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                            .addComponent(negativeRadioButton)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                            .addComponent(positiveRadioButton)))))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(testListCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                                .addComponent(negativeRadioButton)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                                .addComponent(positiveRadioButton)))
+                                        .addGap(31, 31, 31)
+                                        .addComponent(addNewTestButton))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(addToListButton)
                                 .addGap(18, 18, 18)
@@ -246,7 +278,8 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(testListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(testListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(addNewTestButton))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
@@ -394,9 +427,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         dateText.setEnabled(false);
 
-        jLabel10.setFont(new java.awt.Font("Monotype Corsiva", 1, 36)); // NOI18N
-        jLabel10.setText("Blood Grouping and TTI");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -435,17 +465,11 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(140, 140, 140)
-                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 387, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -471,7 +495,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(generateLabelButton)
                     .addComponent(cancelButton))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
 
         pack();
@@ -499,18 +523,25 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         try {
             try {
-                donorTextField.setText(handler.getDonorNameOf(packetID));
+                donorTextField.setText(packetController.getDonorNameOf(packetID));
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
             }
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String donorID = handler.getDonorIDOF(packetID);
+        String donorID = null;
+        try {
+            donorID = packetController.getDonorIDOF(packetID);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         boolean isBlackListed = false;
         try {
-            isBlackListed = handler.isDonorBlacklisted(donorID);
+            isBlackListed = donorController.isDonorBlacklisted(donorID);
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -535,7 +566,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             String name = donorTextField.getText();
             int res = 0;
             try {
-                res = handler.blacklistDonor(name);
+                res = donorController.blackListDonor(name);
 
             } catch (SQLException ex) {
                 Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
@@ -549,9 +580,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 JOptionPane.showInternalMessageDialog(this, "Failed to blacklist donor", "Error!", JOptionPane.ERROR_MESSAGE);
             }
         }
-
-
-
 
 
     }//GEN-LAST:event_blacklistdonerButtonActionPerformed
@@ -595,46 +623,72 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
     private void generateLabelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateLabelButtonActionPerformed
 
+        if(!discardPacketCheckBox.isSelected() && dtm.getRowCount() == 0){
+            JOptionPane.showMessageDialog(this, "Please specify the test results!", "", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         String packetID = (String) packetIDListCombo.getSelectedItem();
         String group = (String) bloodGroupCombo.getSelectedItem();
         String groupComment = groupCommentTextField.getText();
-
+        int groupres = 0;
         try {
-            handler.addBloodGroupResult(packetID, group, groupComment);
+            groupres = packetController.setBloodGroup(packetID, group, groupComment);
         } catch (SQLException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
         String date = dateText.getText();
         String doneBy = (String) doneByComboBox.getSelectedItem();
         String checkedBy = (String) checkedByComboBox.getSelectedItem();
 
         int testCount = dtm.getRowCount();
+        int resultres = 1;
         for (int i = 0; i < testCount; i++) {
-            String testName = (String)dtm.getValueAt(i, 0);
-            String result = (String)dtm.getValueAt(i, 1);
-            String comment = (String)dtm.getValueAt(i, 2);
-            
+            String testName = (String) dtm.getValueAt(i, 0);
+            String result = (String) dtm.getValueAt(i, 1);
+            String comment = (String) dtm.getValueAt(i, 2);
+            int res;
             try {
-                handler.addTestResult(testName, packetID, result, comment, date, doneBy, checkedBy);
+                String testID = testController.getTestIDOF(testName);
+                String doneByNic = donorController.getDonorIDOf(doneBy);
+                String checkedByNic = donorController.getDonorIDOf(checkedBy);
+                res = testResultController.addTestResult(new TestResult(null, testID, packetID, result, comment, date, doneByNic, checkedByNic, null));
+                if (res == 0) {
+                    resultres = 0;
+                }
+//                handler.addTestResult(testName, packetID, result, comment, date, doneBy, checkedBy);
             } catch (Exception ex) {
                 Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
             }
+
         }
-        
-        if(discardPacketCheckBox.isSelected()){
+
+        int disres = 0;
+        if (discardPacketCheckBox.isSelected()) {
             try {
-                handler.setPacketDiscarded(packetID,date);
+                disres = packetController.discardPacket(packetID, date);
             } catch (SQLException ex) {
                 Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-                                                 
+
+        if (resultres == 1 && groupres == 1 ) {
+            JOptionPane.showMessageDialog(this, "Results recorded successfully.", "", JOptionPane.INFORMATION_MESSAGE);
+        } else{
+            JOptionPane.showMessageDialog(this, "Error! Failed to record results.", "", JOptionPane.ERROR_MESSAGE);
+        }
+        if(discardPacketCheckBox.isSelected() && disres ==1){
+            JOptionPane.showMessageDialog(this, "Packet marked as discarded successfully.", "", JOptionPane.INFORMATION_MESSAGE);
+        }else if (discardPacketCheckBox.isSelected() && disres ==0){
+            JOptionPane.showMessageDialog(this, "Error! Failed to mark packet as discarded.", "", JOptionPane.ERROR_MESSAGE);
+        }
+        
+
 
     }//GEN-LAST:event_generateLabelButtonActionPerformed
 
@@ -649,8 +703,38 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_cancelButtonActionPerformed
 
+    private void addNewTestButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addNewTestButtonActionPerformed
+        this.hide();
+        AddNewTestType newTestForm = null;
+
+        newTestForm = new AddNewTestType(this);
+
+        newTestForm.setClosable(true);
+        newTestForm.setMaximizable(true);
+        pane.add(newTestForm);
+        pane.setRequestFocusEnabled(true);
+        newTestForm.show();
+    }//GEN-LAST:event_addNewTestButtonActionPerformed
+
+    public void updateTestListCombo() {
+        testListCombo.removeAllItems();
+        String[] testList = null;
+
+        try {
+            testList = testController.getTestList();
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (String test : testList) {
+            testListCombo.addItem(test);
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton addNewTestButton;
     private javax.swing.JButton addToListButton;
     private javax.swing.JButton blacklistdonerButton;
     private javax.swing.JComboBox bloodGroupCombo;
@@ -665,7 +749,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
     private javax.swing.JButton generateLabelButton;
     private javax.swing.JTextField groupCommentTextField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;

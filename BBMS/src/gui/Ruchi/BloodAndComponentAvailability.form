@@ -55,8 +55,6 @@
               <EmptySpace max="32767" attributes="0"/>
               <Component id="markUncrossMatchedButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="markCrossMatchedButton" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButton1" linkSize="2" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jButton2" linkSize="2" min="-2" max="-2" attributes="0"/>
@@ -88,11 +86,10 @@
               </Group>
               <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
               <Component id="jPanel5" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="10" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="markCrossMatchedButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="markUncrossMatchedButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -346,14 +343,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton2ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="markCrossMatchedButton">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Mark Cross Matched"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="markCrossMatchedButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="markUncrossMatchedButton">
