@@ -16,9 +16,10 @@
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Upekka/DeleteDonorForm.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/Controller/Upekka/DonorDA.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/AvailabilityDA.java</file>
+            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/model/DonorRegisterRecord.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/model/BloodStockHistory.java</file>
-            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/Controller/Anu/BloodPacketDA.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Upekka/FormFilledByDonor.java</file>
+            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/Controller/Anu/BloodPacketDA.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Anu/AddBloodGroups.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/BloodAndComponentAvailability.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/connection/DBHandler.java</file>
@@ -29,12 +30,10 @@
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Naduni/MedicalOfficer.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Upekka/UpdateDonorForm.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/CrossMatch.java</file>
-            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/AvailabilityHandler.java</file>
-            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/model/Donor.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/model/ComponentStockHistory.java</file>
+            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/model/Donor.java</file>
+            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Ruchi/AvailabilityHandler.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/model/BloodPacket.java</file>
-            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Upekka/TestMain.java</file>
-            <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Upekka/DonarRegister.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/Controller/RecordCounter.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Login.java</file>
             <file>file:/C:/Users/Upekka/ZETA-Blood-Bank-Management-System/BBMS/src/gui/Administrator.java</file>
