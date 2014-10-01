@@ -237,6 +237,11 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         jLabel2.setBounds(420, 0, 530, 50);
 
         deleteDonorButton.setText("Delete Donor");
+        deleteDonorButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteDonorButtonActionPerformed(evt);
+            }
+        });
         jLayeredPane1.add(deleteDonorButton);
         deleteDonorButton.setBounds(0, 150, 200, 30);
 
@@ -283,13 +288,17 @@ public class RegistrationOfficer extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLayeredPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1370, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -373,13 +382,22 @@ public class RegistrationOfficer extends javax.swing.JFrame {
 }//GEN-LAST:event_jButton3ActionPerformed
 
     private void updateDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDonorButtonActionPerformed
-        UpdateDonor update = new UpdateDonor();
+        UpdateDonorForm update = new UpdateDonorForm();
         update.setClosable(true);
         update.setMaximizable(true);
         jDesktopPane1.add(update);
         jDesktopPane1.setRequestFocusEnabled(true);
         update.show();
     }//GEN-LAST:event_updateDonorButtonActionPerformed
+
+    private void deleteDonorButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteDonorButtonActionPerformed
+        DeleteDonorForm deleteDonor = new DeleteDonorForm();
+        deleteDonor.setClosable(true);
+        deleteDonor.setMaximizable(true);
+        jDesktopPane1.add(deleteDonor);
+        jDesktopPane1.setRequestFocusEnabled(true);
+        deleteDonor.show();
+    }//GEN-LAST:event_deleteDonorButtonActionPerformed
 
     /**
     * @param args the command line arguments
