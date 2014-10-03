@@ -39,7 +39,7 @@ public class TestController {
     }
     
     public String[] getTestList() throws SQLException, ClassNotFoundException {
-        String query = "Select * From test";
+        String query = "Select * From test Order By TestID";
         Connection connection = DBConnection.getConnectionToDB();
         ResultSet rst = DBHandler.getData(connection, query);
         
@@ -64,5 +64,19 @@ public class TestController {
             id = data.getString("TestID");
         }
         return id;
+    }
+
+    public int updateTest(String oldValue, String input) throws ClassNotFoundException, SQLException {
+        String query = "Update test Set Name = '"+input+"' where Name = '"+oldValue+"'"; 
+        Connection connection = DBConnection.getConnectionToDB();
+        int res = DBHandler.setData(connection, query);
+        return res;
+    }
+    
+    public int deleteTest(String name) throws ClassNotFoundException, SQLException {
+        String query = "DELETE from test where Name = '"+name+"'"; 
+        Connection connection = DBConnection.getConnectionToDB();
+        int res = DBHandler.setData(connection, query);
+        return res;
     }
 }

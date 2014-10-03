@@ -21,6 +21,8 @@ import gui.Ruchi.BloodAndComponentAvailability;
 import gui.Ruchi.BloodGroupingAndTTI;
 import gui.Ruchi.BloodRequest;
 import gui.Ruchi.Compatability2;
+import gui.Ruchi.DeleteTest;
+import gui.Ruchi.GroupingAndTTIRegister;
 import gui.Ruchi.Requests;
 import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
@@ -47,19 +49,19 @@ public class MedicalOfficer extends javax.swing.JFrame {
      * Creates new form MedicalOfficer
      */
     public MedicalOfficer() throws IOException {
-        initComponents();       
+        initComponents();
 
         File imgfile = new File("..\\BBMS\\src\\images\\drop.png");
         FileInputStream imgStream = new FileInputStream(imgfile);
         BufferedImage bi = ImageIO.read(imgStream);
         ImageIcon myImg = new ImageIcon(bi);
         this.setIconImage(myImg.getImage());
-        
+
         Initial first = new Initial(desktopPane.getSize());
         desktopPane.removeAll();
         desktopPane.add(first);
         first.setVisible(true);
-        
+
         setLocationRelativeTo(null);
 
     }
@@ -83,7 +85,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jButton18 = new javax.swing.JButton();
         jButton25 = new javax.swing.JButton();
         jButton32 = new javax.swing.JButton();
-        jButton33 = new javax.swing.JButton();
+        groupingAndTTIRegButton = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
         jButton26 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
@@ -108,6 +110,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jButton15 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -165,15 +168,15 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(jButton32);
         jButton32.setBounds(0, 160, 200, 30);
 
-        jButton33.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton33.setText("Adverse Events");
-        jButton33.addActionListener(new java.awt.event.ActionListener() {
+        groupingAndTTIRegButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        groupingAndTTIRegButton.setText("TTI Register");
+        groupingAndTTIRegButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton33ActionPerformed(evt);
+                groupingAndTTIRegButtonActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton33);
-        jButton33.setBounds(0, 130, 200, 30);
+        jLayeredPane1.add(groupingAndTTIRegButton);
+        groupingAndTTIRegButton.setBounds(0, 130, 200, 30);
 
         jButton34.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton34.setText("Compatibility");
@@ -417,6 +420,16 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(jPanel1);
         jPanel1.setBounds(-10, 490, 210, 160);
 
+        jButton5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton5.setText("Delete/Update Test");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(jButton5);
+        jButton5.setBounds(0, 460, 200, 30);
+
         jMenuBar1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
         jMenu1.setText("File");
@@ -566,14 +579,20 @@ public class MedicalOfficer extends javax.swing.JFrame {
         p.show();
 }//GEN-LAST:event_jButton3ActionPerformed
 
-    private void jButton33ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton33ActionPerformed
-        AdverseEvent event= new AdverseEvent(desktopPane.getSize());
-        event.setClosable(true);
-        event.setMaximizable(true);
-        desktopPane.add(event);
+    private void groupingAndTTIRegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupingAndTTIRegButtonActionPerformed
+        GroupingAndTTIRegister register = new GroupingAndTTIRegister();
+        register.setClosable(true);
+        register.setMaximizable(true);
+        
+        desktopPane.add(register);
         desktopPane.setRequestFocusEnabled(true);
-        event.show();
-    }//GEN-LAST:event_jButton33ActionPerformed
+        try {
+            register.setMaximum(true);
+        } catch (PropertyVetoException ex) {
+            Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        register.show();
+    }//GEN-LAST:event_groupingAndTTIRegButtonActionPerformed
 
     private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
         Immunohaematology im = new Immunohaematology(desktopPane.getSize());
@@ -642,6 +661,15 @@ public class MedicalOfficer extends javax.swing.JFrame {
         platelet.show();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        DeleteTest window = new DeleteTest();
+        window.setClosable(true);
+        window.setMaximizable(true);
+        desktopPane.add(window);
+        desktopPane.setRequestFocusEnabled(true);
+        window.show();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -660,6 +688,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BloodGroupButton;
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JButton groupingAndTTIRegButton;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -678,9 +707,9 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton32;
-    private javax.swing.JButton jButton33;
     private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;

@@ -236,6 +236,9 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testListComboActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="negativeRadioButton">
           <Properties>

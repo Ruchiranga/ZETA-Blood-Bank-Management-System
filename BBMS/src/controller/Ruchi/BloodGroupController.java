@@ -24,9 +24,15 @@ public class BloodGroupController {
         Connection connection = DBConnection.getConnectionToDB();
         rst = DBHandler.getData(connection, query);
         int count = RecordCounter.getRecordCount(rst);
-        String[] groups = new String[count];
+        String[] groups = new String[count-1];
         for (int i = 0; rst.next(); i++) {
-            groups[i] = rst.getString(1);
+            String group = rst.getString(1);
+            if (!group.equals("UG")) {
+                groups[i] = group;
+            }else{
+                i--;
+                continue;
+            }
         }
         return groups;
     }

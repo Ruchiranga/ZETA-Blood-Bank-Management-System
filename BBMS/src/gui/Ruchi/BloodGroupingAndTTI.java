@@ -31,8 +31,7 @@ import model.TestResult;
  */
 public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
-    BloodGroupingAndTTIHandler handler;
-
+//    BloodGroupingAndTTIHandler handler;
     DefaultTableModel dtm;
     JDesktopPane pane;
     BloodPacketController packetController;
@@ -55,13 +54,13 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         employeeController = new EmployeeController();
         donorController = new DonorController();
         testResultController = new TestResultController();
-        try {
-            handler = new BloodGroupingAndTTIHandler();
-        } catch (SQLException ex) {
-            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
-        }
+//        try {
+//            handler = new BloodGroupingAndTTIHandler();
+//        } catch (SQLException ex) {
+//            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+//        } catch (ClassNotFoundException ex) {
+//            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+//        }
 
         String[] packetList = null;
         try {
@@ -193,6 +192,12 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         jLabel7.setText("Result");
 
         jLabel8.setText("Special Comments");
+
+        testListCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testListComboActionPerformed(evt);
+            }
+        });
 
         negativeRadioButton.setText("Negative");
 
@@ -585,49 +590,70 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_blacklistdonerButtonActionPerformed
 
     private void addToListButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addToListButtonActionPerformed
-        String testName = (String) testListCombo.getSelectedItem();
-        String result = null;
-        String comments = null;
+        if (testListCombo.getItemCount() > 0) {
+            testListCombo.setEnabled(true);
+            String testName = (String) testListCombo.getSelectedItem();
+            String result = null;
+            String comments = null;
 
-        if (negativeRadioButton.isSelected()) {
-            result = "Negative";
+            if (negativeRadioButton.isSelected()) {
+                result = "Negative";
+            } else {
+                result = "Positive";
+            }
+
+            if (commentsTextField.getText().isEmpty()) {
+                comments = "None";
+            } else {
+                comments = commentsTextField.getText();
+            }
+            String[] row = {testName, result, comments};
+            dtm.addRow(row);
+
+            testListCombo.removeItemAt(testListCombo.getSelectedIndex());
+
+            if (dtm.getRowCount() > 0) {
+                deleteRowButton.setEnabled(true);
+            } else {
+                deleteRowButton.setEnabled(false);
+            }
+
+            commentsTextField.setText("");
         } else {
-            result = "Positive";
+            testListCombo.setEnabled(false);
         }
 
-        if (commentsTextField.getText().isEmpty()) {
-            comments = "None";
-        } else {
-            comments = commentsTextField.getText();
-        }
-        String[] row = {testName, result, comments};
-        dtm.addRow(row);
-
-        if (dtm.getRowCount() > 0) {
-            deleteRowButton.setEnabled(true);
-        } else {
-            deleteRowButton.setEnabled(false);
-        }
-
-        commentsTextField.setText("");
     }//GEN-LAST:event_addToListButtonActionPerformed
 
     private void deleteRowButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteRowButtonActionPerformed
-        dtm.removeRow(dtm.getRowCount() - 1);
-        if (dtm.getRowCount() > 0) {
-            deleteRowButton.setEnabled(true);
+        int selectedRow = testTable.getSelectedRow();
+        if (selectedRow < 0) {
+            JOptionPane.showMessageDialog(this, "Please select row to delete!", "", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            deleteRowButton.setEnabled(false);
+            String test = (String) dtm.getValueAt(selectedRow, 0);
+            dtm.removeRow(selectedRow);
+            testListCombo.addItem(test);
+            if (dtm.getRowCount() > 0) {
+                deleteRowButton.setEnabled(true);
+            } else {
+                deleteRowButton.setEnabled(false);
+            }
         }
+        if (testListCombo.getItemCount() > 0) {
+            testListCombo.setEnabled(true);
+        } else {
+            testListCombo.setEnabled(false);
+        }
+
     }//GEN-LAST:event_deleteRowButtonActionPerformed
 
     private void generateLabelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateLabelButtonActionPerformed
 
-        if(!discardPacketCheckBox.isSelected() && dtm.getRowCount() == 0){
+        if (!discardPacketCheckBox.isSelected() && dtm.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Please specify the test results!", "", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         String packetID = (String) packetIDListCombo.getSelectedItem();
         String group = (String) bloodGroupCombo.getSelectedItem();
         String groupComment = groupCommentTextField.getText();
@@ -653,8 +679,8 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             int res;
             try {
                 String testID = testController.getTestIDOF(testName);
-                String doneByNic = donorController.getDonorIDOf(doneBy);
-                String checkedByNic = donorController.getDonorIDOf(checkedBy);
+                String doneByNic = employeeController.getIDOf(doneBy);
+                String checkedByNic = employeeController.getIDOf(checkedBy);
                 res = testResultController.addTestResult(new TestResult(null, testID, packetID, result, comment, date, doneByNic, checkedByNic, null));
                 if (res == 0) {
                     resultres = 0;
@@ -677,17 +703,16 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             }
         }
 
-        if (resultres == 1 && groupres == 1 ) {
+        if (resultres == 1 && groupres == 1) {
             JOptionPane.showMessageDialog(this, "Results recorded successfully.", "", JOptionPane.INFORMATION_MESSAGE);
-        } else{
+        } else {
             JOptionPane.showMessageDialog(this, "Error! Failed to record results.", "", JOptionPane.ERROR_MESSAGE);
         }
-        if(discardPacketCheckBox.isSelected() && disres ==1){
-            JOptionPane.showMessageDialog(this, "Packet marked as discarded successfully.", "", JOptionPane.INFORMATION_MESSAGE);
-        }else if (discardPacketCheckBox.isSelected() && disres ==0){
+        if (discardPacketCheckBox.isSelected() && disres == 1) {
+            JOptionPane.showMessageDialog(this, "Packet marked as discarded.", "", JOptionPane.INFORMATION_MESSAGE);
+        } else if (discardPacketCheckBox.isSelected() && disres == 0) {
             JOptionPane.showMessageDialog(this, "Error! Failed to mark packet as discarded.", "", JOptionPane.ERROR_MESSAGE);
         }
-        
 
 
     }//GEN-LAST:event_generateLabelButtonActionPerformed
@@ -716,6 +741,16 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         newTestForm.show();
     }//GEN-LAST:event_addNewTestButtonActionPerformed
 
+    private void testListComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testListComboActionPerformed
+        if (testListCombo.getItemCount() == 0) {
+            addToListButton.setEnabled(false);
+            testListCombo.setEnabled(false);
+        } else {
+            addToListButton.setEnabled(true);
+            testListCombo.setEnabled(true);
+        }
+    }//GEN-LAST:event_testListComboActionPerformed
+
     public void updateTestListCombo() {
         testListCombo.removeAllItems();
         String[] testList = null;
@@ -729,7 +764,16 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         }
 
         for (String test : testList) {
-            testListCombo.addItem(test);
+            boolean added = false;
+            for (int i = 0; i < dtm.getRowCount(); i++) {
+                if (((String) dtm.getValueAt(i, 0)).equals(test)) {
+                    added = true;
+                }
+            }
+            if (!added
+                    ) {
+                testListCombo.addItem(test);
+            }
         }
     }
 
