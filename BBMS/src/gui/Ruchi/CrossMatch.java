@@ -475,7 +475,7 @@ public class CrossMatch extends javax.swing.JInternalFrame {
             }
         });
 
-        markCrossMatchedButton.setText("Mark Crossmatcehd");
+        markCrossMatchedButton.setText("Mark Crossmatched");
         markCrossMatchedButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 markCrossMatchedButtonActionPerformed(evt);

@@ -32,10 +32,30 @@ public class SampleDetailController {
     }
 
     public ResultSet getDetailsOf(String requestNo) throws ClassNotFoundException, SQLException {
-        String query = "Select * From sampledetail where RequestNo = '"+requestNo+"'";
+        String query = "Select * From sampledetail where RequestNo = '" + requestNo + "'";
         Connection connection = DBConnection.getConnectionToDB();
         ResultSet rst = DBHandler.getData(connection, query);
         rst.next();
         return rst;
+    }
+
+    public int[][] getYearlyRequestCountsOf(int month) throws ClassNotFoundException, SQLException {
+        String query = "select Year(Date) as Year, Month(Date) as Month, count(Date) as Count from sampledetail Group by Year(date),Month(Date) Having Month = " + month;
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet data = DBHandler.getData(connection, query);
+        int recordCount = RecordCounter.getRecordCount(data);
+
+        if (recordCount == 0) {
+            return null;
+        }
+
+        int[] years = new int[recordCount];
+        int[] counts = new int[recordCount];
+
+        for (int i = 0; data.next(); i++) {
+            years[i] = data.getInt("Year");
+            counts[i] = data.getInt("Count");
+        }
+        return new int[][]{years, counts};
     }
 }

@@ -72,6 +72,8 @@ public class Requests extends javax.swing.JInternalFrame {
         jPanel3 = new javax.swing.JPanel();
         requestNoComboBox = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        dateText = new javax.swing.JTextField();
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -198,6 +200,10 @@ public class Requests extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Request No.");
 
+        jLabel7.setText("Date");
+
+        dateText.setEnabled(false);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -207,7 +213,11 @@ public class Requests extends javax.swing.JInternalFrame {
                 .addComponent(jLabel8)
                 .addGap(18, 18, 18)
                 .addComponent(requestNoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(42, 42, 42)
+                .addComponent(jLabel7)
+                .addGap(18, 18, 18)
+                .addComponent(dateText)
+                .addContainerGap())
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +225,9 @@ public class Requests extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(requestNoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7)
+                    .addComponent(dateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -293,6 +305,7 @@ public class Requests extends javax.swing.JInternalFrame {
             bhtText.setText(result.getString("BHTNo"));
             hospitalText.setText(result.getString("Hospital"));
             groupText.setText(result.getString("BloodGroup"));
+            dateText.setText(result.getDate("Date").toString());
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -309,6 +322,7 @@ public class Requests extends javax.swing.JInternalFrame {
     private javax.swing.JTextField bhtText;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton crossmatchButton;
+    private javax.swing.JTextField dateText;
     private javax.swing.JTextField groupText;
     private javax.swing.JTextField hospitalText;
     private javax.swing.JLabel jLabel1;
@@ -317,6 +331,7 @@ public class Requests extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
