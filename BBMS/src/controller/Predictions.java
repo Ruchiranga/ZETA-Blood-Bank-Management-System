@@ -17,11 +17,14 @@ import java.sql.SQLException;
  */
 public class Predictions {
 
-    public static int getPredictedRequestsOf(int year,int month) throws ClassNotFoundException, SQLException {
+    public static int getPredictedRequestsOf(int year, int month) throws ClassNotFoundException, SQLException {
         String query = "select Year(Date) as Year, Month(Date) as Month, count(Date) as Count from sampledetail Group by Year(date),Month(Date) Having Month = " + month;
         Connection connection = DBConnection.getConnectionToDB();
         ResultSet data = DBHandler.getData(connection, query);
         int recordCount = RecordCounter.getRecordCount(data);
+        if (recordCount == 0) {
+            return 0;
+        }
         int[] years = new int[recordCount];
         int[] counts = new int[recordCount];
 
@@ -40,15 +43,13 @@ public class Predictions {
             sumxy += years[i] * counts[i];
             sumx += years[i];
             sumy += counts[i];
-            sumxsqrd += years[i]*years[i];
+            sumxsqrd += years[i] * years[i];
         }
-        
 
+        double a = (n * sumxy - sumx * sumy) / (double) (n * sumxsqrd - (sumx * sumx));
+        double b = (double) (sumy / n) - a * (sumx / n);
 
-        double a = (n*sumxy - sumx*sumy)/(double)(n*sumxsqrd-(sumx*sumx));
-        double b = (double)(sumy/n)-a*(sumx/n);
-        
-        double expected = a*year+b;
+        double expected = a * year + b;
 
         return (int) Math.round(expected);
     }

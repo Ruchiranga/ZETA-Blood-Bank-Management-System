@@ -10,6 +10,7 @@
  */
 package gui;
 
+import gui.Naduni.IssueChart;
 import gui.Naduni.MedicalOfficer;
 import gui.Ruchi.PredictRequests;
 import java.awt.image.BufferedImage;
@@ -61,7 +62,7 @@ public class Administrator extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jDesktopPane1 = new javax.swing.JDesktopPane();
+        desktopPane = new javax.swing.JDesktopPane();
         jLabel3 = new javax.swing.JLabel();
         jButton15 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
@@ -85,6 +86,7 @@ public class Administrator extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jButton26 = new javax.swing.JButton();
         jButton34 = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -96,17 +98,17 @@ public class Administrator extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jDesktopPane1.setBorder(new javax.swing.border.MatteBorder(new javax.swing.ImageIcon(getClass().getResource("/images/red-blood-cells.png")))); // NOI18N
+        desktopPane.setBorder(new javax.swing.border.MatteBorder(new javax.swing.ImageIcon(getClass().getResource("/images/red-blood-cells.png")))); // NOI18N
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Vijaya", 1, 36)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Administrator");
-        jDesktopPane1.add(jLabel3);
+        desktopPane.add(jLabel3);
         jLabel3.setBounds(390, 0, 290, 50);
 
-        jLayeredPane1.add(jDesktopPane1);
-        jDesktopPane1.setBounds(200, 60, 1170, 650);
+        jLayeredPane1.add(desktopPane);
+        desktopPane.setBounds(200, 60, 1170, 650);
 
         jButton15.setText("Blood Collection Statistics");
         jButton15.addActionListener(new java.awt.event.ActionListener() {
@@ -304,6 +306,15 @@ public class Administrator extends javax.swing.JFrame {
         jLayeredPane1.add(jButton34);
         jButton34.setBounds(0, 180, 200, 30);
 
+        jButton1.setText("Issue Charts");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(jButton1);
+        jButton1.setBounds(0, 350, 200, 30);
+
         jMenu1.setText("File");
 
         jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
@@ -355,7 +366,7 @@ public class Administrator extends javax.swing.JFrame {
     private void requestsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestsButtonActionPerformed
         PredictRequests pred = new PredictRequests();
         pred.setClosable(true);
-        jDesktopPane1.add(pred);
+        desktopPane.add(pred);
         pred.show();
 }//GEN-LAST:event_requestsButtonActionPerformed
 
@@ -363,8 +374,8 @@ public class Administrator extends javax.swing.JFrame {
         //        try {
         //            StockBalance2 stock2 = new StockBalance2();
         //            stock2.setClosable(true);
-        //            jDesktopPane1.add(stock2);
-        //            jDesktopPane1.setRequestFocusEnabled(true);
+        //            desktopPane.add(stock2);
+        //            desktopPane.setRequestFocusEnabled(true);
         //            stock2.show();
         //        } catch (IOException ex) {
         //            Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
@@ -403,7 +414,7 @@ public class Administrator extends javax.swing.JFrame {
         try {
             ChangePassword p = new ChangePassword();
             p.setClosable(true);
-            jDesktopPane1.add(p);
+            desktopPane.add(p);
             p.show();
         } catch (IOException ex) {
             Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
@@ -433,7 +444,7 @@ public class Administrator extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Personalize p = new Personalize(this, true);
         p.setClosable(true);
-        jDesktopPane1.add(p);
+        desktopPane.add(p);
         p.show();
 }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -453,6 +464,14 @@ public class Administrator extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton16ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        IssueChart issue = new IssueChart(desktopPane.getSize());
+        issue.setClosable(true);
+        desktopPane.add(issue);
+        desktopPane.setRequestFocusEnabled(true);
+        issue.show();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -469,6 +488,8 @@ public class Administrator extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
@@ -489,7 +510,6 @@ public class Administrator extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JButton jButton9;
-    private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLayeredPane jLayeredPane1;

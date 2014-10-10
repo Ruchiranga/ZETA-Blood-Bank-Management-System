@@ -3,18 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.Anu;
 
-import controller.anu.BloodPacketDA;
+import Controller.IDGenerator;
+import Controller.anu.BloodGroupDA;
+import Controller.anu.BloodPacketDA;
+import Controller.anu.BloodRecievedDetailController;
+import Controller.anu.BloodTypeDA;
+import Controller.anu.DonorDA;
+import Controller.anu.TestController;
+import Controller.anu.TestResultController;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.BloodPacket;
+import model.BloodrecievedDetail;
+import model.TestResult;
 
 /**
  *
@@ -25,12 +37,76 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
     /**
      * Creates new form RecievedBloodPacket
      */
-    
+    BloodRecieval recievalForm;
+    String recievedID = "";
+    String form = "";
     String[] title = {"TTI Results"};
     DefaultTableModel dtm = new DefaultTableModel(title, 0);
-    
-    public RecievedBloodPacket(BloodRecieval recievalForm) {
+
+    public RecievedBloodPacket(String form, BloodRecieval recievalForm, String recievedID) {
         initComponents();
+        this.form = form;
+        this.recievedID = recievedID;
+        this.recievalForm = recievalForm;
+        setBloodTypeCombo(bloodTypeCombo);
+        setBloodGroupCombo(groupCombo);
+        setTestCombo(TestsCombo);
+
+        Calendar currenttime = Calendar.getInstance();
+        java.util.Date today = new java.util.Date((currenttime.getTime()).getTime());
+        dateOfCollectionCalendar.setDate(today);
+        dateOfExpiryCalendar.setDate(today);
+    }
+
+    private void setTestCombo(JComboBox combo) {
+        try {
+            combo.removeAllItems();
+            ResultSet rst = null;
+            rst = TestController.getAllTests();
+
+            while (rst.next()) {
+                combo.addItem(rst.getString("Name"));
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void setBloodTypeCombo(JComboBox combo) {
+        try {
+            combo.removeAllItems();
+            ResultSet rst = null;
+            rst = BloodTypeDA.getAllTypes();
+
+            while (rst.next()) {
+                combo.addItem(rst.getString("BloodType"));
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private void setBloodGroupCombo(JComboBox combo) {
+        try {
+            combo.removeAllItems();
+            ResultSet rst = null;
+            rst = BloodGroupDA.getAllGroups();
+
+            while (rst.next()) {
+                combo.addItem(rst.getString("GroupName"));
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -52,20 +128,20 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         groupCombo = new javax.swing.JComboBox();
-        nicText = new javax.swing.JTextField();
+        donorNameText = new javax.swing.JTextField();
         addBtn = new javax.swing.JButton();
         dateOfCollectionCalendar = new com.toedter.calendar.JDateChooser();
         dateOfExpiryCalendar = new com.toedter.calendar.JDateChooser();
         jLabel22 = new javax.swing.JLabel();
         bloodTypeCombo = new javax.swing.JComboBox();
         jLabel7 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        addBtn2 = new javax.swing.JButton();
+        TestsCombo = new javax.swing.JComboBox();
+        addResultBtn = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
-        nicText2 = new javax.swing.JTextField();
+        commentText = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        addBtn3 = new javax.swing.JButton();
+        ttiTable = new javax.swing.JTable();
+        removeResultBtn = new javax.swing.JButton();
         jLabel51 = new javax.swing.JLabel();
 
         jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
@@ -109,25 +185,25 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
 
         jLabel7.setText("TTI Results");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TTI Tests" }));
+        TestsCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "TTI Tests" }));
 
-        addBtn2.setText("Add Result");
-        addBtn2.addActionListener(new java.awt.event.ActionListener() {
+        addResultBtn.setText("Add Result");
+        addResultBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtn2ActionPerformed(evt);
+                addResultBtnActionPerformed(evt);
             }
         });
 
         jLabel5.setText("Remarks");
 
-        jTable1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
-        jTable1.setModel(dtm);
-        jScrollPane1.setViewportView(jTable1);
+        ttiTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
+        ttiTable.setModel(dtm);
+        jScrollPane1.setViewportView(ttiTable);
 
-        addBtn3.setText("Remove Result");
-        addBtn3.addActionListener(new java.awt.event.ActionListener() {
+        removeResultBtn.setText("Remove Result");
+        removeResultBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addBtn3ActionPerformed(evt);
+                removeResultBtnActionPerformed(evt);
             }
         });
 
@@ -149,10 +225,8 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(80, 80, 80)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addComponent(packIDText, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
-                                    .addComponent(nicText)))
+                                    .addComponent(donorNameText)
+                                    .addComponent(packIDText)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -161,16 +235,16 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
                                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(30, 30, 30)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nicText2)
+                                    .addComponent(commentText)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(dateOfExpiryCalendar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(dateOfCollectionCalendar, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(0, 0, Short.MAX_VALUE))
+                                        .addGap(0, 87, Short.MAX_VALUE))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addComponent(TestsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(40, 40, 40)
@@ -184,8 +258,8 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(addBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(removeResultBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addResultBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
@@ -205,7 +279,7 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
                                 .addComponent(bloodTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(nicText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(donorNameText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -227,13 +301,13 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(addBtn2))
+                                    .addComponent(TestsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(addResultBtn))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(addBtn3)))
+                                .addComponent(removeResultBtn)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(nicText2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(commentText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addBtn))))
                 .addContainerGap(28, Short.MAX_VALUE))
@@ -262,7 +336,7 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
                 .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Add Blood Packet", jPanel11);
@@ -292,28 +366,152 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_packIDTextActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
-        
+        try {
+            String packetID = packIDText.getText();
+            String donorName = donorNameText.getText();
+            String bloodGroup = "" + groupCombo.getSelectedItem();
+            String bloodType = "" + bloodTypeCombo.getSelectedItem();
+
+            /*Collection date*/
+            java.util.Date dateC = dateOfCollectionCalendar.getDate();
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String dateCollection = df.format(dateC);
+            java.sql.Date sqlDateC = new java.sql.Date(dateC.getTime());
+
+            /*Expiry date*/
+            java.util.Date dateE = dateOfExpiryCalendar.getDate();
+            String dateExpiry = df.format(dateE);
+
+            java.sql.Date sqlDateE = new java.sql.Date(dateE.getTime());
+
+            String comment = commentText.getText();
+
+            String[] tests = new String[dtm.getRowCount()];   //Tests want to update test result table also
+
+            int testCount;
+            String testResults = "";
+
+            if (dtm.getRowCount() >= 0) {
+                testResults = testResults + dtm.getValueAt(0, 0);
+                for (int i = 1; i < dtm.getRowCount(); i++) {
+                    tests[i] = "" + dtm.getValueAt(i, 0);
+                    testResults = testResults + "," + dtm.getValueAt(i, 0);
+                }
+            }
+
+            if (form.equalsIgnoreCase("Add")) {
+
+                recievalForm.setData(packetID, donorName, bloodGroup, bloodType, dateCollection, dateExpiry, testResults, comment);
+                this.dispose();
+            } else if (form.equalsIgnoreCase("Update")) {
+                BloodrecievedDetail detail = new BloodrecievedDetail(recievedID, packetID);
+                int donor_nic;
+
+                do {
+
+                    Random r = new Random();
+                    donor_nic = Math.abs((r.nextInt() % 1000000000)) + 1;
+
+                } while (DonorDA.isNicDuplicate(donor_nic));
+
+                String donorNic = "" + donor_nic + "-";
+                System.out.println("NIC : " + donorNic);
+
+                int res_donor = 0;
+                int res_bloodPacket = 0;
+                int res_bloodPacketRecievedDetail = 0;
+
+                res_donor += DonorDA.addDonorFromOtherBloodBank(donorNic, donorName);
+
+                BloodPacket newPacket = new BloodPacket(packetID, donorNic, recievedID, sqlDateC, sqlDateE, bloodType, (byte) 0, (byte) 0, (byte) 0, null, (byte) 0, bloodGroup, null, null, null, comment, null);
+
+                res_bloodPacket += BloodPacketDA.addRecievedPacket(newPacket);
+                res_bloodPacketRecievedDetail += BloodRecievedDetailController.addDetail(detail);
+
+                //=========================================================================================
+                int res_Test = 0;
+                for (int j = 0; j < tests.length; j++) {
+
+                    //finding testResultID
+                    String testResultID = "";
+                    ResultSet rst_testResult;
+                    rst_testResult = TestResultController.getAllTests();
+                    rst_testResult.last();
+                    String curTestResultID = null;
+                    try {
+                        curTestResultID = rst_testResult.getString("ResultID");
+                        try {
+                            testResultID = IDGenerator.generateNextID(curTestResultID);
+                        } catch (Exception ex) {
+                            Logger.getLogger(BloodReturn.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } catch (SQLException e) {
+                        testResultID = "RS00000001";
+                    }
+
+                    String test = tests[j];
+                    String testId = TestController.getTestID(test);
+
+                    if (testId != null) {
+                        TestResult result = new TestResult(testResultID, testId, packetID, "negative", "None", null, null, null, null);
+                        res_Test += TestResultController.addTestResultOfRecievedBloodPackets(result);
+                    }
+
+                }
+
+                if ((res_donor + res_bloodPacket + res_bloodPacketRecievedDetail) == 3  && res_Test > 0) {
+                    JOptionPane.showMessageDialog(null, "Successfully updated");
+                    recievalForm.setUpdateNewPacketData(packetID, donorName, bloodGroup, bloodType, dateCollection, dateExpiry, testResults, comment);
+                    this.dispose();
+
+                }else{
+                    JOptionPane.showMessageDialog(null, "Error occured while updating!");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "An error occured!");
+            }
+
+            //============================================================================================
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(RecievedBloodPacket.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RecievedBloodPacket.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }//GEN-LAST:event_addBtnActionPerformed
 
-    private void addBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtn2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addBtn2ActionPerformed
+    private void addResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addResultBtnActionPerformed
+        if (TestsCombo.getSelectedItem() != null) {
+            String[] test = new String[1];
+            test[0] = "" + TestsCombo.getSelectedItem();
+            TestsCombo.removeItem(TestsCombo.getSelectedItem());
+            dtm.addRow(test);
+        }
+    }//GEN-LAST:event_addResultBtnActionPerformed
 
-    private void addBtn3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtn3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_addBtn3ActionPerformed
+    private void removeResultBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeResultBtnActionPerformed
+        int row = ttiTable.getSelectedRow();
+
+        if (row >= 0) {
+            TestsCombo.addItem(dtm.getValueAt(row, 0));
+            dtm.removeRow(row);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Select a row");
+        }
+    }//GEN-LAST:event_removeResultBtnActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox TestsCombo;
     private javax.swing.JButton addBtn;
-    private javax.swing.JButton addBtn2;
-    private javax.swing.JButton addBtn3;
+    private javax.swing.JButton addResultBtn;
     private javax.swing.JComboBox bloodTypeCombo;
+    private javax.swing.JTextField commentText;
     private com.toedter.calendar.JDateChooser dateOfCollectionCalendar;
     private com.toedter.calendar.JDateChooser dateOfExpiryCalendar;
+    private javax.swing.JTextField donorNameText;
     private javax.swing.JComboBox groupCombo;
-    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel3;
@@ -327,9 +525,8 @@ public class RecievedBloodPacket extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel11;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane3;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField nicText;
-    private javax.swing.JTextField nicText2;
     private javax.swing.JTextField packIDText;
+    private javax.swing.JButton removeResultBtn;
+    private javax.swing.JTable ttiTable;
     // End of variables declaration//GEN-END:variables
 }

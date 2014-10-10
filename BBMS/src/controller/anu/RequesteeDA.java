@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package controller.anu;
+package Controller.anu;
 
 import connection.DBConnection;
 import connection.DBHandler;

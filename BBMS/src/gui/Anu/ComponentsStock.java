@@ -10,8 +10,7 @@
  */
 package gui.Anu;
 
-import controller.anu.BloodPacketDA;
-import java.awt.Dimension;
+import Controller.anu.BloodPacketDA;
 import java.sql.SQLException;
 import java.util.Calendar;
 import java.util.logging.Level;

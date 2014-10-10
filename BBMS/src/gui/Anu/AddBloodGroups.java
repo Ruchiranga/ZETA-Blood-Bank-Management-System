@@ -11,7 +11,7 @@
 
 package gui.Anu;
 
-import controller.anu.BloodGroupDA;
+import Controller.anu.BloodGroupDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;

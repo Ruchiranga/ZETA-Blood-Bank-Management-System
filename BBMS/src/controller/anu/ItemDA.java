@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package controller.anu;
+package Controller.anu;
 
 import connection.DBConnection;
 import connection.DBHandler;
@@ -19,10 +19,30 @@ import model.Item;
 public class ItemDA {
 
     public static int addItem(Item item) throws ClassNotFoundException, SQLException {
-        String query = "Insert into Item(itemID,itemType,description,quantity,units,isReagent) values ('" + item.getItemID() + "','" + item.getItemType() + "','" + item.getDescription() + "','" + item.getQuantity() +"','" + item.getUnits()+ "',"+item.getIsReagent()+ ")";
+        String query = "Insert into Item(itemID,itemType,description,quantity,units,isReagent) values ('" + item.getItemID() + "','" + item.getItemType() + "','" + item.getDescription() + "','" + item.getQty() +"','" + item.getUnits()+ "',"+item.getIsReagent()+ ")";
         Connection connection = DBConnection.getConnectionToDB();
         int res = DBHandler.setData(connection, query);
         return res;
+    }
+    
+    public static int updateItem(Item item) throws ClassNotFoundException, SQLException {
+        String query = "Update Item set itemType = '"+item.getItemType()+"', description = '"+item.getDescription()+"', quantity='"+item.getQty()+"', units='"+item.getUnits()+"', isReagent="+item.getIsReagent()+" where ItemID = '"+item.getItemID()+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        int res = DBHandler.setData(connection, query);
+        return res;
+    }
+    
+    public static int deleteItem(String itemID) throws ClassNotFoundException, SQLException {
+        String query = "Delete from Item where ItemID = '"+itemID+"'";
+        Connection connection = DBConnection.getConnectionToDB();
+        int res = DBHandler.setData(connection, query);
+        return res;
+    }
+    
+    public static ResultSet getResultIDs() throws ClassNotFoundException, SQLException {
+        String query = "Select * From Item order by ItemID";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.getData(connection, query);
     }
 
     public static ResultSet getAllItems() throws ClassNotFoundException, SQLException {

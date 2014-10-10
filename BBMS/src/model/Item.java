@@ -16,12 +16,16 @@ public class Item {
     private String itemType;
     private String description;
     private byte isReagent;
+    private String units;
+    private float qty;
 
-    public Item(String itemID, String itemType, String description, byte isReagent) {
+    public Item(String itemID, String itemType, String description, byte isReagent, String units, float qty) {
         this.itemID = itemID;
         this.itemType = itemType;
         this.description = description;
         this.isReagent = isReagent;
+        this.units = units;
+        this.qty = qty;
     }
 
     /**
@@ -79,6 +83,37 @@ public class Item {
     public void setIsReagent(byte isReagent) {
         this.isReagent = isReagent;
     }
+
+    /**
+     * @return the units
+     */
+    public String getUnits() {
+        return units;
+    }
+
+    /**
+     * @param units the units to set
+     */
+    public void setUnits(String units) {
+        this.units = units;
+    }
+
+    /**
+     * @return the qty
+     */
+    public float getQty() {
+        return qty;
+    }
+
+    /**
+     * @param qty the qty to set
+     */
+    public void setQty(float qty) {
+        this.qty = qty;
+    }
+    
+    
+    
     
     
     

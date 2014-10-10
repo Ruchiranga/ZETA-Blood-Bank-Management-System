@@ -29,11 +29,12 @@ public class SampleDetail {
     private Time collectedTime;
     private String collectedBy;
     private String priority;
+    private Date recievedDate;
 
     public SampleDetail() {
     }
 
-    public SampleDetail(String requestNo, String patientName, String bhtNo, int age, String gender, String bloodGroup, String ward, String weight, String hospital, String diagnosis, String reactionHistory, Date collectedDate, Time collectedTime, String collectedBy, String priority) {
+    public SampleDetail(String requestNo, String patientName, String bhtNo, int age, String gender, String bloodGroup, String ward, String weight, String hospital, String diagnosis, String reactionHistory, Date collectedDate, Time collectedTime, String collectedBy, String priority, Date recievedDate) {
         this.requestNo = requestNo;
         this.patientName = patientName;
         this.bhtNo = bhtNo;
@@ -49,6 +50,7 @@ public class SampleDetail {
         this.collectedTime = collectedTime;
         this.collectedBy = collectedBy;
         this.priority = priority;
+        this.recievedDate = recievedDate;
     }
 
     /**
@@ -259,6 +261,24 @@ public class SampleDetail {
      */
     public void setPriority(String Priority) {
         this.priority = Priority;
+    }
+
+    /**
+     * @return the recievedDate
+     */
+//    public Date getRecievedDate() {
+//        return recievedDate;
+//    }
+
+    /**
+     * @param recievedDate the recievedDate to set
+     */
+    public void setRecievedDate(Date recievedDate) {
+        this.recievedDate = recievedDate;
+    }
+
+    public Date getRecievedDate() {
+        return recievedDate;
     }
     
     

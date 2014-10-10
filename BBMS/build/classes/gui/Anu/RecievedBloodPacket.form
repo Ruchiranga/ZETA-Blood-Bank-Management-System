@@ -89,7 +89,7 @@
                       <Component id="jLabel51" min="-2" pref="46" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="15" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -123,11 +123,8 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="1" attributes="0">
-                                                  <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                                  <Component id="packIDText" pref="263" max="32767" attributes="1"/>
-                                              </Group>
-                                              <Component id="nicText" alignment="0" max="32767" attributes="1"/>
+                                              <Component id="donorNameText" max="32767" attributes="1"/>
+                                              <Component id="packIDText" max="32767" attributes="1"/>
                                           </Group>
                                       </Group>
                                       <Group type="102" attributes="0">
@@ -139,18 +136,18 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="nicText2" max="32767" attributes="1"/>
+                                              <Component id="commentText" max="32767" attributes="1"/>
                                               <Group type="102" attributes="0">
                                                   <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                       <Component id="dateOfExpiryCalendar" alignment="0" max="32767" attributes="1"/>
                                                       <Component id="dateOfCollectionCalendar" alignment="0" min="-2" pref="177" max="-2" attributes="1"/>
                                                   </Group>
-                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                                  <EmptySpace min="0" pref="87" max="32767" attributes="0"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                                  <Component id="jComboBox1" min="-2" pref="104" max="-2" attributes="0"/>
+                                                  <Component id="TestsCombo" min="-2" pref="104" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -171,8 +168,8 @@
                                       <Group type="102" alignment="0" attributes="0">
                                           <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="1" attributes="0">
-                                              <Component id="addBtn3" min="-2" pref="104" max="-2" attributes="0"/>
-                                              <Component id="addBtn2" min="-2" pref="104" max="-2" attributes="0"/>
+                                              <Component id="removeResultBtn" min="-2" pref="104" max="-2" attributes="0"/>
+                                              <Component id="addResultBtn" min="-2" pref="104" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                   </Group>
@@ -202,7 +199,7 @@
                                   </Group>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="1" attributes="0">
-                                      <Component id="nicText" min="-2" max="-2" attributes="0"/>
+                                      <Component id="donorNameText" min="-2" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Component id="jLabel11" alignment="0" min="-2" pref="21" max="-2" attributes="0"/>
                                           <Component id="groupCombo" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -231,16 +228,16 @@
                                       <Component id="jScrollPane1" min="-2" pref="104" max="-2" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Group type="103" groupAlignment="3" attributes="0">
-                                              <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              <Component id="addBtn2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="TestsCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="addResultBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="addBtn3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="removeResultBtn" min="-2" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace pref="23" max="32767" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="nicText2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="commentText" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel5" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                                       <Component id="addBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
@@ -291,7 +288,7 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="nicText">
+                <Component class="javax.swing.JTextField" name="donorNameText">
                 </Component>
                 <Component class="javax.swing.JButton" name="addBtn">
                   <Properties>
@@ -330,7 +327,7 @@
                     <Property name="text" type="java.lang.String" value="TTI Results"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JComboBox" name="jComboBox1">
+                <Component class="javax.swing.JComboBox" name="TestsCombo">
                   <Properties>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
@@ -339,12 +336,12 @@
                     </Property>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JButton" name="addBtn2">
+                <Component class="javax.swing.JButton" name="addResultBtn">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Add Result"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addBtn2ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addResultBtnActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel5">
@@ -352,7 +349,7 @@
                     <Property name="text" type="java.lang.String" value="Remarks"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="nicText2">
+                <Component class="javax.swing.JTextField" name="commentText">
                 </Component>
                 <Container class="javax.swing.JScrollPane" name="jScrollPane1">
                   <AuxValues>
@@ -361,7 +358,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
                   <SubComponents>
-                    <Component class="javax.swing.JTable" name="jTable1">
+                    <Component class="javax.swing.JTable" name="ttiTable">
                       <Properties>
                         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                           <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
@@ -380,12 +377,12 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="addBtn3">
+                <Component class="javax.swing.JButton" name="removeResultBtn">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Remove Result"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addBtn3ActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="removeResultBtnActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

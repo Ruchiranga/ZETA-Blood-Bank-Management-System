@@ -10,8 +10,8 @@
  */
 package gui.Anu;
 
-import controller.anu.BloodGroupDA;
-import controller.anu.BloodTypeDA;
+import Controller.anu.BloodGroupDA;
+import Controller.anu.BloodTypeDA;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;

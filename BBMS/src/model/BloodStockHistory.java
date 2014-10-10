@@ -19,19 +19,18 @@ public class BloodStockHistory {
     private int x;
     private int spec_res;
     private int underobs;
-    private int uGCount;
+    private int total;
 
-    public BloodStockHistory(Date stockDate, String bloodGroup, int unx, int x, int spec_res, int underobs, int uGCount) {
+    public BloodStockHistory(Date stockDate, String bloodGroup, int unx, int x, int spec_res, int underobs, int total) {
         this.stockDate = stockDate;
         this.bloodGroup = bloodGroup;
         this.unx = unx;
         this.x = x;
         this.spec_res = spec_res;
         this.underobs = underobs;
-        this.uGCount = uGCount;
+        this.total = total;
     }
 
-    
     /**
      * @return the stockDate
      */
@@ -117,17 +116,19 @@ public class BloodStockHistory {
     }
 
     /**
-     * @return the uGCount
+     * @return the total
      */
-    public int getuGCount() {
-        return uGCount;
+    public int getTotal() {
+        return total;
     }
 
     /**
-     * @param uGCount the uGCount to set
+     * @param total the total to set
      */
-    public void setuGCount(int uGCount) {
-        this.uGCount = uGCount;
+    public void setTotal(int total) {
+        this.total = total;
     }
+
+    
     
 }

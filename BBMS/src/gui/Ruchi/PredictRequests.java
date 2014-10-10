@@ -7,7 +7,9 @@ package gui.Ruchi;
 
 import Controller.Predictions;
 import Controller.Ruchi.SampleDetailController;
+import com.toedter.components.JSpinField;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -44,6 +46,9 @@ public class PredictRequests extends javax.swing.JInternalFrame {
         int year = yearChooser.getYear();
         int month = monthChooser.getMonth() + 1;
 
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
+
         int data[][] = null;
 
         try {
@@ -54,27 +59,8 @@ public class PredictRequests extends javax.swing.JInternalFrame {
             Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        if (data != null) {
-            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-            for (int i = 0; i < data[0].length; i++) {
-                dataset.setValue(data[1][i], "Bla bla bla", data[0][i] + "");
-            }
+        if (year >= currentYear && month >= currentMonth) {
 
-            JFreeChart chart = ChartFactory.createLineChart3D("Yearly Blood Request Count For The Month of " + getMontName(month + ""), "Year", "Request Count", dataset, PlotOrientation.VERTICAL, false, true, false);
-            chart.setBackgroundPaint(Color.PINK);
-            chart.getTitle().setPaint(Color.RED);
-            CategoryPlot p = chart.getCategoryPlot();
-            p.setRangeGridlinePaint(Color.BLUE);
-
-            ChartPanel panel = new ChartPanel(chart);
-            panel.setPreferredSize(new java.awt.Dimension(200, 350));
-            chartAreaPanel.setLayout(new GridLayout());
-            chartAreaPanel.removeAll();
-            chartAreaPanel.revalidate();
-            chartAreaPanel.add(panel);
-            chartAreaPanel.repaint();
-
-            this.repaint();
             try {
                 predictText.setText(Predictions.getPredictedRequestsOf(year, month) + "");
             } catch (ClassNotFoundException ex) {
@@ -82,7 +68,34 @@ public class PredictRequests extends javax.swing.JInternalFrame {
             } catch (SQLException ex) {
                 Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
             }
+        }else {
+            JOptionPane.showMessageDialog(this, "Predictions available only for future months. Only the graph will be drawn", "Error", JOptionPane.ERROR_MESSAGE);
+            predictText.setText("Invalid input!");
         }
+
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        if (data != null) {
+            for (int i = 0; i < data[0].length; i++) {
+                dataset.setValue(data[1][i], "Bla bla bla", data[0][i] + "");
+            }
+        }
+
+        JFreeChart chart = ChartFactory.createLineChart3D("Yearly Blood Request Count For The Month of " + getMontName(month + ""), "Year", "Request Count", dataset, PlotOrientation.VERTICAL, false, true, false);
+        chart.setBackgroundPaint(Color.PINK);
+        chart.getTitle().setPaint(Color.RED);
+        CategoryPlot p = chart.getCategoryPlot();
+        p.setRangeGridlinePaint(Color.BLUE);
+
+        ChartPanel panel = new ChartPanel(chart);
+        panel.setPreferredSize(new java.awt.Dimension(200, 350));
+        chartAreaPanel.setLayout(new GridLayout());
+        chartAreaPanel.removeAll();
+        chartAreaPanel.revalidate();
+        chartAreaPanel.add(panel);
+        chartAreaPanel.repaint();
+
+        this.repaint();
+
     }
 
     /**
@@ -104,6 +117,7 @@ public class PredictRequests extends javax.swing.JInternalFrame {
         predictButton = new javax.swing.JButton();
         chartAreaPanel = new javax.swing.JPanel();
 
+        monthChooser.setPreferredSize(new java.awt.Dimension(110, 20));
         monthChooser.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 monthChooserPropertyChange(evt);
@@ -144,14 +158,14 @@ public class PredictRequests extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(monthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31)
+                        .addComponent(monthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(predictButton))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(predictText, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(350, Short.MAX_VALUE))
+                .addContainerGap(311, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,41 +251,44 @@ public class PredictRequests extends javax.swing.JInternalFrame {
             Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
         }
 
+        if (year >= currentYear && month >= currentMonth) {
+
+            try {
+                predictText.setText(Predictions.getPredictedRequestsOf(year, month) + "");
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Predictions available only for future months. Only the graph will be drawn", "Error", JOptionPane.ERROR_MESSAGE);
+            predictText.setText("Invalid input!");
+        }
+
         //if (data != null) {
-            DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        if (data != null) {
             for (int i = 0; i < data[0].length; i++) {
                 dataset.setValue(data[1][i], "Year", data[0][i] + "");
             }
+        }
 
-            JFreeChart chart = ChartFactory.createLineChart3D("Yearly Blood Request Count For The Month of " + getMontName(month + ""), "Year", "Request Count", dataset, PlotOrientation.VERTICAL, false, true, false);
-            chart.setBackgroundPaint(Color.PINK);
-            chart.getTitle().setPaint(Color.RED);
-            CategoryPlot p = chart.getCategoryPlot();
-            p.setRangeGridlinePaint(Color.BLUE);
+        JFreeChart chart = ChartFactory.createLineChart3D("Yearly Blood Request Count For The Month of " + getMontName(month + ""), "Year", "Request Count", dataset, PlotOrientation.VERTICAL, false, true, false);
+        chart.setBackgroundPaint(Color.PINK);
+        chart.getTitle().setPaint(Color.RED);
+        CategoryPlot p = chart.getCategoryPlot();
+        p.setRangeGridlinePaint(Color.BLUE);
 
-            ChartPanel panel = new ChartPanel(chart);
-            panel.setPreferredSize(new java.awt.Dimension(200, 350));
-            chartAreaPanel.setLayout(new GridLayout());
-            chartAreaPanel.removeAll();
-            chartAreaPanel.revalidate();
-            chartAreaPanel.add(panel);
-            chartAreaPanel.repaint();
+        ChartPanel panel = new ChartPanel(chart);
+        panel.setPreferredSize(new java.awt.Dimension(200, 350));
+        chartAreaPanel.setLayout(new GridLayout());
+        chartAreaPanel.removeAll();
+        chartAreaPanel.revalidate();
+        chartAreaPanel.add(panel);
+        chartAreaPanel.repaint();
 
-            this.repaint();
+        this.repaint();
 
-            if (year >= currentYear && month >= currentMonth) {
-
-                try {
-                    predictText.setText(Predictions.getPredictedRequestsOf(year, month) + "");
-                } catch (ClassNotFoundException ex) {
-                    Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } else {
-                JOptionPane.showMessageDialog(this, "Please choose a month in the future. Predictions available only for future months.", "Error", JOptionPane.ERROR_MESSAGE);
-                predictText.setText("Invalid input!");
-            }
         //}
 
     }//GEN-LAST:event_predictButtonActionPerformed

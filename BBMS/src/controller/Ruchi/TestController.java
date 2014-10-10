@@ -8,7 +8,7 @@ package Controller.Ruchi;
 
 import connection.DBConnection;
 import connection.DBHandler;
-import idgenerator.IDGenerator;
+import Controller.IDGenerator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package controller.anu;
+package Controller.anu;
 
 import connection.DBConnection;
 import connection.DBHandler;
@@ -46,6 +46,16 @@ public class BloodTypeDA {
         String query = "Select * From BloodType";
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.getData(connection, query);
+    }
+    
+    public static int getTypeCount() throws ClassNotFoundException, SQLException {
+        String query = "Select count(*) From BloodType";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet rst = DBHandler.getData(connection, query);
+        while(rst.next()){
+            return rst.getInt("count(*)");
+        }
+        return -1;
     }
 
 }

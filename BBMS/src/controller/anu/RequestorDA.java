@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package controller.anu;
+package Controller.anu;
 
 import connection.DBConnection;
 import connection.DBHandler;
@@ -19,7 +19,7 @@ import model.Requester;
 public class RequestorDA {
 
     public static int addRequestor(Requester requestor) throws ClassNotFoundException, SQLException {
-        String query = "Insert into Requestor(Hospital) values ('" +requestor.getHospital() + "')";
+        String query = "Insert into Requestor(Hospital) values ('" +requestor.getRequesterName() + "')";
         Connection connection = DBConnection.getConnectionToDB();
         int res = DBHandler.setData(connection, query);
         return res;
@@ -32,7 +32,7 @@ public class RequestorDA {
     }
 
     public static int updateHospital(Requester oldHospital, Requester newHospital) throws ClassNotFoundException, SQLException {
-        String query = "update Requestor set hospital='" + newHospital.getHospital() + "' where hospital='" + oldHospital.getHospital() + "'";
+        String query = "update Requestor set hospital='" + newHospital.getRequesterName() + "' where hospital='" + oldHospital.getRequesterName() + "'";
         Connection connection = DBConnection.getConnectionToDB();
         int res = DBHandler.setData(connection, query);
         return res;
@@ -41,7 +41,7 @@ public class RequestorDA {
 
     public static int deleteHospital(Requester hospital) throws ClassNotFoundException, SQLException {
 
-        String query = "Delete from Requestor where hospital='" + hospital.getHospital() + "'";
+        String query = "Delete from Requestor where hospital='" + hospital.getRequesterName() + "'";
         Connection connection = DBConnection.getConnectionToDB();
         int res = DBHandler.setData(connection, query);
         return res;

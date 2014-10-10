@@ -12,32 +12,23 @@ package gui.Naduni;
 
 import gui.Anu.StockBalance;
 import gui.ChangePassword;
-import gui.Naduni.BloodReport;
-import gui.Naduni.BloodReport;
-import gui.Naduni.Immunohaematology;
-import gui.Naduni.Immunohaematology;
 import gui.Personalize;
 import gui.Ruchi.BloodAndComponentAvailability;
 import gui.Ruchi.BloodGroupingAndTTI;
 import gui.Ruchi.BloodRequest;
-import gui.Ruchi.Compatability2;
 import gui.Ruchi.DeleteTest;
 import gui.Ruchi.GroupingAndTTIRegister;
 import gui.Ruchi.Requests;
-import java.awt.BorderLayout;
 import java.awt.image.BufferedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
-import javax.swing.JLabel;
 
 /**
  *
@@ -80,14 +71,9 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jButton14 = new javax.swing.JButton();
         jButton16 = new javax.swing.JButton();
         jButton18 = new javax.swing.JButton();
-        jButton25 = new javax.swing.JButton();
-        jButton32 = new javax.swing.JButton();
         groupingAndTTIRegButton = new javax.swing.JButton();
-        jButton34 = new javax.swing.JButton();
-        jButton26 = new javax.swing.JButton();
         jButton19 = new javax.swing.JButton();
         jButton9 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
@@ -102,15 +88,14 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         BloodGroupButton = new javax.swing.JButton();
-        jButton17 = new javax.swing.JButton();
         jButton22 = new javax.swing.JButton();
         testingButton = new javax.swing.JButton();
         desktopPane = new javax.swing.JDesktopPane();
-        jPanel1 = new javax.swing.JPanel();
-        jButton15 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        sampleDetailsButton = new javax.swing.JButton();
+        issueRegisterButton = new javax.swing.JButton();
+        generateIssuesButton = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -122,16 +107,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Blood Bank Management System");
-
-        jButton14.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton14.setText("Donors");
-        jButton14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton14ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton14);
-        jButton14.setBounds(0, 400, 200, 30);
 
         jButton16.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton16.setText("Blood Categories");
@@ -148,26 +123,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(jButton18);
         jButton18.setBounds(0, 340, 200, 30);
 
-        jButton25.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton25.setText("Antibody Screening");
-        jButton25.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton25ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton25);
-        jButton25.setBounds(0, 190, 200, 30);
-
-        jButton32.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton32.setText("TTI");
-        jButton32.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton32ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton32);
-        jButton32.setBounds(0, 160, 200, 30);
-
         groupingAndTTIRegButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         groupingAndTTIRegButton.setText("TTI Register");
         groupingAndTTIRegButton.addActionListener(new java.awt.event.ActionListener() {
@@ -177,26 +132,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         });
         jLayeredPane1.add(groupingAndTTIRegButton);
         groupingAndTTIRegButton.setBounds(0, 130, 200, 30);
-
-        jButton34.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton34.setText("Compatibility");
-        jButton34.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton34ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton34);
-        jButton34.setBounds(0, 100, 200, 30);
-
-        jButton26.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton26.setText("Blood Issue");
-        jButton26.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton26ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton26);
-        jButton26.setBounds(0, 220, 200, 30);
 
         jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 08.png"))); // NOI18N
         jButton19.addActionListener(new java.awt.event.ActionListener() {
@@ -323,16 +258,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(BloodGroupButton);
         BloodGroupButton.setBounds(0, 310, 200, 30);
 
-        jButton17.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton17.setText("Blood Report");
-        jButton17.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton17ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton17);
-        jButton17.setBounds(0, 250, 200, 30);
-
         jButton22.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         jButton22.setText("Compatability Report");
         jButton22.addActionListener(new java.awt.event.ActionListener() {
@@ -367,59 +292,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jLayeredPane1.add(desktopPane);
         desktopPane.setBounds(200, 60, 1170, 630);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED), "Requests"), "", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14))); // NOI18N
-        jPanel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-
-        jButton15.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton15.setText("Blood Request");
-        jButton15.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton15ActionPerformed(evt);
-            }
-        });
-
-        jButton1.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jButton1.setText("Red Cell Products");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
-        jButton2.setText("Platelets and Plasma Components");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(58, 58, 58))
-        );
-
-        jLayeredPane1.add(jPanel1);
-        jPanel1.setBounds(-10, 490, 210, 160);
-
         jButton5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton5.setText("Delete/Update Test");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
@@ -429,6 +301,58 @@ public class MedicalOfficer extends javax.swing.JFrame {
         });
         jLayeredPane1.add(jButton5);
         jButton5.setBounds(0, 460, 200, 30);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Issues", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 3, 18))); // NOI18N
+        jPanel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        sampleDetailsButton.setBackground(new java.awt.Color(255, 51, 51));
+        sampleDetailsButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        sampleDetailsButton.setText("Sample Details");
+        sampleDetailsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sampleDetailsButtonActionPerformed(evt);
+            }
+        });
+
+        issueRegisterButton.setBackground(new java.awt.Color(255, 51, 51));
+        issueRegisterButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        issueRegisterButton.setText("Issue Register");
+        issueRegisterButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issueRegisterButtonActionPerformed(evt);
+            }
+        });
+
+        generateIssuesButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        generateIssuesButton.setText("Generate Issues");
+        generateIssuesButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateIssuesButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(sampleDetailsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(generateIssuesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+            .addComponent(issueRegisterButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sampleDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(generateIssuesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(issueRegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(58, 58, 58))
+        );
+
+        jLayeredPane1.add(jPanel1);
+        jPanel1.setBounds(0, 490, 200, 160);
 
         jMenuBar1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
 
@@ -476,27 +400,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
-
-    }//GEN-LAST:event_jButton14ActionPerformed
-
-    private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
-        BloodRequest bloodRequest = new BloodRequest();
-        bloodRequest.setClosable(true);
-        desktopPane.add(bloodRequest);
-        desktopPane.setRequestFocusEnabled(true);
-        bloodRequest.show();
-    }//GEN-LAST:event_jButton15ActionPerformed
-
-    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        Compatability2 compatability2 = new Compatability2(this, true);
-        compatability2.setClosable(true);
-        compatability2.setMaximizable(true);
-        desktopPane.add(compatability2);
-        desktopPane.setRequestFocusEnabled(true);
-        compatability2.show();
-    }//GEN-LAST:event_jButton34ActionPerformed
-
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         StockBalance stock = new StockBalance();
         stock.setClosable(true);
@@ -504,22 +407,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         desktopPane.setRequestFocusEnabled(true);
         stock.show();
     }//GEN-LAST:event_jButton18ActionPerformed
-
-    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-//        try {
-//            StockBalance2 stock2 = new StockBalance2();
-//            stock2.setClosable(true);
-//            desktopPane.add(stock2);
-//            desktopPane.setRequestFocusEnabled(true);
-//            stock2.show();
-//        } catch (IOException ex) {
-//            Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-    }//GEN-LAST:event_jButton25ActionPerformed
-
-    private void jButton26ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton26ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton26ActionPerformed
 
     private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
         // TODO add your handling code here:
@@ -594,24 +481,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         register.show();
     }//GEN-LAST:event_groupingAndTTIRegButtonActionPerformed
 
-    private void jButton32ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton32ActionPerformed
-        Immunohaematology im = new Immunohaematology(desktopPane.getSize());
-        im.setClosable(true);
-        im.setMaximizable(true);
-        desktopPane.add(im);
-        desktopPane.setRequestFocusEnabled(true);
-        im.show();
-    }//GEN-LAST:event_jButton32ActionPerformed
-
-    private void jButton17ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton17ActionPerformed
-        BloodReport report = new BloodReport(desktopPane.getSize());
-        report.setClosable(true);
-        report.setMaximizable(true);
-        desktopPane.add(report);
-        desktopPane.setRequestFocusEnabled(true);
-        report.show();
-    }//GEN-LAST:event_jButton17ActionPerformed
-
     private void jButton22ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton22ActionPerformed
         Requests reportC = new Requests(desktopPane);
         reportC.setClosable(true);
@@ -643,24 +512,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         availailityform.show();
     }//GEN-LAST:event_testingButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        RedCellProducts redcell = new RedCellProducts(desktopPane.getSize());
-        redcell.setClosable(true);
-        redcell.setMaximizable(true);
-        desktopPane.add(redcell);
-        desktopPane.setRequestFocusEnabled(true);
-        redcell.show();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        RequestForBlood platelet = new RequestForBlood(desktopPane.getSize());
-        platelet.setClosable(true);
-        platelet.setMaximizable(true);
-        desktopPane.add(platelet);
-        desktopPane.setRequestFocusEnabled(true);
-        platelet.show();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         DeleteTest window = new DeleteTest();
         window.setClosable(true);
@@ -669,6 +520,34 @@ public class MedicalOfficer extends javax.swing.JFrame {
         desktopPane.setRequestFocusEnabled(true);
         window.show();
     }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void sampleDetailsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sampleDetailsButtonActionPerformed
+        SampleDetails sampleDetails = new SampleDetails(desktopPane.getSize());
+        sampleDetails.setClosable(true);
+        desktopPane.add(sampleDetails);
+        desktopPane.setRequestFocusEnabled(true);
+        sampleDetails.show();
+    }//GEN-LAST:event_sampleDetailsButtonActionPerformed
+
+    private void issueRegisterButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueRegisterButtonActionPerformed
+        IssueRegister register = new IssueRegister(desktopPane.getSize());
+        register.setClosable(true);
+        register.setMaximizable(true);
+        desktopPane.add(register);
+        desktopPane.setRequestFocusEnabled(true);
+        register.show();
+        register.setVisible(true);
+        register.getSearchPanel().setVisible(false);
+    }//GEN-LAST:event_issueRegisterButtonActionPerformed
+
+    private void generateIssuesButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateIssuesButtonActionPerformed
+        IssueOfBlood issue = new IssueOfBlood(desktopPane.getSize());
+        issue.setClosable(true);
+        issue.setMaximizable(true);
+        desktopPane.add(issue);
+        desktopPane.setRequestFocusEnabled(true);
+        issue.show();
+    }//GEN-LAST:event_generateIssuesButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -688,26 +567,19 @@ public class MedicalOfficer extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BloodGroupButton;
     private javax.swing.JDesktopPane desktopPane;
+    private javax.swing.JButton generateIssuesButton;
     private javax.swing.JButton groupingAndTTIRegButton;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton issueRegisterButton;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
     private javax.swing.JButton jButton12;
     private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
-    private javax.swing.JButton jButton17;
     private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton22;
-    private javax.swing.JButton jButton25;
-    private javax.swing.JButton jButton26;
     private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton32;
-    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
@@ -725,6 +597,7 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton sampleDetailsButton;
     private javax.swing.JButton testingButton;
     // End of variables declaration//GEN-END:variables
 }

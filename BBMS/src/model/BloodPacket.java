@@ -61,6 +61,26 @@ public class BloodPacket {
         this.bloodGroup = bloodGroup;
     }
     
+    public BloodPacket(String packetID, String nic, String recievedID, Date dateOfDonation, Date dateOfExpiry, String bloodType, byte isCrossmatched, byte isSpecialReservation, byte isUnderObservation, String campID, byte isDiscarded, String bloodGroup, Date discardedDate, String returnID, String patientIssueID, String comment, String bullkissueID) {
+        this.packetID = packetID;
+        this.nic = nic;
+        this.recievedID = recievedID;
+        this.dateOfDonation = dateOfDonation;
+        this.dateOfExpiry = dateOfExpiry;
+        this.bloodType = bloodType;
+        this.isCrossmatched = isCrossmatched;
+        this.isSpecialReservation = isSpecialReservation;
+        this.isUnderObservation = isUnderObservation;
+        this.campID = campID;
+        this.isDiscarded = isDiscarded;
+        this.bloodGroup = bloodGroup;
+        this.discardedDate = discardedDate;
+        this.returnID = returnID;
+        this.patientIssueID = patientIssueID;
+        this.comment = comment;
+        this.bullkissueID = bullkissueID;
+    }
+    
     
 
     /**
