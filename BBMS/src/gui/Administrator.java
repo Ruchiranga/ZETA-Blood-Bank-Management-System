@@ -12,7 +12,7 @@ package gui;
 
 import gui.Naduni.IssueChart;
 import gui.Naduni.MedicalOfficer;
-import gui.Ruchi.PredictRequests;
+import gui.Ruchi.RequestStatsAndPrediction;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -364,7 +364,7 @@ public class Administrator extends javax.swing.JFrame {
 }//GEN-LAST:event_jButton15ActionPerformed
 
     private void requestsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestsButtonActionPerformed
-        PredictRequests pred = new PredictRequests();
+        RequestStatsAndPrediction pred = new RequestStatsAndPrediction();
         pred.setClosable(true);
         desktopPane.add(pred);
         pred.show();

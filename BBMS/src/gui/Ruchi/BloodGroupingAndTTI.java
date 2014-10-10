@@ -11,6 +11,7 @@ import Controller.Ruchi.DonorController;
 import Controller.Ruchi.EmployeeController;
 import Controller.Ruchi.TestController;
 import Controller.Ruchi.TestResultController;
+import Controller.TableCleaner;
 import java.awt.Color;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
@@ -54,13 +55,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         employeeController = new EmployeeController();
         donorController = new DonorController();
         testResultController = new TestResultController();
-//        try {
-//            handler = new BloodGroupingAndTTIHandler();
-//        } catch (SQLException ex) {
-//            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
-//        }
 
         String[] packetList = null;
         try {
@@ -172,6 +166,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         donorTextField = new javax.swing.JTextField();
         blacklistdonerButton = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
+        unblacklistButton = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         packetIDListCombo = new javax.swing.JComboBox();
         jLabel1 = new javax.swing.JLabel();
@@ -303,7 +298,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        generateLabelButton.setText("Generate Packet Label");
+        generateLabelButton.setText("OK");
         generateLabelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 generateLabelButtonActionPerformed(evt);
@@ -364,7 +359,8 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         donorTextField.setEnabled(false);
 
-        blacklistdonerButton.setText("Blacklist donor");
+        blacklistdonerButton.setText("Blacklist Donor");
+        blacklistdonerButton.setFocusable(false);
         blacklistdonerButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 blacklistdonerButtonActionPerformed(evt);
@@ -373,6 +369,15 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Donor");
 
+        unblacklistButton.setText("Unblacklist Donor");
+        unblacklistButton.setEnabled(false);
+        unblacklistButton.setFocusable(false);
+        unblacklistButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                unblacklistButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -380,7 +385,10 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(blacklistdonerButton)
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addComponent(blacklistdonerButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(unblacklistButton))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jLabel11)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -395,7 +403,9 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                     .addComponent(donorTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(blacklistdonerButton)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(blacklistdonerButton)
+                    .addComponent(unblacklistButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -446,8 +456,8 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel5))
@@ -466,11 +476,14 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                                         .addComponent(checkedByComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(generateLabelButton)))
+                                .addComponent(generateLabelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 69, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, generateLabelButton});
+
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
@@ -500,7 +513,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(generateLabelButton)
                     .addComponent(cancelButton))
-                .addContainerGap(67, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         pack();
@@ -554,11 +567,11 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         }
 
         if (isBlackListed) {
-            blacklistdonerButton.setText("Blacklisted");
             blacklistdonerButton.setEnabled(false);
+            unblacklistButton.setEnabled(true);
         } else {
-            blacklistdonerButton.setText("Blacklist Donor");
             blacklistdonerButton.setEnabled(true);
+            unblacklistButton.setEnabled(false);
         }
 
     }//GEN-LAST:event_packetIDListComboActionPerformed
@@ -579,10 +592,12 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (res == 1) {
-                blacklistdonerButton.setText("Blacklisted");
                 blacklistdonerButton.setEnabled(false);
+                unblacklistButton.setEnabled(true);
             } else {
                 JOptionPane.showInternalMessageDialog(this, "Failed to blacklist donor", "Error!", JOptionPane.ERROR_MESSAGE);
+                blacklistdonerButton.setEnabled(true);
+                unblacklistButton.setEnabled(false);
             }
         }
 
@@ -705,11 +720,34 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         if (resultres == 1 && groupres == 1) {
             JOptionPane.showMessageDialog(this, "Results recorded successfully.", "", JOptionPane.INFORMATION_MESSAGE);
+            packetIDListCombo.removeItemAt(packetIDListCombo.getSelectedIndex());
+            bloodGroupCombo.setSelectedIndex(0);
+            groupCommentTextField.setText("");
+            String[] testList = null;
+
+            try {
+                testList = testController.getTestList();
+            } catch (SQLException ex) {
+                Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            testListCombo.removeAllItems();
+            for (String test : testList) {
+                testListCombo.addItem(test);
+            }
+            TableCleaner.clearTable(dtm);
+            addToListButton.setEnabled(true);
+            deleteRowButton.setEnabled(false);
+            
+            doneByComboBox.setSelectedIndex(0);
+            checkedByComboBox.setSelectedIndex(0);
         } else {
             JOptionPane.showMessageDialog(this, "Error! Failed to record results.", "", JOptionPane.ERROR_MESSAGE);
         }
         if (discardPacketCheckBox.isSelected() && disres == 1) {
             JOptionPane.showMessageDialog(this, "Packet marked as discarded.", "", JOptionPane.INFORMATION_MESSAGE);
+            discardPacketCheckBox.setSelected(false);
         } else if (discardPacketCheckBox.isSelected() && disres == 0) {
             JOptionPane.showMessageDialog(this, "Error! Failed to mark packet as discarded.", "", JOptionPane.ERROR_MESSAGE);
         }
@@ -751,6 +789,30 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_testListComboActionPerformed
 
+    private void unblacklistButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unblacklistButtonActionPerformed
+        int choice;
+        choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to unblacklist this donor?", "Are you Sure?", JOptionPane.YES_NO_OPTION);
+        if (choice == 0) {
+            String name = donorTextField.getText();
+            int res = 0;
+            try {
+                res = donorController.unblackListDonor(name);
+
+            } catch (SQLException ex) {
+                Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(BloodGroupingAndTTI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            if (res == 1) {
+                blacklistdonerButton.setEnabled(true);
+                unblacklistButton.setEnabled(false);
+            } else {
+                JOptionPane.showInternalMessageDialog(this, "Failed to blacklist donor", "Error!", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_unblacklistButtonActionPerformed
+
     public void updateTestListCombo() {
         testListCombo.removeAllItems();
         String[] testList = null;
@@ -770,8 +832,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                     added = true;
                 }
             }
-            if (!added
-                    ) {
+            if (!added) {
                 testListCombo.addItem(test);
             }
         }
@@ -812,5 +873,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton positiveRadioButton;
     private javax.swing.JComboBox testListCombo;
     private javax.swing.JTable testTable;
+    private javax.swing.JButton unblacklistButton;
     // End of variables declaration//GEN-END:variables
 }

@@ -68,4 +68,10 @@ public class DonorController {
         return id;
     }
 
+    public int unblackListDonor(String name) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE donor SET blacklisted=0 where name = '" + name + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.setData(connection, query);
+    }
+
 }

@@ -161,6 +161,24 @@ public class BloodPacketDA {
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.getData(connection, query);
     }
+    
+    public static ResultSet getRecievedBloodPacketsByDuration(Date sqlDateS, Date sqlDateE) throws ClassNotFoundException, SQLException {
+        String query = "Select packet.packetID,log.requestee,log.recievedDate,log.recievedTime,packet.bloodType,packet.bloodGroup From bloodrecieveddetail detail inner join BloodPacket packet ON detail.packetID=packet.packetID inner join bloodrecievedlog log ON detail.recievedID = log.recievedID where recievedDate BETWEEN '"+sqlDateS+"' AND '"+sqlDateE+"'";;
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.getData(connection, query);
+    }
+
+    public static ResultSet getRecievedBloodPacketsByMonth(int i) throws ClassNotFoundException, SQLException {
+        String query = "Select packet.packetID,log.requestee,log.recievedDate,log.recievedTime,packet.bloodType,packet.bloodGroup From bloodrecieveddetail detail inner join BloodPacket packet ON detail.packetID=packet.packetID inner join bloodrecievedlog log ON detail.recievedID = log.recievedID where Month(recievedDate)="+i;
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.getData(connection, query);
+    }
+
+    public static ResultSet getRecievedBloodPacketsByYear(int year) throws ClassNotFoundException, SQLException {
+        String query = "Select packet.packetID,log.requestee,log.recievedDate,log.recievedTime,packet.bloodType,packet.bloodGroup From bloodrecieveddetail detail inner join BloodPacket packet ON detail.packetID=packet.packetID inner join bloodrecievedlog log ON detail.recievedID = log.recievedID where Year(recievedDate)="+year;
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.getData(connection, query);
+    }
 
     public static int getInhouseCollectedBlood(String bloodType, Date date) throws ClassNotFoundException, SQLException {
         String query = "Select * From BloodPacket where packetFrom = 'Inhouse' AND bloodType='" + bloodType + "' AND dateOfDonation = '" + date + "'";
@@ -325,5 +343,7 @@ public class BloodPacketDA {
         ResultSet rst = DBHandler.getData(connection, query);
         return rst;
     }
+
+    
 
 }

@@ -29,14 +29,14 @@ import org.jfree.data.category.DefaultCategoryDataset;
  *
  * @author ruchiranga
  */
-public class PredictRequests extends javax.swing.JInternalFrame {
+public class RequestStatsAndPrediction extends javax.swing.JInternalFrame {
 
     SampleDetailController sdcontroller;
 
     /**
      * Creates new form PredictRequests
      */
-    public PredictRequests() {
+    public RequestStatsAndPrediction() {
         initComponents();
         sdcontroller = new SampleDetailController();
         Calendar calendar = Calendar.getInstance();
@@ -54,9 +54,9 @@ public class PredictRequests extends javax.swing.JInternalFrame {
         try {
             data = sdcontroller.getYearlyRequestCountsOf(month);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (year >= currentYear && month >= currentMonth) {
@@ -64,9 +64,9 @@ public class PredictRequests extends javax.swing.JInternalFrame {
             try {
                 predictText.setText(Predictions.getPredictedRequestsOf(year, month) + "");
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
             }
         }else {
             JOptionPane.showMessageDialog(this, "Predictions available only for future months. Only the graph will be drawn", "Error", JOptionPane.ERROR_MESSAGE);
@@ -150,7 +150,7 @@ public class PredictRequests extends javax.swing.JInternalFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
@@ -158,31 +158,29 @@ public class PredictRequests extends javax.swing.JInternalFrame {
                         .addGap(18, 18, 18)
                         .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addComponent(monthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(predictButton))
+                        .addComponent(monthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
                         .addComponent(predictText, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(311, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(predictButton)
+                .addContainerGap(359, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(predictButton)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(monthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2)
-                            .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(predictText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(14, 14, 14)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(monthChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addComponent(yearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(predictButton))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(predictText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -239,16 +237,12 @@ public class PredictRequests extends javax.swing.JInternalFrame {
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
 
-        System.out.println(currentMonth);
-        System.out.println(currentYear);
         int data[][] = null;
 
         try {
             data = sdcontroller.getYearlyRequestCountsOf(month);
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         if (year >= currentYear && month >= currentMonth) {
@@ -256,9 +250,9 @@ public class PredictRequests extends javax.swing.JInternalFrame {
             try {
                 predictText.setText(Predictions.getPredictedRequestsOf(year, month) + "");
             } catch (ClassNotFoundException ex) {
-                Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
-                Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
             JOptionPane.showMessageDialog(this, "Predictions available only for future months. Only the graph will be drawn", "Error", JOptionPane.ERROR_MESSAGE);
@@ -300,7 +294,7 @@ public class PredictRequests extends javax.swing.JInternalFrame {
         try {
             ret = monthDisplay.format(monthParse.parse(monthNo));
         } catch (ParseException ex) {
-            Logger.getLogger(PredictRequests.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RequestStatsAndPrediction.class.getName()).log(Level.SEVERE, null, ex);
         }
         return ret;
     }

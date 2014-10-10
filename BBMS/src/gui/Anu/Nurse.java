@@ -885,7 +885,11 @@ public class Nurse extends javax.swing.JFrame implements Observer {
     }//GEN-LAST:event_jButton39ActionPerformed
 
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
-        // TODO add your handling code here:
+        BloodRecievalLog bloodRecieval = new BloodRecievalLog();
+        bloodRecieval.setClosable(true);
+        NurseDesktop.add(bloodRecieval);
+        NurseDesktop.setRequestFocusEnabled(true);
+        bloodRecieval.show();
     }//GEN-LAST:event_jButton41ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed

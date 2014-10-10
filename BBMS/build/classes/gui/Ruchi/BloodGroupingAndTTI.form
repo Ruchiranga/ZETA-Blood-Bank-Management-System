@@ -33,8 +33,8 @@
                       <Component id="jPanel4" min="-2" pref="325" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Group type="103" groupAlignment="1" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -57,13 +57,13 @@
                                   </Group>
                               </Group>
                           </Group>
-                          <Group type="102" alignment="1" attributes="0">
+                          <Group type="102" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="generateLabelButton" min="-2" max="-2" attributes="0"/>
+                              <Component id="generateLabelButton" linkSize="1" min="-2" pref="68" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="cancelButton" min="-2" pref="69" max="-2" attributes="0"/>
+                      <Component id="cancelButton" linkSize="1" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -105,7 +105,7 @@
                   <Component id="generateLabelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="67" max="32767" attributes="0"/>
+              <EmptySpace pref="71" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -316,7 +316,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="generateLabelButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Generate Packet Label"/>
+        <Property name="text" type="java.lang.String" value="OK"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generateLabelButtonActionPerformed"/>
@@ -422,7 +422,11 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="blacklistdonerButton" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="blacklistdonerButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="unblacklistButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                           <EmptySpace min="-2" max="-2" attributes="0"/>
@@ -442,7 +446,10 @@
                       <Component id="jLabel11" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="blacklistdonerButton" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="blacklistdonerButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="unblacklistButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -456,7 +463,8 @@
         </Component>
         <Component class="javax.swing.JButton" name="blacklistdonerButton">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Blacklist donor"/>
+            <Property name="text" type="java.lang.String" value="Blacklist Donor"/>
+            <Property name="focusable" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="blacklistdonerButtonActionPerformed"/>
@@ -466,6 +474,16 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Donor"/>
           </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="unblacklistButton">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Unblacklist Donor"/>
+            <Property name="enabled" type="boolean" value="false"/>
+            <Property name="focusable" type="boolean" value="false"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="unblacklistButtonActionPerformed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
