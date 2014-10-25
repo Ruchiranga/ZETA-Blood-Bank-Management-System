@@ -5,16 +5,13 @@
  */
 package Controller.Ruchi;
 
-import Controller.RecordCounter;
 import connection.DBConnection;
 import connection.DBHandler;
-import Controller.IDGenerator;
+import controller.IDGenerator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.Employee;
-import model.Test;
 import model.TestResult;
 
 /**
@@ -46,9 +43,20 @@ public class TestResultController {
         return DBHandler.setData(connection, query);
 
     }
+    
+    private String getLabeledByOf(String resultID) throws ClassNotFoundException, SQLException{
+        String query = "select labeledBy from testResult where resultID = 'R00002'";
+        Connection connection = DBConnection.getConnectionToDB();
+        ResultSet rst = DBHandler.getData(connection, query);
+        String returnVal = null;
+        while (rst.next()) {            
+            returnVal = rst.getString("labeledBy");
+        }
+        return returnVal;
+    }
 
     public String[][] getTestResultRecords(int columnCount) throws ClassNotFoundException, SQLException {
-        String query = "SELECT Date,testresult.PacketID,t.`TestID`,t.`Name` as TestName,Result,testresult.Comment,b.`BloodGroup`,DoneBY,e1.`Name` as DoneByName,CheckedBy, e2.`Name` as CheckedByName FROM testresult INNER JOIN test t ON testresult.TestID=t.TestId INNER JOIN employee e1 ON testresult.DoneBy=e1.`EmpID` INNER JOIN employee e2 ON testresult.CheckedBy=e2.EmpID INNER JOIN bloodpacket b ON testresult.PacketID=b.`PacketID` order by Date,PacketID,t.`TestID`";
+        String query = "SELECT resultID,Date,testresult.PacketID,t.`TestID`,t.`Name` as TestName,Result,testresult.Comment,b.`BloodGroup`,DoneBY,e1.`Name` as DoneByName,CheckedBy, e2.`Name` as CheckedByName FROM testresult INNER JOIN test t ON testresult.TestID=t.TestId INNER JOIN employee e1 ON testresult.DoneBy=e1.`EmpID` INNER JOIN employee e2 ON testresult.CheckedBy=e2.EmpID INNER JOIN bloodpacket b ON testresult.PacketID=b.`PacketID` order by Date,PacketID,t.`TestID`";
         Connection connection = DBConnection.getConnectionToDB();
         ResultSet rst = DBHandler.getData(connection, query);
 //        int recordCount = RecordCounter.getRecordCount(rst);
@@ -70,7 +78,7 @@ public class TestResultController {
                 row[columnCount - 4] = rst.getString("BloodGroup");
                 row[columnCount - 3] = rst.getString("CheckedByName");
                 row[columnCount - 2] = rst.getString("DoneByName");
-                row[columnCount - 1] = "anonymous"/*rst.getString("LabeledByName")*/;
+                row[columnCount - 1] = /*"Anonymous"*/getLabeledByOf(rst.getString("resultID"));
             } else {
 
                 for (int j = 0; j < row.length; j++) {
@@ -89,7 +97,7 @@ public class TestResultController {
                 row[columnCount - 4] = rst.getString("BloodGroup");
                 row[columnCount - 3] = rst.getString("CheckedByName");
                 row[columnCount - 2] = rst.getString("DoneByName");
-                row[columnCount - 1] = "anonymous"/*rst.getString("LabeledByName")*/;
+                row[columnCount - 1] = getLabeledByOf(rst.getString("resultID"))/*"anonymous"rst.getString("LabeledByName")*/;
             }
         }
         for (int j = 0; j < row.length; j++) {

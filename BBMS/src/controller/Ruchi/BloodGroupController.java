@@ -5,7 +5,7 @@
  */
 package Controller.Ruchi;
 
-import Controller.RecordCounter;
+import controller.RecordCounter;
 import connection.DBConnection;
 import connection.DBHandler;
 import java.sql.Connection;

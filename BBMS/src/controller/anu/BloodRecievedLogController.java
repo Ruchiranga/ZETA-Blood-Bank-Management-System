@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller.anu;
+package controller.anu;
 
 import connection.DBConnection;
 import connection.DBHandler;
@@ -54,7 +54,7 @@ public class BloodRecievedLogController {
         String queryRecievedDetail = "Delete from BloodRecievedDetail where PacketID='" + packetID + "'";
         int resQueryRecievedDetail = DBHandler.setData(connection, queryRecievedDetail);
 
-        String donorNic = BloodPacketDA.getDonorNic(packetID);
+        String donorNic = BloodPacketController.getDonorNic(packetID);
 
         int resPacket = 0;
         boolean packetCantDelete = false;

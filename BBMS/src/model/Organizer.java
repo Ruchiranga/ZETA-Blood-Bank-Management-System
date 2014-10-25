@@ -26,16 +26,18 @@ public class Organizer {
         this.campCount = campCount;
     }
 
-    /**
-     * @return the nic
-     */
+   
+    public Organizer(int campCount, String nic) {
+        this.nic = nic;
+        this.campCount = campCount;
+    }
+
+    
     public String getNic() {
         return nic;
     }
 
-    /**
-     * @param nic the nic to set
-     */
+    
     public void setNic(String nic) {
         this.nic = nic;
     }

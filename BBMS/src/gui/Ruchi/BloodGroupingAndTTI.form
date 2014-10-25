@@ -59,7 +59,7 @@
                           </Group>
                           <Group type="102" attributes="0">
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Component id="generateLabelButton" linkSize="1" min="-2" pref="68" max="-2" attributes="0"/>
+                              <Component id="OKButton" linkSize="1" min="-2" pref="68" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -102,7 +102,7 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="generateLabelButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="OKButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="71" max="32767" attributes="0"/>
@@ -229,6 +229,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="commentsTextField">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="commentsTextFieldKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="testListCombo">
           <Properties>
@@ -238,12 +241,16 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="testListComboActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="testListComboKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="negativeRadioButton">
           <Properties>
             <Property name="text" type="java.lang.String" value="Negative"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="negativeRadioButtonActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JRadioButton" name="positiveRadioButton">
           <Properties>
@@ -302,24 +309,32 @@
     </Container>
     <Component class="javax.swing.JComboBox" name="doneByComboBox">
       <Properties>
+        <Property name="editable" type="boolean" value="true"/>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="doneByComboBoxKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="checkedByComboBox">
       <Properties>
+        <Property name="editable" type="boolean" value="true"/>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="checkedByComboBoxKeyTyped"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="generateLabelButton">
+    <Component class="javax.swing.JButton" name="OKButton">
       <Properties>
         <Property name="text" type="java.lang.String" value="OK"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="generateLabelButtonActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="OKButtonActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="cancelButton">
@@ -392,6 +407,10 @@
               <StringArray count="0"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bloodGroupComboActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="bloodGroupComboKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -404,6 +423,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="groupCommentTextField">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="groupCommentTextFieldKeyTyped"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -524,12 +546,14 @@
       <SubComponents>
         <Component class="javax.swing.JComboBox" name="packetIDListCombo">
           <Properties>
+            <Property name="editable" type="boolean" value="true"/>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
             </Property>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="packetIDListComboActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="packetIDListComboKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">

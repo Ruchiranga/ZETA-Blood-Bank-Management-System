@@ -5,7 +5,8 @@
  */
 package gui.Ruchi;
 
-import Controller.TableResizer;
+import controller.SearchableCombo;
+import controller.TableResizer;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -96,6 +97,8 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
         availabilityTable.setAutoCreateRowSorter(true);
         availabilityTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         TableResizer.resizeColumnWidth(availabilityTable);
+        
+        new SearchableCombo().setSearchableCombo(donorsComboBox, true);
 
     }
 
@@ -311,6 +314,7 @@ public class BloodAndComponentAvailability extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Donor name");
 
+        donorsComboBox.setEditable(true);
         donorsComboBox.setEnabled(false);
         donorsComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

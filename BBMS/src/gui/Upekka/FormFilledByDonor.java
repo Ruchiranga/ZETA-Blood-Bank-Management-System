@@ -4,7 +4,7 @@
  */
 package gui.Upekka;
 
-import Controller.Upekka.DonorDA;
+import controller.DonorDA;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -171,6 +171,11 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 nameTextFieldActionPerformed(evt);
             }
         });
+        nameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nameTextFieldKeyTyped(evt);
+            }
+        });
 
         genderButtonGroup.add(maleRadioButton);
         maleRadioButton.setText("Male");
@@ -195,6 +200,11 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 nicTextFieldActionPerformed(evt);
             }
         });
+        nicTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nicTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel4.setText("Date of Birth*");
 
@@ -205,12 +215,34 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 ageTextFieldActionPerformed(evt);
             }
         });
+        ageTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ageTextFieldKeyTyped(evt);
+            }
+        });
+
+        homeAddressTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                homeAddressTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel7.setText("Official Address");
+
+        officeAddressTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                officeAddressTextFieldKeyTyped(evt);
+            }
+        });
 
         homeTpTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeTpTextFieldActionPerformed(evt);
+            }
+        });
+        homeTpTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                homeTpTextFieldKeyTyped(evt);
             }
         });
 
@@ -225,8 +257,19 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 officeTpTextFieldActionPerformed(evt);
             }
         });
+        officeTpTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                officeTpTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel11.setText("Mobile:");
+
+        mobileTPTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mobileTPTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel12.setText("e-mail");
 
@@ -240,6 +283,11 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
         weightTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 weightTextFieldActionPerformed(evt);
+            }
+        });
+        weightTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                weightTextFieldKeyTyped(evt);
             }
         });
 
@@ -1197,54 +1245,54 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             int mobileTp = 0;
             String email = null;
 
-            if (nicTextField.getText()!=null) {
+            if (nicTextField.getText() != null) {
                 nic = nicTextField.getText();
             }
-            
-            if (nameTextField.getText()!=null) {
+
+            if (nameTextField.getText() != null) {
                 name = nameTextField.getText();
             }
 
             java.sql.Date sqlDoB = null;
-            if (dobDateChooser.getDate()!=null) {
+            if (dobDateChooser.getDate() != null) {
                 dateOfBirth = dobDateChooser.getDate();
                 DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
                 String dob = df.format(dateOfBirth);
                 sqlDoB = new java.sql.Date(dateOfBirth.getTime());
             }
 
-            if (genderButtonGroup.getSelection()!=null) {
+            if (genderButtonGroup.getSelection() != null) {
                 if (maleRadioButton.isSelected()) {
                     gender = "male";
                 } else if (femaleRadioButton.isSelected()) {
                     gender = "female";
                 }
             }
-            if(ageTextField.getText().matches("[0-9]{2}")){
-               age = Integer.parseInt(ageTextField.getText()); 
+            if (ageTextField.getText().matches("[0-9]{2}")) {
+                age = Integer.parseInt(ageTextField.getText());
             }
-            
-            if(weightTextField.getText().matches("[0-9]+")){
+
+            if (weightTextField.getText().matches("[0-9]+")) {
                 weight = Integer.parseInt(weightTextField.getText());
             }
-            
-            if (homeAddressTextField.getText()!=null) {
+
+            if (homeAddressTextField.getText() != null) {
                 homeAddress = homeAddressTextField.getText();
             }
-            if (officeAddressTextField.getText()!=null) {
+            if (officeAddressTextField.getText() != null) {
                 officeAddress = officeAddressTextField.getText();
             }
-            
-            if(homeTpTextField.getText().matches("[0-9]+")){
-            homeTp = Integer.parseInt(homeTpTextField.getText());
+
+            if (homeTpTextField.getText().matches("[0-9]+")) {
+                homeTp = Integer.parseInt(homeTpTextField.getText());
             }
-            if(officeTpTextField.getText().matches("[0-9]+")){
-            officeTp = Integer.parseInt(officeTpTextField.getText());
+            if (officeTpTextField.getText().matches("[0-9]+")) {
+                officeTp = Integer.parseInt(officeTpTextField.getText());
             }
-            if(mobileTPTextField.getText().matches("[0-9]+")){
-            mobileTp = Integer.parseInt(mobileTPTextField.getText());
+            if (mobileTPTextField.getText().matches("[0-9]+")) {
+                mobileTp = Integer.parseInt(mobileTPTextField.getText());
             }
-            if (emailTextField.getText()!=null) {
+            if (emailTextField.getText() != null) {
                 email = emailTextField.getText();
             }
 
@@ -1362,7 +1410,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             if (dentalSurgeryUsedAntibioticsMedicineRadioButton.isSelected()) {
                 dentalSurgeryUsedAntibioticsMedicine = 1;
             }
-            if (nic!=null && name!=null && gender!=null && dateOfBirth!=null && age!=0 && weight !=0 && homeAddress!=null) {
+            if (nic != null && name != null && gender != null && dateOfBirth != null && age != 0 && weight != 0 && homeAddress != null) {
                 Donor newDonor = new Donor(nic, name, sqlDoB, gender, age, weight, homeAddress, officeAddress, homeTp, officeTp, mobileTp, email, previouslyDonated, difficultiesAfterDonation, goodHealth, diseases, usingMedicine, surgeries, heavyWork, pregnantLactationAbortion, immunized, piercedTatooed, imprisoned, youOrSpouceGoneAbroad, youOrSpouceTakenBlood, sufferedFromYelowFeverHepatitis, sufferedFromTuberculosis, sufferedFromMalaria, sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue, dentalSurgeryUsedAntibioticsMedicine);
                 int added = DonorDA.addDonor(newDonor);
                 if (added == 1) {
@@ -1370,12 +1418,13 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Error while adding new donor..!");
                 }
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Please fill the required fields!");
             }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(FormFilledByDonor.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error while adding new donor..!");
             Logger.getLogger(FormFilledByDonor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -1400,6 +1449,103 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             this.dispose();
         }
     }//GEN-LAST:event_exitButtonActionPerformed
+
+    private void ageTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ageTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+        
+
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            weightTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_ageTextFieldKeyTyped
+
+    private void weightTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_weightTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+        
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+           homeAddressTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_weightTextFieldKeyTyped
+
+    private void homeTpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_homeTpTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            officeTpTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_homeTpTextFieldKeyTyped
+
+    private void officeTpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_officeTpTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+       
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            mobileTPTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_officeTpTextFieldKeyTyped
+
+    private void mobileTPTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mobileTPTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            emailTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_mobileTPTextFieldKeyTyped
+
+    private void nameTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            nicTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_nameTextFieldKeyTyped
+
+    private void nicTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nicTextFieldKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nicTextFieldKeyTyped
+
+    private void homeAddressTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_homeAddressTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            officeAddressTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_homeAddressTextFieldKeyTyped
+
+    private void officeAddressTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_officeAddressTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            homeTpTextField.requestFocus(true);
+
+        } 
+    }//GEN-LAST:event_officeAddressTextFieldKeyTyped
 
     private void searchDonorbyNic() throws ClassNotFoundException, SQLException {
 
@@ -1535,7 +1681,7 @@ public class FormFilledByDonor extends javax.swing.JInternalFrame {
             }
 
         } else {
-            JOptionPane.showMessageDialog(this, "No such donor found..");
+            //JOptionPane.showMessageDialog(this, "No such donor found..");
         }
     }
 

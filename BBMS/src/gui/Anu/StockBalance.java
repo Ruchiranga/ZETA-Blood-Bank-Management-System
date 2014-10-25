@@ -10,9 +10,10 @@
  */
 package gui.Anu;
 
-import Controller.anu.BloodGroupDA;
-import Controller.anu.BloodStockController;
-import Controller.anu.BloodTypeDA;
+import controller.TableResizer;
+import controller.anu.BloodGroupController;
+import controller.anu.BloodStockController;
+import controller.anu.BloodTypeController;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,12 +25,21 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -101,10 +111,14 @@ public class StockBalance extends javax.swing.JInternalFrame {
                     dailyBloodStockDtm.addRow(row);
                 } else {
                     ungrouped[0] = bloodGroup;
-                    ungrouped[1] = bloodStockRst.getString("Unx");
-                    ungrouped[2] = bloodStockRst.getString("x");
-                    ungrouped[3] = bloodStockRst.getString("Spec_res");
-                    ungrouped[4] = bloodStockRst.getString("Underobs");
+                    ungrouped[1] = "";
+                    ungrouped[2] = "";
+                    ungrouped[3] = "";
+                    ungrouped[4] = "";
+                    //ungrouped[1] = bloodStockRst.getString("Unx");
+                    //ungrouped[2] = bloodStockRst.getString("x");
+                    //ungrouped[3] = bloodStockRst.getString("Spec_res");
+                    //ungrouped[4] = bloodStockRst.getString("Underobs");
                     ungrouped[5] = bloodStockRst.getString("Total");
                 }
 
@@ -127,7 +141,7 @@ public class StockBalance extends javax.swing.JInternalFrame {
             }
             setDailyComponentBalance(sqlDateC);
             setDailyBloodStockDetails(sqlDateC);
-
+            TableResizer.resizeColumnWidth(DailyBloodStockTable);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(StockBalance.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -172,17 +186,17 @@ public class StockBalance extends javax.swing.JInternalFrame {
 
             ArrayList<String> bloodTypes = new ArrayList<String>();
 
-            ResultSet rstTypes = BloodTypeDA.getAllTypes();
+            ResultSet rstTypes = BloodTypeController.getAllTypes();
             while (rstTypes.next()) {
                 bloodTypes.add(rstTypes.getString("BloodType"));
             }
 
-            int typeCount = BloodTypeDA.getTypeCount();
+            int typeCount = BloodTypeController.getTypeCount();
             String[] typeTitle1;
             String[] typeTitle2;
 
             if ((typeCount % 2) == 0) {
-                typeTitle1 = new String[(typeCount + 2) / 2];
+                typeTitle1 = new String[(typeCount + 2) / 2 ];
                 typeTitle2 = new String[(typeCount + 2) / 2];
             } else {
                 typeTitle1 = new String[(typeCount + 2) / 2];
@@ -303,7 +317,8 @@ public class StockBalance extends javax.swing.JInternalFrame {
                 }
                 //==============================================================================================
             }
-
+            TableResizer.resizeColumnWidth(DailyBloodDetailTable1);
+            TableResizer.resizeColumnWidth(DailyBloodDetailTable2);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(StockBalance.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -314,15 +329,15 @@ public class StockBalance extends javax.swing.JInternalFrame {
     
     private void setDailyComponentBalance(java.sql.Date date) throws ClassNotFoundException, SQLException {
 
-        int groupCount = BloodGroupDA.getGroupCount();
+        int groupCount = BloodGroupController.getGroupCount();
         String[] componentStockTitle = new String[groupCount + 2];
         String[] groupName = new String[groupCount];
         
-        componentStockTitle[0] = "Componenet";
+        componentStockTitle[0] = "Component";
         componentStockTitle[groupCount + 1] = "Total";
         int groupCounter = 1;
 
-        ResultSet rstGroups = BloodGroupDA.getAllGroups();
+        ResultSet rstGroups = BloodGroupController.getAllGroups();
         while (rstGroups.next()) {
             String group = rstGroups.getString("GroupName");
             componentStockTitle[groupCounter] = group;
@@ -333,7 +348,7 @@ public class StockBalance extends javax.swing.JInternalFrame {
         dailyComponentStockDtm = new DefaultTableModel(componentStockTitle, 0);
         DailyComponenetStockTable.setModel(dailyComponentStockDtm);
 
-        ResultSet rstTypes = BloodTypeDA.getAllTypes();
+        ResultSet rstTypes = BloodTypeController.getAllTypes();
         
         int typeCount = 0;
         while (rstTypes.next()) {
@@ -359,6 +374,7 @@ public class StockBalance extends javax.swing.JInternalFrame {
             }
             
         }
+        TableResizer.resizeColumnWidth(DailyComponenetStockTable);
        
     }
 
@@ -384,6 +400,8 @@ public class StockBalance extends javax.swing.JInternalFrame {
         DailyBloodDetailTable1 = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         DailyBloodDetailTable2 = new javax.swing.JTable();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setTitle("Stock Balance");
 
@@ -408,23 +426,33 @@ public class StockBalance extends javax.swing.JInternalFrame {
             }
         });
 
-        DailyBloodStockTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)));
         DailyBloodStockTable.setModel(dailyBloodStockDtm);
         DailyBloodStockTable.setEnabled(false);
         jScrollPane4.setViewportView(DailyBloodStockTable);
 
-        DailyComponenetStockTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
         DailyComponenetStockTable.setModel(dailyComponentStockDtm);
         DailyComponenetStockTable.setEnabled(false);
         jScrollPane9.setViewportView(DailyComponenetStockTable);
 
-        DailyBloodDetailTable1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)));
         DailyBloodDetailTable1.setModel(bloodDtm);
         jScrollPane2.setViewportView(DailyBloodDetailTable1);
 
-        DailyBloodDetailTable2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)));
         DailyBloodDetailTable2.setModel(bloodDtm2);
         jScrollPane3.setViewportView(DailyBloodDetailTable2);
+
+        jButton1.setText("Print Daily Blood Stock Table");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Print Daily Component Stock Table");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -442,11 +470,15 @@ public class StockBalance extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane9, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 798, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE))))
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 313, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -464,10 +496,16 @@ public class StockBalance extends javax.swing.JInternalFrame {
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(105, 105, 105)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5))
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Daily Blood and Component Stock Balance", jPanel1);
@@ -502,12 +540,53 @@ public class StockBalance extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_DailyBloodStockDatePropertyChange
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            JasperReport jr = JasperCompileManager.compileReport("./src/Reports/Anu/StockBalance.jrxml");
+            Map<String, Object> params;
+            params = new HashMap<String, Object>();
+            params.put("Date",df.format(DailyBloodStockDate.getDate()));
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(DailyBloodStockTable.getModel());
+
+            JasperPrint jp = JasperFillManager.fillReport(jr, params,dataSource);
+
+            JasperViewer.viewReport(jp,false);
+
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, "Error while generating the Report!", "", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ReagentRequests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DateFormat df = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            JasperReport jr2 = JasperCompileManager.compileReport("./src/Reports/Anu/ComponentBalance.jrxml");
+            Map<String, Object> params2;
+            params2 = new HashMap<String, Object>();
+            params2.put("Date",df.format(DailyBloodStockDate.getDate()));
+
+            JRTableModelDataSource dataSource2 = new JRTableModelDataSource(DailyComponenetStockTable.getModel());
+
+            JasperPrint jp2 = JasperFillManager.fillReport(jr2, params2,dataSource2);
+
+            JasperViewer.viewReport(jp2,false);
+
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, "Error while generating the Report!", "", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ReagentRequests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable DailyBloodDetailTable1;
     private javax.swing.JTable DailyBloodDetailTable2;
     private com.toedter.calendar.JDateChooser DailyBloodStockDate;
     private javax.swing.JTable DailyBloodStockTable;
     private javax.swing.JTable DailyComponenetStockTable;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JPanel jPanel1;

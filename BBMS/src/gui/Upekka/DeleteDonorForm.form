@@ -168,8 +168,8 @@
                                               <Component id="jLabel3" min="-2" pref="52" max="-2" attributes="0"/>
                                               <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="0" attributes="0">
-                                                  <Component id="nicTextField" min="-2" pref="116" max="-2" attributes="0"/>
                                                   <Component id="nameTextField" min="-2" pref="483" max="-2" attributes="0"/>
+                                                  <Component id="nicComboBox" min="-2" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -238,8 +238,8 @@
                               <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
-                                  <Component id="nicTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  <Component id="nicComboBox" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="3" attributes="0">
@@ -330,11 +330,6 @@
                         <Property name="text" type="java.lang.String" value="NIC No:"/>
                       </Properties>
                     </Component>
-                    <Component class="javax.swing.JTextField" name="nicTextField">
-                      <Events>
-                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nicTextFieldActionPerformed"/>
-                      </Events>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="jLabel4">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Date of Birth:"/>
@@ -348,6 +343,7 @@
                     <Component class="javax.swing.JTextField" name="ageTextField">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ageTextFieldActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ageTextFieldKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="homeAddressTextField">
@@ -362,6 +358,7 @@
                     <Component class="javax.swing.JTextField" name="homeTpTextField">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="homeTpTextFieldActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="homeTpTextFieldKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel9">
@@ -382,6 +379,7 @@
                     <Component class="javax.swing.JTextField" name="officeTpTextField">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="officeTpTextFieldActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="officeTpTextFieldKeyTyped"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabel11">
@@ -390,6 +388,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="mobileTPTextField">
+                      <Events>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="mobileTPTextFieldKeyTyped"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JTextField" name="emailTextField">
                     </Component>
@@ -419,6 +420,19 @@
                     <Component class="javax.swing.JTextField" name="weightTextField">
                       <Events>
                         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="weightTextFieldActionPerformed"/>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="weightTextFieldKeyTyped"/>
+                      </Events>
+                    </Component>
+                    <Component class="javax.swing.JComboBox" name="nicComboBox">
+                      <Properties>
+                        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                          <StringArray count="1">
+                            <StringItem index="0" value="Select NIC"/>
+                          </StringArray>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nicComboBoxActionPerformed"/>
                       </Events>
                     </Component>
                   </SubComponents>

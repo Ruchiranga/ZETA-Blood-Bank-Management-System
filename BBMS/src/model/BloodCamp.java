@@ -12,7 +12,15 @@ public class BloodCamp {
     private int expDonars;
     private String organizer;
 
-    /**
+    public BloodCamp(String campID, String place, Date date, int expDonars, String organizer) {
+        this.campID = campID;
+        this.place = place;
+        this.date = date;
+        this.expDonars = expDonars;
+        this.organizer = organizer;
+    }
+    
+        /**
      * @return the campID
      */
     public String getCampID() {

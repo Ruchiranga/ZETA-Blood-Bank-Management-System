@@ -14,11 +14,15 @@ public class ItemRecievedDetail {
     
     private String recievedID;
     private String itemID;
+    private double qty;
 
-    public ItemRecievedDetail(String recievedID, String itemID) {
+    public ItemRecievedDetail(String recievedID, String itemID, double qty) {
         this.recievedID = recievedID;
         this.itemID = itemID;
+        this.qty = qty;
     }
+    
+    
 
     /**
      * @return the recievedID
@@ -47,6 +51,22 @@ public class ItemRecievedDetail {
     public void setItemID(String itemID) {
         this.itemID = itemID;
     }
+
+    /**
+     * @return the qty
+     */
+    public double getQty() {
+        return qty;
+    }
+
+    /**
+     * @param qty the qty to set
+     */
+    public void setQty(double qty) {
+        this.qty = qty;
+    }
+
+    
     
     
     

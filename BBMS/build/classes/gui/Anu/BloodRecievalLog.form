@@ -351,6 +351,7 @@
                     <Component class="com.toedter.calendar.JDateChooser" name="startDateCalendar">
                       <Properties>
                         <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="startDateCalendarPropertyChange"/>
@@ -359,6 +360,7 @@
                     <Component class="com.toedter.calendar.JDateChooser" name="endDateCalendar">
                       <Properties>
                         <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                       <Events>
                         <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="endDateCalendarPropertyChange"/>

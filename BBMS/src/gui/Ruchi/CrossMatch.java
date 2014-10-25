@@ -11,8 +11,10 @@ import Controller.Ruchi.BloodTypeController;
 import Controller.Ruchi.CrossMatchDetailController;
 import Controller.Ruchi.DonorController;
 import Controller.Ruchi.EmployeeController;
-import Controller.TableCleaner;
-import Controller.TableResizer;
+import Controller.Ruchi.SampleDetailController;
+import controller.SearchableCombo;
+import controller.TableCleaner;
+import controller.TableResizer;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -36,6 +38,7 @@ public class CrossMatch extends javax.swing.JInternalFrame {
     DonorController donorController;
     EmployeeController employeeController;
     CrossMatchDetailController cdetailController;
+    SampleDetailController sdetailController;
     DefaultTableModel dtm;
     DefaultTableModel dtmCom;
     Requests parent;
@@ -52,6 +55,7 @@ public class CrossMatch extends javax.swing.JInternalFrame {
         donorController = new DonorController();
         employeeController = new EmployeeController();
         cdetailController = new CrossMatchDetailController();
+        sdetailController = new SampleDetailController();
         this.requestNo = requestNo;
         this.parent = parent;
 
@@ -147,6 +151,9 @@ public class CrossMatch extends javax.swing.JInternalFrame {
         dateChooser.setDateFormatString("YYYY-MM-dd");
         dateChooser.setDate(new java.util.Date());
         dateChooser.getDateEditor().setEnabled(false);
+        
+        new SearchableCombo().setSearchableCombo(donorsComboBox, true);
+        new SearchableCombo().setSearchableCombo(medOfficerComboBox, true);
     }
 
     private boolean isAlreadyAddedToList(String packetID) {
@@ -289,6 +296,7 @@ public class CrossMatch extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Donor name");
 
+        donorsComboBox.setEditable(true);
         donorsComboBox.setEnabled(false);
         donorsComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -432,6 +440,8 @@ public class CrossMatch extends javax.swing.JInternalFrame {
         jLabel9.setText("Date:");
 
         jLabel10.setText("Name of the Medical Officer:");
+
+        medOfficerComboBox.setEditable(true);
 
         specialReservationCheckBox.setText("Special Reservation");
 
@@ -855,17 +865,18 @@ public class CrossMatch extends javax.swing.JInternalFrame {
         if (dtmCom.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Please add the blood packets needed to be crossmatched to the list", "", JOptionPane.ERROR_MESSAGE);
         } else {
+            int packetRes = 0;
+            int specialRes = 0;
+            int addDetailRes = 0;
+            int markCMatchedRes = 0;
             for (int i = 0; i < dtmCom.getRowCount(); i++) {
                 String packetID = (String) dtmCom.getValueAt(i, 1);
-                int packetRes = 0;
-                int specialRes = 0;
-                int addDetailRes = 0;
 
                 try {
 
-                    packetRes = packetController.markCrossMatched(packetID);
+                    packetRes += packetController.markCrossMatched(packetID);
                     if (specialReservationCheckBox.isSelected()) {
-                        specialRes = packetController.markSpecialReservation(packetID);
+                        specialRes += packetController.markSpecialReservation(packetID);
                     }
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
@@ -878,26 +889,36 @@ public class CrossMatch extends javax.swing.JInternalFrame {
                 String doneByID;
                 try {
                     doneByID = employeeController.getIDOf(doneByName);
-                    addDetailRes = cdetailController.addDetail(new CrossMatchDetail(requestNo, packetID, date, doneByID));
+                    addDetailRes += cdetailController.addDetail(new CrossMatchDetail(requestNo, packetID, date, doneByID));
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
                     Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                if (specialReservationCheckBox.isSelected() && packetRes == 1 && specialRes == 1 && addDetailRes == 1) {
-                    JOptionPane.showMessageDialog(this, "Database updated successfully", "", JOptionPane.INFORMATION_MESSAGE);
-                    parent.show();
-                    this.dispose();
-                } else if (!specialReservationCheckBox.isSelected() && packetRes == 1 && addDetailRes == 1) {
-                    JOptionPane.showMessageDialog(this, "Database updated successfully", "", JOptionPane.INFORMATION_MESSAGE);
-                    parent.show();
-                    this.dispose();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Error in adding data to the database", "", JOptionPane.ERROR_MESSAGE);
+            }
 
-                    this.dispose();
-                    parent.show();
-                }
+            try {
+                markCMatchedRes = sdetailController.markCrossmatched(requestNo);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(CrossMatch.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            parent.updateRequestNoCombo();
+            if (specialReservationCheckBox.isSelected() && packetRes == dtmCom.getRowCount() && specialRes == dtmCom.getRowCount() && addDetailRes == dtmCom.getRowCount() && markCMatchedRes == 1) {
+                JOptionPane.showMessageDialog(this, "Database updated successfully", "", JOptionPane.INFORMATION_MESSAGE);
+                parent.show();
+                
+                this.dispose();
+            } else if (!specialReservationCheckBox.isSelected() && packetRes == dtmCom.getRowCount() && addDetailRes == dtmCom.getRowCount()&& markCMatchedRes == 1) {
+                JOptionPane.showMessageDialog(this, "Database updated successfully", "", JOptionPane.INFORMATION_MESSAGE);
+                parent.show();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Error in adding data to the database", "", JOptionPane.ERROR_MESSAGE);
+
+                this.dispose();
+                parent.show();
             }
         }
     }//GEN-LAST:event_markCrossMatchedButtonActionPerformed

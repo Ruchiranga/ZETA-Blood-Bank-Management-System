@@ -24,7 +24,7 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="jTabbedPane1" alignment="0" pref="312" max="32767" attributes="0"/>
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -114,11 +114,14 @@
                               <EmptySpace max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Group type="102" attributes="0">
-                                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+                                      <Component id="jLabel4" min="-2" pref="55" max="-2" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Component id="addWardText" pref="93" max="32767" attributes="0"/>
                                   </Group>
-                                  <Component id="addWardBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="1" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="addWardBtn" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -132,7 +135,7 @@
                                   <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="addWardText" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="104" max="32767" attributes="0"/>
+                              <EmptySpace pref="116" max="32767" attributes="0"/>
                               <Component id="addWardBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
                           </Group>
@@ -142,10 +145,13 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabel4">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Ward"/>
+                        <Property name="text" type="java.lang.String" value="Ward*"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="addWardText">
+                      <Events>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="addWardTextKeyTyped"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="addWardBtn">
                       <Properties>
@@ -171,13 +177,16 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                                      <Component id="addHospitalText" pref="96" max="32767" attributes="0"/>
+                              <Group type="103" groupAlignment="1" attributes="0">
+                                  <Group type="102" attributes="0">
+                                      <Component id="jLabel1" pref="56" max="32767" attributes="0"/>
+                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <Component id="addHospitalText" min="-2" pref="125" max="-2" attributes="0"/>
                                   </Group>
-                                  <Component id="addHospitalBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                      <Component id="addHospitalBtn" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -191,7 +200,7 @@
                                   <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   <Component id="addHospitalText" alignment="3" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace pref="106" max="32767" attributes="0"/>
+                              <EmptySpace pref="118" max="32767" attributes="0"/>
                               <Component id="addHospitalBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                           </Group>
@@ -201,10 +210,13 @@
                   <SubComponents>
                     <Component class="javax.swing.JLabel" name="jLabel1">
                       <Properties>
-                        <Property name="text" type="java.lang.String" value="Hospital"/>
+                        <Property name="text" type="java.lang.String" value="Hospital*"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JTextField" name="addHospitalText">
+                      <Events>
+                        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="addHospitalTextKeyTyped"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JButton" name="addHospitalBtn">
                       <Properties>
@@ -332,6 +344,7 @@
               <SubComponents>
                 <Component class="javax.swing.JComboBox" name="hospitalCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -352,6 +365,7 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="wardCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -363,11 +377,13 @@
                 <Component class="javax.swing.JTextField" name="updateHospitalText">
                   <Events>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="updateHospitalTextKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="updateHospitalTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JTextField" name="UpdateWardText">
                   <Events>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="UpdateWardTextKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="UpdateWardTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="updateHospitalBtn">

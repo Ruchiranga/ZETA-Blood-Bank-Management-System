@@ -48,7 +48,7 @@
               <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="35" max="32767" attributes="0"/>
+              <EmptySpace pref="39" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -169,10 +169,7 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Stencil Std" size="18" style="3"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="request ID*"/>
+            <Property name="text" type="java.lang.String" value="Request ID*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="requestIDText">
@@ -181,14 +178,15 @@
               <Font name="Times New Roman" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="requestIDTextActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="requestIDTextKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel13">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="16" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Collected By:"/>
           </Properties>
@@ -199,27 +197,28 @@
               <Font name="Times New Roman" size="14" style="1"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CollectorTextActionPerformed"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="CollectorTextKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel17">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="16" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Collected Date*"/>
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="dateChooser">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dateChooserKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel18">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="16" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Collected Time*"/>
           </Properties>
@@ -246,7 +245,7 @@
                                   <Group type="103" groupAlignment="1" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
                                           <Component id="hospitalCombo" min="-2" max="-2" attributes="0"/>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
@@ -296,21 +295,8 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Group type="102" attributes="0">
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="symptomLabel" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                                  <Group type="103" groupAlignment="0" attributes="0">
-                                      <Group type="102" alignment="0" attributes="0">
-                                          <Component id="reactionYesRadio" min="-2" max="-2" attributes="0"/>
-                                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                                          <Component id="reactionNoRadio" min="-2" max="-2" attributes="0"/>
-                                      </Group>
-                                      <Component id="symptomText" alignment="0" min="-2" pref="279" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <Component id="symptomLabel" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
@@ -322,6 +308,12 @@
                                   <Component id="conditionText" min="-2" pref="279" max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                   <Component id="groupCombo" min="-2" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="reactionYesRadio" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                      <Component id="reactionNoRadio" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Component id="symptomText" alignment="0" min="-2" pref="279" max="-2" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -349,8 +341,9 @@
                                       </Group>
                                   </Group>
                                   <Group type="102" alignment="0" attributes="0">
+                                      <EmptySpace min="-2" pref="5" max="-2" attributes="0"/>
                                       <Component id="jLabel15" min="-2" max="-2" attributes="0"/>
-                                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
                                           <Component id="weightText" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -405,6 +398,10 @@
                   <Font name="Times New Roman" size="13" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="bhtTextActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="bhtTextKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="maleRadio">
               <Properties>
@@ -446,6 +443,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupComboActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JRadioButton" name="reactionYesRadio">
               <Properties>
@@ -543,6 +543,10 @@
                   <Font name="Times New Roman" size="13" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="nameTextActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="nameTextKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JTextField" name="ageText">
               <Properties>
@@ -550,6 +554,10 @@
                   <Font name="Times New Roman" size="13" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ageTextActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="ageTextKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel9">
               <Properties>
@@ -573,6 +581,9 @@
                   <Font name="Times New Roman" size="13" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="conditionTextKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
@@ -590,6 +601,7 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="symptomTextActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="symptomTextKeyTyped"/>
               </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="hospitalCombo">
@@ -621,6 +633,10 @@
                   <Font name="Times New Roman" size="13" style="1"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="weightTextActionPerformed"/>
+                <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="weightTextKeyTyped"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JComboBox" name="wardCombo">
               <Properties>
@@ -646,13 +662,13 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="16" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Recieved Date*"/>
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="recievedDateChooser">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="recievedDateChooserKeyReleased"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -727,9 +743,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Times New Roman" size="16" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="Priority"/>
           </Properties>
         </Component>
@@ -741,7 +754,7 @@
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="2">
                 <StringItem index="0" value="Urgent"/>
-                <StringItem index="1" value="Not urgent"/>
+                <StringItem index="1" value="Routine"/>
               </StringArray>
             </Property>
           </Properties>

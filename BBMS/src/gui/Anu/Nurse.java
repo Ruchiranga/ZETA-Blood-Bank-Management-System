@@ -10,10 +10,13 @@
  */
 package gui.Anu;
 
-import Controller.anu.BloodGroupDA;
-import Controller.anu.BloodPacketDA;
-import Controller.anu.BloodStockController;
-import Controller.anu.BloodTypeDA;
+import controller.TableResizer;
+import controller.anu.BloodGroupController;
+import controller.anu.BloodPacketController;
+import controller.anu.BloodStockController;
+import controller.anu.BloodTypeController;
+import connection.NotifierConnection;
+import controller.anu.BloodStockUpdateNotifier;
 import gui.ChangePassword;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -41,23 +44,26 @@ import model.ComponentStockHistory;
  */
 public class Nurse extends javax.swing.JFrame implements Observer {
 
-    String[] title = {"PacketID", "Blood Type", "Blood Group"};
+    String[] title = {"PacketID", "Type", "Group"};
     DefaultTableModel dtm = new DefaultTableModel(title, 0);
     
     Calendar currenttime = Calendar.getInstance();
     java.sql.Date sqlCurrentDate = new java.sql.Date((currenttime.getTime()).getTime());
 
-    String[] bloodStockTitle = {"Blood Group", "Un X matched", "X matched", "Special Reservations", "Under Observation", "Total"};
+    String[] bloodStockTitle = {"Blood Group", "Un X matched", "X matched", "Reservations", "Under Observation", "Total"};
     DefaultTableModel bloodStockDtm = new DefaultTableModel(bloodStockTitle, 0);
+    BloodStockUpdateNotifier notifier = null;
 
     boolean isBloodStockEntered;
     /**
      * Creates new form Nurse
      */
     public Nurse() throws IOException {
-
+            
             this.setName("Blood Bank Management System");
             initComponents();
+            
+            
             File imgfile = new File("..\\BBMS\\src\\images\\drop.png");
             FileInputStream imgStream = new FileInputStream(imgfile);
             BufferedImage bi = ImageIO.read(imgStream);
@@ -65,12 +71,20 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             this.setIconImage(myImg.getImage());
             setTitle("Karapitiya Blood Bank Management System");
             setLocationRelativeTo(null);
+            
+            notifier = NotifierConnection.getNotifierConnection(this);
+            
             update(null, null);
-        
+            TableResizer.resizeColumnWidth(bloodStockTable);
+            TableResizer.resizeColumnWidth(componentStockTable);
+            TableResizer.resizeColumnWidth(expiredBloodPacketsTable);
     }
 
     private void setToBeDiscardedBlood() throws ClassNotFoundException, SQLException {
-        ResultSet rst = BloodPacketDA.getExpiredBloodPackets(sqlCurrentDate);
+        
+        dtm = new DefaultTableModel(title, 0);
+        expiredBloodPacketsTable.setModel(dtm);
+        ResultSet rst = BloodPacketController.getExpiredBloodPackets(sqlCurrentDate);
         String packetID = null;
         String bloodType = null;
         String bloodGroup = null;
@@ -113,8 +127,8 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             bloodStockTable.setModel(bloodStockDtm);
             ResultSet rst;
             try {
-                rst = BloodGroupDA.getAllGroups();
-                int groupCount = BloodGroupDA.getGroupCount();
+                rst = BloodGroupController.getAllGroups();
+                int groupCount = BloodGroupController.getGroupCount();
                 int[] tot = new int[groupCount - 1];
                 int i = 0;
                 int resultBloodStock = 0;
@@ -163,11 +177,11 @@ public class Nurse extends javax.swing.JFrame implements Observer {
                 }
                 
                 if(resultBloodStock == groupCount){
-                    JOptionPane.showMessageDialog(null, "Blood stock added successfully");
+                    //JOptionPane.showMessageDialog(null, "Blood stock added successfully");
                 }else if(updateBloodStock == groupCount){
-                    JOptionPane.showMessageDialog(null, "Blood stock updated successfully");
+                    //JOptionPane.showMessageDialog(null, "Blood stock updated successfully");
                 }else{
-                    JOptionPane.showMessageDialog(null, "Error in updating blood stock");
+                    //JOptionPane.showMessageDialog(null, "Error in updating blood stock");
                 }
                 
                 int lastRow = bloodStockDtm.getRowCount();
@@ -207,7 +221,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
 
     private void setDailyComponentBalance(int bloodStockEntered, int resultBalance, int updateBalance) throws ClassNotFoundException, SQLException {
 
-        int groupCount = BloodGroupDA.getGroupCount();
+        int groupCount = BloodGroupController.getGroupCount();
         String[] componentStockTitle = new String[groupCount + 2];
         String[] groupName = new String[groupCount];
         
@@ -218,7 +232,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         componentStockTitle[groupCount + 1] = "Total";
         int groupCounter = 1;
 
-        ResultSet rstGroups = BloodGroupDA.getAllGroups();
+        ResultSet rstGroups = BloodGroupController.getAllGroups();
         while (rstGroups.next()) {
             String group = rstGroups.getString("GroupName");
             componentStockTitle[groupCounter] = group;
@@ -229,7 +243,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         componenetStockDtm = new DefaultTableModel(componentStockTitle, 0);
         componentStockTable.setModel(componenetStockDtm);
 
-        ResultSet rstTypes = BloodTypeDA.getAllTypes();
+        ResultSet rstTypes = BloodTypeController.getAllTypes();
         
         int typeCount = 0;
         while (rstTypes.next()) {
@@ -273,19 +287,19 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             
         }
         if(resultComponent == ((typeCount-1)*groupCount)){
-            JOptionPane.showMessageDialog(null, "Component Stock Added successfully");
+            //JOptionPane.showMessageDialog(null, "Component Stock Added successfully");
         }else if(updateComponent == ((typeCount-1)*groupCount)){
-            JOptionPane.showMessageDialog(null, "Component Stock Updated successfully");
+            //JOptionPane.showMessageDialog(null, "Component Stock Updated successfully");
         }else{
-            JOptionPane.showMessageDialog(null, "Error occured when updating component stock");
+            //JOptionPane.showMessageDialog(null, "Error occured when updating component stock");
         }
         
         if(resultBalance == typeCount ){
-            JOptionPane.showMessageDialog(null, "Balance added successfully");
+            //JOptionPane.showMessageDialog(null, "Balance added successfully");
         }else if(updateBalance == typeCount){
-            JOptionPane.showMessageDialog(null, "Balance updated successfully");
+            //JOptionPane.showMessageDialog(null, "Balance updated successfully");
         }else{
-            JOptionPane.showMessageDialog(null, "Error occured when updating Balance");
+            //JOptionPane.showMessageDialog(null, "Error occured when updating Balance");
         }
     }
 
@@ -317,16 +331,14 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         jScrollPane15 = new javax.swing.JScrollPane();
         componentStockTable = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jButton22 = new javax.swing.JButton();
         jButton37 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
         addBloodTypesBtn = new javax.swing.JButton();
         addBloodGroupBtn = new javax.swing.JButton();
         jButton33 = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        jButton34 = new javax.swing.JButton();
-        jButton39 = new javax.swing.JButton();
         jButton41 = new javax.swing.JButton();
         jButton25 = new javax.swing.JButton();
         jSeparator3 = new javax.swing.JSeparator();
@@ -351,6 +363,8 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(1370, 705));
+        getContentPane().setLayout(null);
 
         jLayeredPane1.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -377,7 +391,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
 
         jLabel3.setText("Total");
 
-        totalTxt.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        totalTxt.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         totalTxt.setEnabled(false);
 
         discardBtn.setText("Discard");
@@ -424,7 +438,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         NurseDesktop.add(jCalendar1);
         jCalendar1.setBounds(862, 0, 310, 160);
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Daily Blood and Component Stock Balance Register"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Daily Blood and Component Stock Balance Register"));
 
         bloodStockTable.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
         bloodStockTable.setModel(bloodStockDtm);
@@ -482,6 +496,10 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         NurseDesktop.add(jPanel2);
         jPanel2.setBounds(170, 0, 690, 470);
 
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/White-Background-53.jpg"))); // NOI18N
+        NurseDesktop.add(jLabel2);
+        jLabel2.setBounds(0, 0, 1170, 650);
+
         jLayeredPane1.add(NurseDesktop);
         NurseDesktop.setBounds(200, 60, 1170, 650);
 
@@ -502,16 +520,6 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         });
         jLayeredPane1.add(jButton37);
         jButton37.setBounds(0, 130, 200, 30);
-
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/I05.jpg"))); // NOI18N
-        jButton8.setBorder(null);
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton8);
-        jButton8.setBounds(240, 0, 60, 60);
 
         addBloodTypesBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/I05.jpg"))); // NOI18N
         addBloodTypesBtn.setToolTipText("Blood Types");
@@ -542,7 +550,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             }
         });
         jLayeredPane1.add(jButton33);
-        jButton33.setBounds(0, 480, 200, 30);
+        jButton33.setBounds(0, 420, 200, 30);
 
         jLabel5.setFont(new java.awt.Font("Monotype Corsiva", 3, 18)); // NOI18N
         jLabel5.setText("Statistics");
@@ -551,24 +559,6 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         jLayeredPane1.add(jSeparator1);
         jSeparator1.setBounds(0, 350, 200, 2);
 
-        jButton34.setText("Blood Return");
-        jButton34.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton34ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton34);
-        jButton34.setBounds(0, 390, 200, 30);
-
-        jButton39.setText("Blood Issue");
-        jButton39.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton39ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton39);
-        jButton39.setBounds(0, 420, 200, 30);
-
         jButton41.setText("Blood Recieval");
         jButton41.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -576,7 +566,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             }
         });
         jLayeredPane1.add(jButton41);
-        jButton41.setBounds(0, 450, 200, 30);
+        jButton41.setBounds(0, 390, 200, 30);
 
         jButton25.setText("Blood Return");
         jButton25.addActionListener(new java.awt.event.ActionListener() {
@@ -639,7 +629,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             }
         });
         jLayeredPane1.add(bloodReturnBtn);
-        bloodReturnBtn.setBounds(300, 0, 60, 60);
+        bloodReturnBtn.setBounds(240, 0, 60, 60);
 
         addRequestorBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/I07.jpg"))); // NOI18N
         addRequestorBtn.setToolTipText("Requestors");
@@ -662,7 +652,9 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         titlePanel.setLayout(titlePanelLayout);
         titlePanelLayout.setHorizontalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1380, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -692,16 +684,8 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         jLayeredPane1.add(jButton40);
         jButton40.setBounds(0, 290, 200, 30);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1370, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 705, Short.MAX_VALUE)
-        );
+        getContentPane().add(jLayeredPane1);
+        jLayeredPane1.setBounds(0, 0, 1370, 705);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -760,7 +744,7 @@ public class Nurse extends javax.swing.JFrame implements Observer {
 
     private void bloodReturnBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodReturnBtnActionPerformed
         try {
-            ChangePassword p = new ChangePassword();
+            ChangePassword p = new ChangePassword(3);
             p.setClosable(true);
             NurseDesktop.add(p);
             p.show();
@@ -776,14 +760,6 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         NurseDesktop.setRequestFocusEnabled(true);
         requestee.show();
     }//GEN-LAST:event_addRequesteeBtnActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        AddRequester requester = new AddRequester();
-        requester.setClosable(true);
-        NurseDesktop.add(requester);
-        NurseDesktop.setRequestFocusEnabled(true);
-        requester.show();
-    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void addBloodTypesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBloodTypesBtnActionPerformed
         AddBloodTypes bloodTypeForm = new AddBloodTypes();
@@ -826,33 +802,11 @@ public class Nurse extends javax.swing.JFrame implements Observer {
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     String packID = "" + dtm.getValueAt(row, 0);
-                    int discarded = BloodPacketDA.discardPacket(packID, sqlCurrentDate);
+                    int discarded = BloodPacketController.discardPacket(packID, sqlCurrentDate);
                     if (discarded == 1) {
+                        notifier.notifyUpdateBloodStock();
                         JOptionPane.showMessageDialog(null, "Blood packet discarded succesfully!");
-                        dtm = new DefaultTableModel(title, 0);
-                        expiredBloodPacketsTable.setModel(dtm);
-
-                        try {
-                            ResultSet rst = BloodPacketDA.getExpiredBloodPackets(sqlCurrentDate);
-                            String packetID = null;
-                            String bloodType = null;
-                            String bloodGroup = null;
-                            int count = 0;
-                            while (rst.next()) {
-                                packetID = rst.getString("packetID");
-                                bloodType = rst.getString("bloodType");
-                                bloodGroup = rst.getString("bloodGroup");
-                                String[] ar = {packetID, bloodType, bloodGroup};
-                                dtm.addRow(ar);
-                                count++;
-                            }
-                            totalTxt.setText("" + count);
-                        } catch (ClassNotFoundException ex) {
-                            Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                        update(null,null);
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Error while discarding blood packet!");
                     }
@@ -876,20 +830,8 @@ public class Nurse extends javax.swing.JFrame implements Observer {
         stock.show();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton34ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton34ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton34ActionPerformed
-
-    private void jButton39ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton39ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton39ActionPerformed
-
     private void jButton41ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton41ActionPerformed
-        BloodRecievalLog bloodRecieval = new BloodRecievalLog();
-        bloodRecieval.setClosable(true);
-        NurseDesktop.add(bloodRecieval);
-        NurseDesktop.setRequestFocusEnabled(true);
-        bloodRecieval.show();
+        // TODO add your handling code here:
     }//GEN-LAST:event_jButton41ActionPerformed
 
     private void jButton38ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton38ActionPerformed
@@ -916,19 +858,6 @@ public class Nurse extends javax.swing.JFrame implements Observer {
 
             public void run() {
                 try {
-                    //                try {
-                    //                    //UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
-                    //                    UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
-                    //                    //MedicalOfficer bbms = new MedicalOfficer();
-                    //                    //bbms.setVisible(true);
-                    //                    new Nurse().setVisible(true);
-                    //                } catch (ParseException ex) {
-                    //                    Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
-                    //                } catch (UnsupportedLookAndFeelException ex) {
-                    //                    Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
-                    //                } catch (IOException ex) {
-                    //                    Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
-                    //                }
                     new Nurse().setVisible(true);
                 } catch (IOException ex) {
                     Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
@@ -955,18 +884,16 @@ public class Nurse extends javax.swing.JFrame implements Observer {
     private javax.swing.JButton jButton22;
     private javax.swing.JButton jButton25;
     private javax.swing.JButton jButton33;
-    private javax.swing.JButton jButton34;
     private javax.swing.JButton jButton36;
     private javax.swing.JButton jButton37;
     private javax.swing.JButton jButton38;
-    private javax.swing.JButton jButton39;
     private javax.swing.JButton jButton40;
     private javax.swing.JButton jButton41;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton8;
     private com.toedter.calendar.JCalendar jCalendar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel8;

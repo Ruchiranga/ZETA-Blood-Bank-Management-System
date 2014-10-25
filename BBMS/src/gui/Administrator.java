@@ -412,7 +412,7 @@ public class Administrator extends javax.swing.JFrame {
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         try {
-            ChangePassword p = new ChangePassword();
+            ChangePassword p = new ChangePassword(1);
             p.setClosable(true);
             desktopPane.add(p);
             p.show();

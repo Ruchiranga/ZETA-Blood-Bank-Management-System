@@ -5,8 +5,8 @@
  */
 package gui.Naduni;
 
-import Controller.Nanduni.IssueDA;
-import Controller.Nanduni.SampleDetailsDA;
+import controller.IssueController;
+import controller.SampleDetailsController;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.sql.ResultSet;
@@ -194,7 +194,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
     private void showChartBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showChartBtn1ActionPerformed
         String option = "" + optionCombo.getSelectedItem();
         String chartType = "" + chartCombo.getSelectedItem();
-        if (option.equals("Blood Component")) {
+        if (option.equals("Blood Components")) {
             try {
                 int cryoCount = 0;
                 int ffpCount = 0;
@@ -205,7 +205,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
                 ResultSet rst = null;
                 String year = "" + yearCombo.getSelectedItem();
                 String month = "" + monthCombo.getSelectedItem();
-                rst = IssueDA.getIssueInfo(year, month);
+                rst = IssueController.getIssueInfo(year, month);
 
                 while (rst.next()) {
 
@@ -272,11 +272,11 @@ public class IssueChart extends javax.swing.JInternalFrame {
                 }
 
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "-1Data Error!", "Warning!", JOptionPane.OK_OPTION);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(IssueChart.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } else if (option.equals("Blood Group")) {
+        } else if (option.equals("Blood Groups")) {
             try {
                 int Apos = 0;
                 int Bpos = 0;
@@ -290,7 +290,8 @@ public class IssueChart extends javax.swing.JInternalFrame {
                 ResultSet rst = null;
                 String year = "" + yearCombo.getSelectedItem();
                 String month = "" + monthCombo.getSelectedItem();
-                rst = IssueDA.getIssueInfo(year, month);
+
+                rst = IssueController.getIssueInfo(year, month);
 
                 while (rst.next()) {
 
@@ -369,7 +370,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
 
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "0Data Error!", "Warning!", JOptionPane.OK_OPTION);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(IssueChart.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -381,7 +382,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
                 ResultSet rst = null;
                 String year = "" + yearCombo.getSelectedItem();
                 String month = "" + monthCombo.getSelectedItem();
-                rst = IssueDA.getRequesteeInfo(year, month);
+                rst = IssueController.getRequesteeInfo(year, month);
 
                 while (rst.next()) {
 
@@ -436,7 +437,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
                     }
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "1Data Error!", "Warning!", JOptionPane.OK_OPTION);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(IssueChart.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -449,14 +450,14 @@ public class IssueChart extends javax.swing.JInternalFrame {
                 ResultSet rst = null;
                 String year = "" + yearCombo.getSelectedItem();
                 String month = "" + monthCombo.getSelectedItem();
-                rst = SampleDetailsDA.getAllHospitals();
+                rst = SampleDetailsController.getAllHospitals();
                 while (rst.next()) {
                     hospitals[noOfHospitals] = rst.getString("Name");
                     hospitalCount[noOfHospitals] = 0;
                     noOfHospitals++;
                 }
 
-                rst = IssueDA.getRequesteeInfo(year, month);
+                rst = IssueController.getRequesteeInfo(year, month);
 
                 while (rst.next()) {
                     String type = rst.getString("Hospital");
@@ -512,52 +513,53 @@ public class IssueChart extends javax.swing.JInternalFrame {
                     }
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "2Data Error!", "Warning!", JOptionPane.OK_OPTION);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(IssueChart.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }else if (option.equals("Age Groups")) {
+        } else if (option.equals("Age Groups")) {
             try {
                 int[] ages = new int[10];
-                for(int i=0;i<10;i++){
-                    ages[i]=0;
+                for (int i = 0; i < 10; i++) {
+                    ages[i] = 0;
                 }
                 ResultSet rst = null;
-                String year = ""  + yearCombo.getSelectedItem();
+                String year = "" + yearCombo.getSelectedItem();
                 String month = "" + monthCombo.getSelectedItem();
-                rst = IssueDA.getRequesteeInfo(year, month);
-                
+                rst = IssueController.getRequesteeInfo(year, month);
+
                 while (rst.next()) {
                     int age = Integer.parseInt(rst.getString("Age"));
-                    if(age<=10 && age>0){
+                    if (age <= 10 && age > 0) {
                         ages[0]++;
-                    }else if(age<=20 && age>10){
+                    } else if (age <= 20 && age > 10) {
                         ages[1]++;
-                    }else if(age<=30 && age>20){
+                    } else if (age <= 30 && age > 20) {
                         ages[2]++;
-                    }else if(age<=40 && age>30){
+                    } else if (age <= 40 && age > 30) {
                         ages[3]++;
-                    }else if(age<=50 && age>40){
+                    } else if (age <= 50 && age > 40) {
                         ages[4]++;
-                    }else if(age<=60 && age>50){
+                    } else if (age <= 60 && age > 50) {
                         ages[5]++;
-                    }else if(age<=70 && age>60){
+                    } else if (age <= 70 && age > 60) {
                         ages[6]++;
-                    }else if(age<=80 && age>70){
+                    } else if (age <= 80 && age > 70) {
                         ages[7]++;
-                    }else if(age<=90 && age>80){
+                    } else if (age <= 90 && age > 80) {
                         ages[8]++;
-                    }else if(age<=100 && age>90){
+                    } else if (age <= 100 && age > 90) {
                         ages[9]++;
-                    }     
+                    }
                 }
 
-                rst = IssueDA.getRequesteeInfo(year, month);
+                rst = IssueController.getRequesteeInfo(year, month);
 
                 if (chartType.equals("Pie Chart")) {
                     DefaultPieDataset piedataset = new DefaultPieDataset();
                     for (int i = 0; i < 10; i++) {
-                        piedataset.setValue(i*10+"-"+(i*10+10), ages[i]);
+                        piedataset.setValue(i * 10 + "-" + (i * 10 + 10), ages[i]);
                     }
 
                     JFreeChart chart = ChartFactory.createPieChart3D("Issued Age Groups", piedataset, true, true, true);
@@ -570,7 +572,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
                 } else {
                     DefaultCategoryDataset dataset = new DefaultCategoryDataset();
                     for (int i = 0; i < 10; i++) {
-                        dataset.setValue(ages[i], "Issued Values", i*10+"-"+(i*10+10));
+                        dataset.setValue(ages[i], "Issued Values", i * 10 + "-" + (i * 10 + 10));
                     }
 
                     if (chartType.equals("Bar Chart")) {
@@ -599,7 +601,7 @@ public class IssueChart extends javax.swing.JInternalFrame {
                     }
                 }
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "3Data Error!", "Warning!", JOptionPane.OK_OPTION);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(IssueChart.class.getName()).log(Level.SEVERE, null, ex);
             }

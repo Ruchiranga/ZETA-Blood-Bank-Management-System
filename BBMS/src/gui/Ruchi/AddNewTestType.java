@@ -67,6 +67,12 @@ public class AddNewTestType extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Test Name");
 
+        testNameTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                testNameTextFieldKeyTyped(evt);
+            }
+        });
+
         addButton.setText("Add");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +135,9 @@ public class AddNewTestType extends javax.swing.JInternalFrame {
         String test = testNameTextField.getText();
         if (test.equals("") || test.isEmpty()) {
             JOptionPane.showMessageDialog(this, "The test name cannot be blank!", "", JOptionPane.ERROR_MESSAGE);
-        } else {
+        }else if(testNameTextField.getText().length() > 70){
+            JOptionPane.showMessageDialog(this, "The test name cannot exceed 20 characters!", "", JOptionPane.ERROR_MESSAGE);
+        }else {
 
             try {
                 int res = testContoller.addTest(test);
@@ -156,6 +164,13 @@ public class AddNewTestType extends javax.swing.JInternalFrame {
         parent.updateTestListCombo();
         parent.show();
     }//GEN-LAST:event_formInternalFrameClosed
+
+    private void testNameTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_testNameTextFieldKeyTyped
+       
+        if (testNameTextField.getText().length() >= 70) {
+            evt.consume();
+        } 
+    }//GEN-LAST:event_testNameTextFieldKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

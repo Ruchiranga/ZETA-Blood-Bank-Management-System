@@ -4,10 +4,9 @@
  */
 package gui.Upekka;
 
-import Controller.Upekka.DonorDA;
+import controller.DonorDA;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -23,8 +22,21 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
      * Creates new form FormFilledByDonor
      */
     public DeleteDonorForm() {
-        initComponents();
-        setTitle("Delete Donor Form");
+        try {
+            initComponents();
+            setTitle("Delete Donor Form");
+            ResultSet rst = DonorDA.getListOfNic();
+            while (rst.next()) {
+                String nic = rst.getString("nic");
+                if (nic.charAt(nic.length() - 1) == 'V' || nic.charAt(nic.length() - 1) == 'v') {
+                    nicComboBox.addItem(nic);
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -67,7 +79,6 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
         maleRadioButton = new javax.swing.JRadioButton();
         femaleRadioButton = new javax.swing.JRadioButton();
         jLabel3 = new javax.swing.JLabel();
-        nicTextField = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         ageTextField = new javax.swing.JTextField();
@@ -88,6 +99,7 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
         dobDateChooser = new com.toedter.calendar.JDateChooser();
         jLabel14 = new javax.swing.JLabel();
         weightTextField = new javax.swing.JTextField();
+        nicComboBox = new javax.swing.JComboBox();
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanel2 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
@@ -190,12 +202,6 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
 
         jLabel3.setText("NIC No:");
 
-        nicTextField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nicTextFieldActionPerformed(evt);
-            }
-        });
-
         jLabel4.setText("Date of Birth:");
 
         jLabel5.setText("Age:");
@@ -205,12 +211,22 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
                 ageTextFieldActionPerformed(evt);
             }
         });
+        ageTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ageTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel7.setText("Official Address:");
 
         homeTpTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 homeTpTextFieldActionPerformed(evt);
+            }
+        });
+        homeTpTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                homeTpTextFieldKeyTyped(evt);
             }
         });
 
@@ -225,8 +241,19 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
                 officeTpTextFieldActionPerformed(evt);
             }
         });
+        officeTpTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                officeTpTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel11.setText("Mobile:");
+
+        mobileTPTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                mobileTPTextFieldKeyTyped(evt);
+            }
+        });
 
         jLabel12.setText("e-mail:");
 
@@ -240,6 +267,18 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
         weightTextField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 weightTextFieldActionPerformed(evt);
+            }
+        });
+        weightTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                weightTextFieldKeyTyped(evt);
+            }
+        });
+
+        nicComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Select NIC" }));
+        nicComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nicComboBoxActionPerformed(evt);
             }
         });
 
@@ -268,8 +307,8 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(31, 31, 31)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(nicTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(nameTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 483, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(nicComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 573, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -322,8 +361,8 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
                 .addComponent(jLabel13)
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nicTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(nicComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -1133,17 +1172,6 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_officeTpTextFieldActionPerformed
 
-    private void nicTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nicTextFieldActionPerformed
-        try {
-            // TODO add your handling code here:
-            searchDonorbyNic();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_nicTextFieldActionPerformed
-
     private void femaleRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleRadioButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_femaleRadioButtonActionPerformed
@@ -1165,15 +1193,15 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_homeTpTextFieldActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-       
+
         try {
-            String nic="";
-            nic = nicTextField.getText();
-           
+            String nic = "";
+            nic = (String) nicComboBox.getSelectedItem();
+
             int deleted = DonorDA.deleteDonor(nic);
-            if(deleted == 1){
+            if (deleted == 1) {
                 JOptionPane.showMessageDialog(null, "Deleted Succesfully");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "Error while Deleting!");
             }
         } catch (ClassNotFoundException ex) {
@@ -1181,7 +1209,7 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
         } catch (SQLException ex) {
             Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void nogoodHealthRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nogoodHealthRadioButtonActionPerformed
@@ -1204,14 +1232,64 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_exitButtonActionPerformed
 
-    private void searchDonorbyNic() throws ClassNotFoundException, SQLException{
-        
-        Donor existingDonor=DonorDA.searchDonor(nicTextField.getText());
-        if(existingDonor!=null){
+    private void nicComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nicComboBoxActionPerformed
+        try {
+            searchDonorbyNic((String) nicComboBox.getSelectedItem());
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(DeleteDonorForm.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_nicComboBoxActionPerformed
+
+    private void ageTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ageTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_ageTextFieldKeyTyped
+
+    private void weightTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_weightTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_weightTextFieldKeyTyped
+
+    private void homeTpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_homeTpTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_homeTpTextFieldKeyTyped
+
+    private void officeTpTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_officeTpTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_officeTpTextFieldKeyTyped
+
+    private void mobileTPTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mobileTPTextFieldKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_mobileTPTextFieldKeyTyped
+
+    private void searchDonorbyNic(String nic) throws ClassNotFoundException, SQLException {
+
+        Donor existingDonor = DonorDA.searchDonor(nic);
+        if (existingDonor != null) {
             nameTextField.setText(existingDonor.getName());
-            if(existingDonor.getGender().equals("male")){
-               maleRadioButton.setSelected(true);
-            }else{
+            if (existingDonor.getGender().equals("male")) {
+                maleRadioButton.setSelected(true);
+            } else {
                 femaleRadioButton.setSelected(true);
             }
             dobDateChooser.setDate(existingDonor.getDob());
@@ -1222,108 +1300,126 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
             homeTpTextField.setText(Integer.toString(existingDonor.getHomeTp()));
             officeTpTextField.setText(Integer.toString(existingDonor.getOfficeTp()));
             mobileTPTextField.setText(Integer.toString(existingDonor.getMobileTp()));
-            emailTextField.setText(existingDonor.getEmail() );
-            
-            if(existingDonor.getPreviouslyDonated()==1){
+            emailTextField.setText(existingDonor.getEmail());
+
+            if (existingDonor.getPreviouslyDonated() == 1) {
                 previouslyDonatedRadioButton.setSelected(true);
-            }else{
+            } else {
                 notpreviouslyDonatedRadioButton.setSelected(true);
             }
             difficultiesTextField.setText(existingDonor.getDifficultiesAfterDonation());
-            
-            if(existingDonor.getGoodHealth()==1){
+
+            if (existingDonor.getGoodHealth() == 1) {
                 goodHealthRadioButton.setSelected(true);
-            }else{
+            } else {
                 nogoodHealthRadioButton.setSelected(true);
             }
-            if(existingDonor.getDiseases().contains("Heart diseases")){heartDiseaseCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Diabetes")){diabetiesCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Fits")){fitsCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Paralysis")){paralysisCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Asthma/ lung diseases")){asthmaLundCancerCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Liver diseases")){liverDiseaseCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Kidney diseases")){kidneyDiseaseCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Blood diseases")){bloodDiseasesCheckBox.setSelected(true);}
-            if(existingDonor.getDiseases().contains("Cancers")){cancerCheckBox.setSelected(true);}
-            
-            if(existingDonor.getUsingMedicine()==1){
-                usingMedicineRadioButton.setSelected(true);    
-            }else{
+            if (existingDonor.getDiseases().contains("Heart diseases")) {
+                heartDiseaseCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Diabetes")) {
+                diabetiesCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Fits")) {
+                fitsCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Paralysis")) {
+                paralysisCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Asthma/ lung diseases")) {
+                asthmaLundCancerCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Liver diseases")) {
+                liverDiseaseCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Kidney diseases")) {
+                kidneyDiseaseCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Blood diseases")) {
+                bloodDiseasesCheckBox.setSelected(true);
+            }
+            if (existingDonor.getDiseases().contains("Cancers")) {
+                cancerCheckBox.setSelected(true);
+            }
+
+            if (existingDonor.getUsingMedicine() == 1) {
+                usingMedicineRadioButton.setSelected(true);
+            } else {
                 notusingMedicineRadioButton.setSelected(true);
             }
-            if(existingDonor.getSurgeries()==1){
-                surgeriesRadioButton.setSelected(true);    
-            }else{
+            if (existingDonor.getSurgeries() == 1) {
+                surgeriesRadioButton.setSelected(true);
+            } else {
                 nosurgeriesRadioButton.setSelected(true);
             }
-            if(existingDonor.getHeavyWork()==1){
-                heavyWorkRadioButton.setSelected(true);    
-            }else{
+            if (existingDonor.getHeavyWork() == 1) {
+                heavyWorkRadioButton.setSelected(true);
+            } else {
                 noheavyWorkRadioButton.setSelected(true);
             }
-            if(existingDonor.getPregnantLactationAbortion()==1){
-                pregnantLactationAbortionRadioButton.setSelected(true);    
-            }else{
+            if (existingDonor.getPregnantLactationAbortion() == 1) {
+                pregnantLactationAbortionRadioButton.setSelected(true);
+            } else {
                 nopregnantLactationAbortionRadioButton.setSelected(true);
             }
-             if(existingDonor.getImmunized()==1){
-                immunizedRadioButton.setSelected(true);    
-            }else{
+            if (existingDonor.getImmunized() == 1) {
+                immunizedRadioButton.setSelected(true);
+            } else {
                 noimmunizedRadioButton.setSelected(true);
             }
-             
-             if(existingDonor.getPiercedTatooed()==1 ){
-                 piercedTatooedRadioButton.setSelected(true);
-             }else{
-                 nopiercedTatooedRadioButton.setSelected(true);
-             }
-             
-            if(existingDonor.getImprisone()==1){
+
+            if (existingDonor.getPiercedTatooed() == 1) {
+                piercedTatooedRadioButton.setSelected(true);
+            } else {
+                nopiercedTatooedRadioButton.setSelected(true);
+            }
+
+            if (existingDonor.getImprisone() == 1) {
                 imprisonedRadioButton.setSelected(true);
-            }else{
+            } else {
                 noimprisonedRadioButton.setSelected(true);
-            } 
-            if(existingDonor.getYouOrSpouceGoneAbroad()==1 ){
+            }
+            if (existingDonor.getYouOrSpouceGoneAbroad() == 1) {
                 youOrSpouceGoneAbroadRadioButton.setSelected(true);
-            }else{
+            } else {
                 noyouOrSpouceGoneAbroadRadioButton.setSelected(true);
-            }  
-            if(existingDonor.getYouOrSpouceTakenBlood()==1){
+            }
+            if (existingDonor.getYouOrSpouceTakenBlood() == 1) {
                 youOrSpouceTakenBloodRadioButton.setSelected(true);
-            }else{
+            } else {
                 noyouOrSpouceTakenBloodRadioButton.setSelected(true);
             }
-            if(existingDonor.getSufferedFromYelowFeverHepatitis()==1){
+            if (existingDonor.getSufferedFromYelowFeverHepatitis() == 1) {
                 sufferedFromYelowFeverHepatitisRadioButton.setSelected(true);
-            }else{
+            } else {
                 nosufferedFromYelowFeverHepatitisRadioButton.setSelected(true);
             }
-            if(existingDonor.getSufferedFromTuberculosis()==1){
+            if (existingDonor.getSufferedFromTuberculosis() == 1) {
                 sufferedFromTuberculosisRadioButton.setSelected(true);
-            }else{
+            } else {
                 nosufferedFromTuberculosisRadioButton.setSelected(true);
             }
-            if(existingDonor.getSufferedFromMalaria()==1){
+            if (existingDonor.getSufferedFromMalaria() == 1) {
                 sufferedFromMalariaRadioButton.setSelected(true);
-            }else{
+            } else {
                 nosufferedFromMalariaRadioButton.setSelected(true);
             }
-            if(existingDonor.getSufferedFromChickenpoxMeaselsRubellaDiarrheaDengue()==1 ){
+            if (existingDonor.getSufferedFromChickenpoxMeaselsRubellaDiarrheaDengue() == 1) {
                 sufferedFromChickenpoxMeaselsRubellaDiarrheaDengueRadioButton.setSelected(true);
-            }else{
+            } else {
                 nosufferedFromMalariaRadioButton.setSelected(true);
             }
-            if(existingDonor.getDentalSurgeryUsedAntibioticsMedicine()==1){
+            if (existingDonor.getDentalSurgeryUsedAntibioticsMedicine() == 1) {
                 dentalSurgeryUsedAntibioticsMedicineRadioButton.setSelected(true);
-            }else{
+            } else {
                 nodentalSurgeryUsedAntibioticsMedicineRadioButton.setSelected(true);
             }
-                
-        }else{
-            JOptionPane.showMessageDialog(this, "No such donor found... Please enter the NIC number correctlys");
+
+        } else {
+            JOptionPane.showMessageDialog(this, "No such donor found... Please enter the NIC number correctly.");
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField ageTextField;
     private javax.swing.JCheckBox asthmaLundCancerCheckBox;
@@ -1406,7 +1502,7 @@ public class DeleteDonorForm extends javax.swing.JInternalFrame {
     private javax.swing.JRadioButton maleRadioButton;
     private javax.swing.JTextField mobileTPTextField;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JTextField nicTextField;
+    private javax.swing.JComboBox nicComboBox;
     private javax.swing.JRadioButton nodentalSurgeryUsedAntibioticsMedicineRadioButton;
     private javax.swing.JRadioButton nogoodHealthRadioButton;
     private javax.swing.JRadioButton noheavyWorkRadioButton;

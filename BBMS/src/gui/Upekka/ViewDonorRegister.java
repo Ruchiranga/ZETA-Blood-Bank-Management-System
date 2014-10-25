@@ -4,7 +4,7 @@
  */
 package gui.Upekka;
 
-import Controller.Upekka.DonorDA;
+import controller.DonorDA;
 import java.awt.Component;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -39,6 +39,7 @@ public class ViewDonorRegister extends javax.swing.JInternalFrame {
         initComponents();
         setTitle("View Blood Donor Register");
         loadDonorRegister();
+        donorRegisterTable.setAutoCreateRowSorter(true);
     }
 
     /**
@@ -97,6 +98,8 @@ public class ViewDonorRegister extends javax.swing.JInternalFrame {
                 return types [columnIndex];
             }
         });
+        donorRegisterTable.setCellEditor(null);
+        donorRegisterTable.setEnabled(false);
         jScrollPane1.setViewportView(donorRegisterTable);
 
         jScrollPane2.setViewportView(jScrollPane1);
@@ -116,11 +119,11 @@ public class ViewDonorRegister extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(printButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87)
+                .addGap(53, 53, 53)
                 .addComponent(reloadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(47, 47, 47)
+                .addGap(53, 53, 53)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(124, 124, 124))
+                .addGap(34, 34, 34))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -137,15 +140,14 @@ public class ViewDonorRegister extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(printButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(reloadButton, javax.swing.GroupLayout.DEFAULT_SIZE, 51, Short.MAX_VALUE)
-                        .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(reloadButton, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(exitButton)
+                    .addComponent(printButton))
                 .addGap(19, 19, 19))
         );
+
+        layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {exitButton, printButton, reloadButton});
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -196,7 +198,7 @@ public class ViewDonorRegister extends javax.swing.JInternalFrame {
         try {
             // TODO add your handling code here:
             
-            JasperReport jr = JasperCompileManager.compileReport("./src/gui/Upekka/DonorRegisterReport.jrxml");
+            JasperReport jr = JasperCompileManager.compileReport("./src/Reports/Upekka/DonorRegisterReport.jrxml");
             Map<String, Object> params;
             params = new HashMap<String, Object>();
             
@@ -207,6 +209,7 @@ public class ViewDonorRegister extends javax.swing.JInternalFrame {
             JasperViewer.viewReport(jp,false);
             
         } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, "Error while generating the Report!", "", JOptionPane.ERROR_MESSAGE);
             Logger.getLogger(ViewDonorRegister.class.getName()).log(Level.SEVERE, null, ex);
         }
             

@@ -3,9 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package gui.Anu;
 
+import controller.anu.ItemController;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import model.Item;
 
 /**
@@ -16,6 +20,7 @@ public class UpdateItem extends javax.swing.JInternalFrame {
 
     private Item item;
     private ItemManagement itemManagement;
+
     /**
      * Creates new form updateItem
      */
@@ -25,16 +30,16 @@ public class UpdateItem extends javax.swing.JInternalFrame {
         this.itemManagement = itemManagement;
         setItemFields();
     }
-    
-    private void setItemFields(){
+
+    private void setItemFields() {
         itemIDLabel.setText(item.getItemID());
         itemTypeText.setText(item.getItemType());
         descriptionText.setText(item.getDescription());
-        qtyText.setText(""+item.getQty());
+        qtyText.setText("" + item.getQty());
         unitsText.setText(item.getUnits());
-        if(item.getIsReagent() == 0){
+        if (item.getIsReagent() == 0) {
             reagentCheckbox.setSelected(false);
-        }else{
+        } else {
             reagentCheckbox.setSelected(true);
         }
     }
@@ -63,11 +68,11 @@ public class UpdateItem extends javax.swing.JInternalFrame {
         itemIDLabel = new javax.swing.JLabel();
         jLabel51 = new javax.swing.JLabel();
 
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)), "Update Item"));
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 255, 255)), "Update Item"));
 
         jLabel6.setText("Item ID");
 
-        jLabel7.setText("Item type");
+        jLabel7.setText("Item type*");
 
         itemTypeText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -90,11 +95,19 @@ public class UpdateItem extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel9.setText("Quantity");
+        jLabel9.setText("Quantity*");
 
         qtyText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 qtyTextActionPerformed(evt);
+            }
+        });
+        qtyText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                qtyTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qtyTextKeyTyped(evt);
             }
         });
 
@@ -189,7 +202,7 @@ public class UpdateItem extends javax.swing.JInternalFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -208,38 +221,36 @@ public class UpdateItem extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_descriptionTextActionPerformed
 
     private void addItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemBtnActionPerformed
-//        try {
-//            String itemID = itemIDLabel.getText();
-//            String itemType = itemTypeText.getText();
-//            String description = descriptionText.getText();
-//            float qty = Float.parseFloat(qtyText.getText());
-//            String units = unitsText.getText();
-//            byte isReagent = 0;
-//
-//            if (reagentCheckbox.isSelected()) {
-//                isReagent = 1;
-//            }
-//
-//            Item item = new Item(itemID, itemType, description, isReagent, units, qty);
-//            int added = ItemDA.updateItem(item);
-//
-//            if (added == 1) {
-//                JOptionPane.showMessageDialog(null, "Updated Succesfully");
-//                itemManagement.setTableItems();
-//                itemManagement.setItemIdComboItems();
-//                itemManagement.setRequestItemIDComboItems();
-//                itemManagement.setItemIDLabel();
-//                itemManagement.clearItemAddFields();
-//                this.dispose();
-//            } else {
-//                JOptionPane.showMessageDialog(null, "Error!");
-//            }
-//
-//        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(ItemManagement.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (SQLException ex) {
-//            Logger.getLogger(ItemManagement.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            String itemID = itemIDLabel.getText();
+            String itemType = itemTypeText.getText();
+            String description = descriptionText.getText();
+            float qty = Float.parseFloat(qtyText.getText());
+            String units = unitsText.getText();
+            byte isReagent = 0;
+
+            if (reagentCheckbox.isSelected()) {
+                isReagent = 1;
+            }
+
+            Item item = new Item(itemID, itemType, description, isReagent, units, qty);
+            int added = ItemController.updateItem(item);
+
+            if (added == 1) {
+                JOptionPane.showMessageDialog(null, "Updated Succesfully");
+                itemManagement.setTableItems();
+                itemManagement.setItemIDLabel();
+                itemManagement.clearItemAddFields();
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Error!");
+            }
+
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(ItemManagement.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(ItemManagement.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_addItemBtnActionPerformed
 
     private void qtyTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_qtyTextActionPerformed
@@ -249,6 +260,18 @@ public class UpdateItem extends javax.swing.JInternalFrame {
     private void unitsTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_unitsTextActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_unitsTextActionPerformed
+
+    private void qtyTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyTextKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_qtyTextKeyReleased
+
+    private void qtyTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyTextKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE || c == '.') || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_qtyTextKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -110,10 +110,13 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Blood Type"/>
+                    <Property name="text" type="java.lang.String" value="Blood Type*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="typeNameText">
+                  <Events>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="typeNameTextKeyTyped"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="addBtn">
                   <Properties>

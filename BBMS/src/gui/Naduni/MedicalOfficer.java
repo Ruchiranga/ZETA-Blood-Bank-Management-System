@@ -10,12 +10,11 @@
  */
 package gui.Naduni;
 
+import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
 import gui.Anu.StockBalance;
 import gui.ChangePassword;
-import gui.Personalize;
 import gui.Ruchi.BloodAndComponentAvailability;
 import gui.Ruchi.BloodGroupingAndTTI;
-import gui.Ruchi.BloodRequest;
 import gui.Ruchi.DeleteTest;
 import gui.Ruchi.GroupingAndTTIRegister;
 import gui.Ruchi.Requests;
@@ -24,11 +23,17 @@ import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import static java.lang.Thread.sleep;
+import java.text.ParseException;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JDesktopPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -54,11 +59,40 @@ public class MedicalOfficer extends javax.swing.JFrame {
         first.setVisible(true);
 
         setLocationRelativeTo(null);
+        currentDate();
 
     }
 
     public JDesktopPane getDesktop() {
         return desktopPane;
+    }
+
+    public void currentDate() {
+
+        Thread clock = new Thread() {
+            public void run() {
+                for (;;) {
+                    Calendar cal = new GregorianCalendar();
+                    int month = cal.get(Calendar.MONTH);
+                    int year = cal.get(Calendar.YEAR);
+                    int day = cal.get(Calendar.DAY_OF_MONTH);
+                    date_txt.setText("Date " + year + "/" + (month + 1) + "/" + day);
+
+                    int second = cal.get(Calendar.SECOND);
+                    int minute = cal.get(Calendar.MINUTE);
+                    int hour = cal.get(Calendar.HOUR);
+                    time_txt.setText("Time " + hour + ":" + (minute) + ":" + second);
+
+                    try {
+                        sleep(1000);
+                    } catch (Exception e) {
+
+                    }
+
+                }
+            }
+        };
+        clock.start();
     }
 
     /**
@@ -71,251 +105,249 @@ public class MedicalOfficer extends javax.swing.JFrame {
     private void initComponents() {
 
         jLayeredPane1 = new javax.swing.JLayeredPane();
-        jButton16 = new javax.swing.JButton();
-        jButton18 = new javax.swing.JButton();
-        groupingAndTTIRegButton = new javax.swing.JButton();
-        jButton19 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton20 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        ttiBtn = new javax.swing.JButton();
+        bloodGroupBtn = new javax.swing.JButton();
+        bloodGroupingBtn = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        BloodGroupButton = new javax.swing.JButton();
-        jButton22 = new javax.swing.JButton();
-        testingButton = new javax.swing.JButton();
         desktopPane = new javax.swing.JDesktopPane();
+        jPanel2 = new javax.swing.JPanel();
+        groupingAndTTIRegButton = new javax.swing.JButton();
+        BloodGroupButton = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jButton18 = new javax.swing.JButton();
+        jButton16 = new javax.swing.JButton();
+        testingButton = new javax.swing.JButton();
+        time_txt = new javax.swing.JTextField();
+        date_txt = new javax.swing.JTextField();
+        jPanel4 = new javax.swing.JPanel();
+        jButton22 = new javax.swing.JButton();
         sampleDetailsButton = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
         issueRegisterButton = new javax.swing.JButton();
         generateIssuesButton = new javax.swing.JButton();
-        jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        deleteBtn = new javax.swing.JButton();
+        addSampleBtn = new javax.swing.JButton();
+        issueBtn = new javax.swing.JButton();
+        passwordBtn = new javax.swing.JButton();
+        issueRegisterBtn1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Blood Bank Management System");
 
-        jButton16.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton16.setText("Blood Categories");
-        jLayeredPane1.add(jButton16);
-        jButton16.setBounds(0, 370, 200, 30);
-
-        jButton18.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton18.setText("Blood Stock");
-        jButton18.addActionListener(new java.awt.event.ActionListener() {
+        ttiBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/TTI test icon.png"))); // NOI18N
+        ttiBtn.setToolTipText("TTI Register");
+        ttiBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton18ActionPerformed(evt);
+                ttiBtnActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton18);
-        jButton18.setBounds(0, 340, 200, 30);
+        jLayeredPane1.add(ttiBtn);
+        ttiBtn.setBounds(120, 0, 60, 60);
 
-        groupingAndTTIRegButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        bloodGroupBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/crossmatch.png"))); // NOI18N
+        bloodGroupBtn.setToolTipText("Blood Grouping and TTI");
+        bloodGroupBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bloodGroupBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(bloodGroupBtn);
+        bloodGroupBtn.setBounds(180, 0, 60, 60);
+
+        bloodGroupingBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/viewRequest.png"))); // NOI18N
+        bloodGroupingBtn.setToolTipText("View Requests");
+        bloodGroupingBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bloodGroupingBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(bloodGroupingBtn);
+        bloodGroupingBtn.setBounds(60, 0, 60, 60);
+
+        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel2.setFont(new java.awt.Font("Vijaya", 1, 40)); // NOI18N
+        jLabel2.setText("Karapitiya Blood Bank Management System");
+        jLayeredPane1.add(jLabel2);
+        jLabel2.setBounds(480, 0, 600, 50);
+
+        desktopPane.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 51)));
+
+        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
+        desktopPane.setLayout(desktopPaneLayout);
+        desktopPaneLayout.setHorizontalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1148, Short.MAX_VALUE)
+        );
+        desktopPaneLayout.setVerticalGroup(
+            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 648, Short.MAX_VALUE)
+        );
+
+        jLayeredPane1.add(desktopPane);
+        desktopPane.setBounds(200, 60, 1150, 650);
+
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tests", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 3, 18), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel2.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        groupingAndTTIRegButton.setBackground(new java.awt.Color(255, 51, 51));
+        groupingAndTTIRegButton.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
         groupingAndTTIRegButton.setText("TTI Register");
         groupingAndTTIRegButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 groupingAndTTIRegButtonActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(groupingAndTTIRegButton);
-        groupingAndTTIRegButton.setBounds(0, 130, 200, 30);
 
-        jButton19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 08.png"))); // NOI18N
-        jButton19.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton19ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton19);
-        jButton19.setBounds(1010, 0, 60, 60);
-
-        jButton9.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 05.png"))); // NOI18N
-        jButton9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton9ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton9);
-        jButton9.setBounds(1070, 0, 60, 60);
-
-        jButton8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 04.png"))); // NOI18N
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton8);
-        jButton8.setBounds(1130, 0, 60, 60);
-
-        jButton13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 09.png"))); // NOI18N
-        jButton13.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton13ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton13);
-        jButton13.setBounds(1190, 0, 60, 60);
-
-        jButton11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 07.png"))); // NOI18N
-        jButton11.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton11ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton11);
-        jButton11.setBounds(1250, 0, 60, 60);
-
-        jButton20.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 11.png"))); // NOI18N
-        jButton20.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton20ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton20);
-        jButton20.setBounds(1310, 0, 60, 60);
-
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 01.png"))); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton4);
-        jButton4.setBounds(0, 0, 60, 60);
-
-        jButton6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 02.png"))); // NOI18N
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton6);
-        jButton6.setBounds(60, 0, 60, 60);
-
-        jButton10.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 06.png"))); // NOI18N
-        jButton10.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton10ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton10);
-        jButton10.setBounds(120, 0, 60, 60);
-
-        jButton12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 08.png"))); // NOI18N
-        jButton12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton12ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton12);
-        jButton12.setBounds(180, 0, 60, 60);
-
-        jButton7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 03.png"))); // NOI18N
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton7);
-        jButton7.setBounds(240, 0, 60, 60);
-
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Candy Vivian Icon 13.png"))); // NOI18N
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton3);
-        jButton3.setBounds(300, 0, 60, 60);
-
-        jLabel2.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel2.setFont(new java.awt.Font("Vijaya", 1, 40)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Karapitiya Blood Bank Management System");
-        jLayeredPane1.add(jLabel2);
-        jLabel2.setBounds(390, 0, 600, 50);
-
-        BloodGroupButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        BloodGroupButton.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
         BloodGroupButton.setText("Blood Grouping and TTI");
         BloodGroupButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 BloodGroupButtonActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(BloodGroupButton);
-        BloodGroupButton.setBounds(0, 310, 200, 30);
 
-        jButton22.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        jButton22.setText("Compatability Report");
-        jButton22.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton22ActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(jButton22);
-        jButton22.setBounds(0, 280, 200, 30);
-
-        testingButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        testingButton.setText("Blood and Component Availability");
-        testingButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                testingButtonActionPerformed(evt);
-            }
-        });
-        jLayeredPane1.add(testingButton);
-        testingButton.setBounds(0, 430, 200, 30);
-
-        javax.swing.GroupLayout desktopPaneLayout = new javax.swing.GroupLayout(desktopPane);
-        desktopPane.setLayout(desktopPaneLayout);
-        desktopPaneLayout.setHorizontalGroup(
-            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1170, Short.MAX_VALUE)
-        );
-        desktopPaneLayout.setVerticalGroup(
-            desktopPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 630, Short.MAX_VALUE)
-        );
-
-        jLayeredPane1.add(desktopPane);
-        desktopPane.setBounds(200, 60, 1170, 630);
-
-        jButton5.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jButton5.setBackground(new java.awt.Color(255, 51, 51));
+        jButton5.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
         jButton5.setText("Delete/Update Test");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
             }
         });
-        jLayeredPane1.add(jButton5);
-        jButton5.setBounds(0, 460, 200, 30);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Issues", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 3, 18))); // NOI18N
-        jPanel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(groupingAndTTIRegButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(BloodGroupButton, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
+            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(groupingAndTTIRegButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BloodGroupButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 7, Short.MAX_VALUE))
+        );
+
+        jLayeredPane1.add(jPanel2);
+        jPanel2.setBounds(0, 220, 200, 140);
+
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "View", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 3, 18), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jButton18.setBackground(new java.awt.Color(255, 51, 51));
+        jButton18.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
+        jButton18.setText("Blood Stock");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
+        jButton16.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
+        jButton16.setText("Blood Categories");
+        jButton16.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton16ActionPerformed(evt);
+            }
+        });
+
+        testingButton.setBackground(new java.awt.Color(255, 51, 51));
+        testingButton.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
+        testingButton.setText("Blood and Component Availability");
+        testingButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                testingButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jButton18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jButton16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(testingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(testingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 27, Short.MAX_VALUE))
+        );
+
+        jLayeredPane1.add(jPanel3);
+        jPanel3.setBounds(0, 520, 200, 160);
+
+        time_txt.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        time_txt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        time_txt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                time_txtActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(time_txt);
+        time_txt.setBounds(1230, 40, 110, 20);
+
+        date_txt.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
+        date_txt.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jLayeredPane1.add(date_txt);
+        date_txt.setBounds(1230, 10, 110, 20);
+
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Requests", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 3, 18), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel4.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        jButton22.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
+        jButton22.setText("View Requests");
+        jButton22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton22ActionPerformed(evt);
+            }
+        });
 
         sampleDetailsButton.setBackground(new java.awt.Color(255, 51, 51));
-        sampleDetailsButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        sampleDetailsButton.setText("Sample Details");
+        sampleDetailsButton.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
+        sampleDetailsButton.setText("Add Sample Details");
         sampleDetailsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 sampleDetailsButtonActionPerformed(evt);
             }
         });
 
-        issueRegisterButton.setBackground(new java.awt.Color(255, 51, 51));
-        issueRegisterButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jButton22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(sampleDetailsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(sampleDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(3, 3, 3)
+                .addComponent(jButton22, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        jLayeredPane1.add(jPanel4);
+        jPanel4.setBounds(0, 90, 200, 110);
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Issues", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 3, 18), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel1.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+
+        issueRegisterButton.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
         issueRegisterButton.setText("Issue Register");
         issueRegisterButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -323,7 +355,8 @@ public class MedicalOfficer extends javax.swing.JFrame {
             }
         });
 
-        generateIssuesButton.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        generateIssuesButton.setBackground(new java.awt.Color(255, 51, 51));
+        generateIssuesButton.setFont(new java.awt.Font("Rockwell", 1, 13)); // NOI18N
         generateIssuesButton.setText("Generate Issues");
         generateIssuesButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -335,7 +368,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(sampleDetailsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(generateIssuesButton, javax.swing.GroupLayout.DEFAULT_SIZE, 188, Short.MAX_VALUE)
             .addComponent(issueRegisterButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
@@ -343,8 +375,6 @@ public class MedicalOfficer extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(sampleDetailsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(generateIssuesButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(issueRegisterButton, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -352,49 +382,69 @@ public class MedicalOfficer extends javax.swing.JFrame {
         );
 
         jLayeredPane1.add(jPanel1);
-        jPanel1.setBounds(0, 490, 200, 160);
+        jPanel1.setBounds(0, 380, 200, 110);
 
-        jMenuBar1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        deleteBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/deletetest.png"))); // NOI18N
+        deleteBtn.setToolTipText("Delete/Update Test ");
+        deleteBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(deleteBtn);
+        deleteBtn.setBounds(240, 0, 60, 60);
 
-        jMenu1.setText("File");
+        addSampleBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/addSample.png"))); // NOI18N
+        addSampleBtn.setToolTipText("Add Sample Details");
+        addSampleBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addSampleBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(addSampleBtn);
+        addSampleBtn.setBounds(0, 0, 60, 60);
 
-        jMenuItem4.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem4.setText("Save");
-        jMenu1.add(jMenuItem4);
+        issueBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/blood Issue.png"))); // NOI18N
+        issueBtn.setToolTipText("Generate Issues");
+        issueBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issueBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(issueBtn);
+        issueBtn.setBounds(300, 0, 60, 60);
 
-        jMenuItem5.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem5.setText("Print");
-        jMenu1.add(jMenuItem5);
+        passwordBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/password.png"))); // NOI18N
+        passwordBtn.setToolTipText("Change Password");
+        passwordBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                passwordBtnActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(passwordBtn);
+        passwordBtn.setBounds(1160, 0, 60, 60);
 
-        jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-
-        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_X, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem1.setText("Cut");
-        jMenu2.add(jMenuItem1);
-
-        jMenuItem2.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_C, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem2.setText("Copy");
-        jMenu2.add(jMenuItem2);
-
-        jMenuItem3.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_V, java.awt.event.InputEvent.CTRL_MASK));
-        jMenuItem3.setText("Paste");
-        jMenu2.add(jMenuItem3);
-
-        jMenuBar1.add(jMenu2);
-
-        setJMenuBar(jMenuBar1);
+        issueRegisterBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/issueregistericon.png"))); // NOI18N
+        issueRegisterBtn1.setToolTipText("Issue Register");
+        issueRegisterBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                issueRegisterBtn1ActionPerformed(evt);
+            }
+        });
+        jLayeredPane1.add(issueRegisterBtn1);
+        issueRegisterBtn1.setBounds(360, 0, 60, 60);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1367, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1348, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 690, Short.MAX_VALUE)
+            .addComponent(jLayeredPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 711, Short.MAX_VALUE)
         );
 
         pack();
@@ -408,69 +458,50 @@ public class MedicalOfficer extends javax.swing.JFrame {
         stock.show();
     }//GEN-LAST:event_jButton18ActionPerformed
 
-    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton19ActionPerformed
+    private void ttiBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ttiBtnActionPerformed
+        GroupingAndTTIRegister register = new GroupingAndTTIRegister();
+        register.setClosable(true);
+        register.setMaximizable(true);
 
-    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton9ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton8ActionPerformed
-
-    private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton13ActionPerformed
-
-    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton11ActionPerformed
-
-    private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
+        desktopPane.add(register);
+        desktopPane.setRequestFocusEnabled(true);
         try {
-            ChangePassword p = new ChangePassword();
-            p.setClosable(true);
-            desktopPane.add(p);
-            p.show();
-        } catch (IOException ex) {
+            register.setMaximum(true);
+        } catch (PropertyVetoException ex) {
             Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
         }
-}//GEN-LAST:event_jButton20ActionPerformed
+        register.show();
+}//GEN-LAST:event_ttiBtnActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton4ActionPerformed
+    private void bloodGroupBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodGroupBtnActionPerformed
+        BloodGroupingAndTTI groupform = null;
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton6ActionPerformed
+        groupform = new BloodGroupingAndTTI(desktopPane);
 
-    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton10ActionPerformed
+        groupform.setClosable(true);
+        groupform.setMaximizable(true);
+        desktopPane.add(groupform);
+        desktopPane.setRequestFocusEnabled(true);
+        groupform.show();
+}//GEN-LAST:event_bloodGroupBtnActionPerformed
 
-    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton12ActionPerformed
+    private void bloodGroupingBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodGroupingBtnActionPerformed
+        BloodGroupingAndTTI groupform = null;
 
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton7ActionPerformed
+        groupform = new BloodGroupingAndTTI(desktopPane);
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Personalize p = new Personalize(this, true);
-        p.setClosable(true);
-        desktopPane.add(p);
-        p.show();
-}//GEN-LAST:event_jButton3ActionPerformed
+        groupform.setClosable(true);
+        groupform.setMaximizable(true);
+        desktopPane.add(groupform);
+        desktopPane.setRequestFocusEnabled(true);
+        groupform.show();
+}//GEN-LAST:event_bloodGroupingBtnActionPerformed
 
     private void groupingAndTTIRegButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupingAndTTIRegButtonActionPerformed
         GroupingAndTTIRegister register = new GroupingAndTTIRegister();
         register.setClosable(true);
         register.setMaximizable(true);
-        
+
         desktopPane.add(register);
         desktopPane.setRequestFocusEnabled(true);
         try {
@@ -549,6 +580,58 @@ public class MedicalOfficer extends javax.swing.JFrame {
         issue.show();
     }//GEN-LAST:event_generateIssuesButtonActionPerformed
 
+    private void jButton16ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton16ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton16ActionPerformed
+
+    private void time_txtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_time_txtActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_time_txtActionPerformed
+
+    private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
+        DeleteTest window = new DeleteTest();
+        window.setClosable(true);
+        window.setMaximizable(true);
+        desktopPane.add(window);
+        desktopPane.setRequestFocusEnabled(true);
+        window.show();
+    }//GEN-LAST:event_deleteBtnActionPerformed
+
+    private void addSampleBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addSampleBtnActionPerformed
+        SampleDetails sampleDetails = new SampleDetails(desktopPane.getSize());
+        sampleDetails.setClosable(true);
+        desktopPane.add(sampleDetails);
+        desktopPane.setRequestFocusEnabled(true);
+        sampleDetails.show();
+    }//GEN-LAST:event_addSampleBtnActionPerformed
+
+    private void issueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueBtnActionPerformed
+        IssueOfBlood issue = new IssueOfBlood(desktopPane.getSize());
+        issue.setClosable(true);
+        issue.setMaximizable(true);
+        desktopPane.add(issue);
+        desktopPane.setRequestFocusEnabled(true);
+        issue.show();
+    }//GEN-LAST:event_issueBtnActionPerformed
+
+    private void passwordBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_passwordBtnActionPerformed
+        ChangePassword passwordReset = null;
+        try {
+            passwordReset = new ChangePassword(1);
+        } catch (IOException ex) {
+            Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        passwordReset.setClosable(true);
+        passwordReset.setMaximizable(false);
+        desktopPane.add(passwordReset);
+        desktopPane.setRequestFocusEnabled(true);
+        passwordReset.show();
+    }//GEN-LAST:event_passwordBtnActionPerformed
+
+    private void issueRegisterBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_issueRegisterBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_issueRegisterBtn1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -557,6 +640,16 @@ public class MedicalOfficer extends javax.swing.JFrame {
 
             public void run() {
                 try {
+                    
+                    try {
+                        try {
+                            UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+                        } catch (ParseException ex) {
+                            Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    } catch (UnsupportedLookAndFeelException ex) {
+                        Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     new MedicalOfficer().setVisible(true);
                 } catch (IOException ex) {
                     Logger.getLogger(MedicalOfficer.class.getName()).log(Level.SEVERE, null, ex);
@@ -566,38 +659,31 @@ public class MedicalOfficer extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BloodGroupButton;
+    private javax.swing.JButton addSampleBtn;
+    private javax.swing.JButton bloodGroupBtn;
+    private javax.swing.JButton bloodGroupingBtn;
+    private javax.swing.JTextField date_txt;
+    private javax.swing.JButton deleteBtn;
     private javax.swing.JDesktopPane desktopPane;
     private javax.swing.JButton generateIssuesButton;
     private javax.swing.JButton groupingAndTTIRegButton;
+    private javax.swing.JButton issueBtn;
+    private javax.swing.JButton issueRegisterBtn1;
     private javax.swing.JButton issueRegisterButton;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton18;
-    private javax.swing.JButton jButton19;
-    private javax.swing.JButton jButton20;
     private javax.swing.JButton jButton22;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton passwordBtn;
     private javax.swing.JButton sampleDetailsButton;
     private javax.swing.JButton testingButton;
+    private javax.swing.JTextField time_txt;
+    private javax.swing.JButton ttiBtn;
     // End of variables declaration//GEN-END:variables
 }

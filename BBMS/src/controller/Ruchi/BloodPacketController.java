@@ -126,6 +126,12 @@ public class BloodPacketController {
         Connection connection = DBConnection.getConnectionToDB();
         return DBHandler.setData(connection, query);
     }
+    
+    public int markUnCrossMatched(String packetID) throws ClassNotFoundException, SQLException {
+        String query = "UPDATE bloodpacket SET `IsCrossmatched` = false WHERE `PacketID` = '" + packetID + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.setData(connection, query);
+    }
 
     public int markSpecialReservation(String packetID) throws ClassNotFoundException, SQLException {
         String query = "UPDATE bloodpacket SET `IsSpecialReservation` = true WHERE `PacketID` = '" + packetID + "'";

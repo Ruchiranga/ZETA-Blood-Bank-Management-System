@@ -10,7 +10,8 @@
  */
 package gui.Anu;
 
-import Controller.anu.BloodPacketDA;
+import controller.TableResizer;
+import controller.anu.BloodPacketController;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -48,13 +49,9 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         discardedBloodTable.setModel(dtm);
         yearRadioBtn.setSelected(true);
         yearCalendar.setEnabled(true);
-//        
-//        startDateCalendar.setEnabled(true);
-//        endDateCalendar.setEnabled(true);
-//        monthCalendar.setEnabled(false);
-//        yearCalendar.setEnabled(false);
-//
-//        displayDiscardedBloodPacketsByDuration();
+        
+        startDateCalendar.setEnabled(false);
+        endDateCalendar.setEnabled(false);
         
     }
 
@@ -73,7 +70,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 /*End date*/
                 String endDate = df.format(dateE);
                 java.sql.Date sqlDateE = new java.sql.Date(dateE.getTime());
-                ResultSet rst = BloodPacketDA.getDiscardedBloodPacketsByDuration(sqlDateS, sqlDateE);
+                ResultSet rst = BloodPacketController.getDiscardedBloodPacketsByDuration(sqlDateS, sqlDateE);
 
                 String packetID = null;
                 String bloodType = null;
@@ -90,7 +87,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                     count++;
                 }
                 totalTxt.setText("" + count);
-
+                TableResizer.resizeColumnWidth(discardedBloodTable);
 
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DiscardedBlood.class.getName()).log(Level.SEVERE, null, ex);
@@ -108,7 +105,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 dtm = new DefaultTableModel(title, 0);
                 discardedBloodTable.setModel(dtm);
 
-                ResultSet rst = BloodPacketDA.getDiscardedBloodPacketsByMonth(month + 1);
+                ResultSet rst = BloodPacketController.getDiscardedBloodPacketsByMonth(month + 1);
 
                 String packetID = null;
                 String bloodType = null;
@@ -126,7 +123,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 }
                 totalTxt.setText("" + count);
 
-
+                TableResizer.resizeColumnWidth(discardedBloodTable);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DiscardedBlood.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
@@ -143,7 +140,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 dtm = new DefaultTableModel(title, 0);
                 discardedBloodTable.setModel(dtm);
                 
-                ResultSet rst = BloodPacketDA.getDiscardedBloodPacketsByYear(year);
+                ResultSet rst = BloodPacketController.getDiscardedBloodPacketsByYear(year);
 
                 String packetID = null;
                 String bloodType = null;
@@ -161,7 +158,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 }
                 totalTxt.setText("" + count);
 
-
+                TableResizer.resizeColumnWidth(discardedBloodTable);
             } catch (ClassNotFoundException ex) {
                 Logger.getLogger(DiscardedBlood.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SQLException ex) {
@@ -188,7 +185,6 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         durationRadioBtn = new javax.swing.JRadioButton();
         monthRadioBtn = new javax.swing.JRadioButton();
         yearRadioBtn = new javax.swing.JRadioButton();
-        jButton4 = new javax.swing.JButton();
         RefreshBtn = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
@@ -208,8 +204,6 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         jLabel50 = new javax.swing.JLabel();
 
         jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-
-        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Discarded Blood"));
 
@@ -250,7 +244,7 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 .addComponent(monthRadioBtn)
                 .addGap(18, 18, 18)
                 .addComponent(yearRadioBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(23, Short.MAX_VALUE))
         );
         jPanel9Layout.setVerticalGroup(
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -262,8 +256,6 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                     .addComponent(yearRadioBtn))
                 .addContainerGap(17, Short.MAX_VALUE))
         );
-
-        jButton4.setText("Generate Report");
 
         RefreshBtn.setText("Refresh");
         RefreshBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -398,26 +390,25 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(585, Short.MAX_VALUE)
-                .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
-                .addComponent(totalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton4)
-                .addGap(18, 18, 18)
-                .addComponent(RefreshBtn)
-                .addGap(23, 23, 23))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26)
+                        .addComponent(totalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(RefreshBtn))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 660, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -434,14 +425,13 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(RefreshBtn)
-                    .addComponent(jButton4)
                     .addComponent(totalTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(23, 23, 23))
+                .addContainerGap())
         );
 
         jLabel50.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
@@ -467,8 +457,8 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel50, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         jTabbedPane3.addTab("Discarded Blood Stock", jPanel11);
@@ -486,8 +476,8 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane3)
+                .addContainerGap())
         );
 
         pack();
@@ -553,7 +543,6 @@ public class DiscardedBlood extends javax.swing.JInternalFrame {
     private javax.swing.JTable discardedBloodTable;
     private javax.swing.JRadioButton durationRadioBtn;
     private com.toedter.calendar.JDateChooser endDateCalendar;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

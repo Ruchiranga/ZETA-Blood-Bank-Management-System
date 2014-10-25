@@ -6,6 +6,7 @@
 package gui.Ruchi;
 
 import Controller.Ruchi.TestController;
+import controller.SearchableCombo;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,6 +47,8 @@ public class DeleteTest extends javax.swing.JInternalFrame {
             renameButton.setEnabled(true);
             deleteButton.setEnabled(true);
         }
+        
+        new SearchableCombo().setSearchableCombo(testListComboBox, true);
 
     }
 
@@ -90,6 +93,8 @@ public class DeleteTest extends javax.swing.JInternalFrame {
                 renameButtonActionPerformed(evt);
             }
         });
+
+        testListComboBox.setEditable(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -154,6 +159,7 @@ public class DeleteTest extends javax.swing.JInternalFrame {
         if (res == 1) {
             JOptionPane.showMessageDialog(this, "Test deleted!", "", JOptionPane.INFORMATION_MESSAGE);
             testListComboBox.removeItemAt(selectedIdx);
+            new SearchableCombo().setSearchableCombo(testListComboBox, true);
         } else {
             JOptionPane.showMessageDialog(this, "Error! Could not delete selected test.", "", JOptionPane.ERROR_MESSAGE);
         }
@@ -186,11 +192,11 @@ public class DeleteTest extends javax.swing.JInternalFrame {
                 testListComboBox.removeItemAt(selectedIdx);
                 testListComboBox.insertItemAt(input, selectedIdx);
                 testListComboBox.setSelectedIndex(selectedIdx);
+                new SearchableCombo().setSearchableCombo(testListComboBox, true);
             } else {
                 JOptionPane.showMessageDialog(this, "Rename failure", "", JOptionPane.ERROR_MESSAGE);
             }
         }
-
         // TODO add your handling code here:
     }//GEN-LAST:event_renameButtonActionPerformed
 

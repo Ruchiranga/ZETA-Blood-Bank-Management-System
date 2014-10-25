@@ -10,11 +10,15 @@
  */
 package gui.Anu;
 
-import Controller.anu.BloodPacketDA;
-import Controller.anu.BulkIssueController;
-import Controller.anu.IssueController;
-import Controller.anu.ReturnedLogController;
-import Controller.IDGenerator;
+import controller.IDGenerator;
+import controller.TableResizer;
+import controller.anu.BloodPacketController;
+import controller.anu.BulkIssueController;
+import controller.anu.IssueController;
+import controller.anu.ReturnedLogController;
+import connection.NotifierConnection;
+import controller.SearchableCombo;
+import controller.anu.BloodStockUpdateNotifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -45,13 +49,17 @@ public class BloodReturn extends javax.swing.JInternalFrame {
      */
     Calendar currenttime = Calendar.getInstance();
     java.util.Date today = new java.util.Date((currenttime.getTime()).getTime());
+    
+    BloodStockUpdateNotifier notifier = null;
 
     public BloodReturn() {
 
         initComponents();
         initPacketIDCombo(packetIDCombo);
         searchReturnDateCaendar.setDate(today);
-
+        
+        notifier = NotifierConnection.getNotifierConnection(null);
+        new SearchableCombo().setSearchableCombo(packetIDCombo, true);
     }
 
     private void clearUpdateFields() {
@@ -125,7 +133,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                 }
 
                 searchDtm.addRow(row);
-
+                TableResizer.resizeColumnWidth(searchReturnTable);
             }
             int count = searchDtm.getRowCount();
             totalText.setText("" + count);
@@ -157,7 +165,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
     private void initPacketIDCombo(JComboBox combo) {
         combo.removeAllItems();
         try {
-            rst = BloodPacketDA.getAllIssuedBloodPackets();
+            rst = BloodPacketController.getAllIssuedBloodPackets();
             while (rst.next()) {
                 combo.addItem(rst.getString("packetID"));
             }
@@ -242,14 +250,13 @@ public class BloodReturn extends javax.swing.JInternalFrame {
 
         jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
 
-        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
-
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Mark returned packet"));
 
-        jLabel1.setText("Packet ID");
+        jLabel1.setText("Packet ID*");
 
         jLabel3.setText("Issue ID");
 
+        packetIDCombo.setEditable(true);
         packetIDCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 packetIDComboActionPerformed(evt);
@@ -289,6 +296,11 @@ public class BloodReturn extends javax.swing.JInternalFrame {
         reasonTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reasonTxtActionPerformed(evt);
+            }
+        });
+        reasonTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                reasonTxtKeyTyped(evt);
             }
         });
 
@@ -394,7 +406,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(issueIDText, javax.swing.GroupLayout.PREFERRED_SIZE, 173, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(returnedDateCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE)
+                .addComponent(returnedDateCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -476,41 +488,37 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                                .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(332, 332, 332))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                                .addComponent(removeResultBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(markAsReturnedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26))))))
+                        .addGap(0, 371, Short.MAX_VALUE)
+                        .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 242, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(332, 332, 332))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(removeResultBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(markAsReturnedBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(markAsReturnedBtn)
                     .addComponent(removeResultBtn))
-                .addContainerGap(38, Short.MAX_VALUE))
+                .addContainerGap(60, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Returned Packets", jPanel11);
-
-        jPanel3.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
 
         jLabel13.setText("Returned Date");
 
@@ -620,6 +628,11 @@ public class BloodReturn extends javax.swing.JInternalFrame {
         searchReasonText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchReasonTextActionPerformed(evt);
+            }
+        });
+        searchReasonText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchReasonTextKeyTyped(evt);
             }
         });
 
@@ -741,7 +754,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(updateReturnBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(searchReturnedDateCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
+                    .addComponent(searchReturnedDateCalendar, javax.swing.GroupLayout.DEFAULT_SIZE, 268, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -763,16 +776,15 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(searchIssuedToText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                        .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(searchIssuedDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(32, 32, 32)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(searchIssuedTimeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(19, 19, 19)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(searchIssuedDateText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(searchIssuedTimeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(14, 14, 14)
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(seachpatientIssueCheckBox)
                                     .addComponent(searchBulkIssueTextBox)))
@@ -804,7 +816,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addGap(0, 338, Short.MAX_VALUE)
+                .addGap(0, 344, Short.MAX_VALUE)
                 .addComponent(jLabel53, javax.swing.GroupLayout.PREFERRED_SIZE, 333, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(278, 278, 278))
             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -834,7 +846,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 17, Short.MAX_VALUE))
+                .addGap(0, 39, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Search Returned Log by date", jPanel3);
@@ -862,7 +874,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
         }
         ResultSet rst;
         try {
-            rst = BloodPacketDA.getIssuedPacketDetails("" + packetIDCombo.getSelectedItem());
+            rst = BloodPacketController.getIssuedPacketDetails("" + packetIDCombo.getSelectedItem());
             while (rst.next()) {
                 bloodGroupTxt.setText(rst.getString("bloodGroup"));
                 bloodTypeTxt.setText(rst.getString("bloodType"));
@@ -951,8 +963,9 @@ public class BloodReturn extends javax.swing.JInternalFrame {
 
                 res1 = ReturnedLogController.addReturnedLog(log);
                 if (res1 == 1) {
-                    res2 = BloodPacketDA.markReturnedPacket(packetID, returnID);
+                    res2 = BloodPacketController.markReturnedPacket(packetID, returnID);
                     if (res2 == 1) {
+                        notifier.notifyUpdateBloodStock();
                         JOptionPane.showMessageDialog(null, "Added Succesfully");
                         initPacketIDCombo(packetIDCombo);
                         setSearchTableData();
@@ -1018,6 +1031,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
 
         String[] row = {packetID, bloodGroup, bloodType, issuedTo, issueMode, issueID, issueDate, issueTime, reason};
         dtm.addRow(row);
+        TableResizer.resizeColumnWidth(returnedTable);
         packetIDCombo.removeItem(packetIDCombo.getSelectedItem());
         clear();
     }//GEN-LAST:event_addToListBtnActionPerformed
@@ -1089,6 +1103,7 @@ public class BloodReturn extends javax.swing.JInternalFrame {
             Logger.getLogger(BloodReturn.class.getName()).log(Level.SEVERE, null, ex);
         }
         if (res == 1) {
+            notifier.notifyUpdateBloodStock();
             JOptionPane.showMessageDialog(null, "Updated successfully!");
             setSearchTableData();
             clearUpdateFields();
@@ -1170,12 +1185,13 @@ public class BloodReturn extends javax.swing.JInternalFrame {
                         isPatientIssue = false;
                     }
 
-                    int res1 = BloodPacketDA.unmarkReturnedBloodPacket(packetID, isPatientIssue, issueID);
+                    int res1 = BloodPacketController.unmarkReturnedBloodPacket(packetID, isPatientIssue, issueID);
 
                     if (res1 == 1) {
 
                         int res2 = ReturnedLogController.deleteReturnedLog(returnID);
                         if (res2 == 1) {
+                            notifier.notifyUpdateBloodStock();
                             JOptionPane.showMessageDialog(null, "Deleted record successfully!");
                             initPacketIDCombo(packetIDCombo);
                             setSearchTableData();
@@ -1198,6 +1214,18 @@ public class BloodReturn extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Select a row");
         }
     }//GEN-LAST:event_unmarkReturnBtnActionPerformed
+
+    private void reasonTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_reasonTxtKeyTyped
+        if (reasonTxt.getText().length() >= 500) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_reasonTxtKeyTyped
+
+    private void searchReasonTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchReasonTextKeyTyped
+        if (searchReasonText.getText().length() >= 500) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_searchReasonTextKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

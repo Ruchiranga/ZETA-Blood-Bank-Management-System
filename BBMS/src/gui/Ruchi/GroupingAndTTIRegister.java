@@ -7,12 +7,23 @@ package gui.Ruchi;
 
 import Controller.Ruchi.TestController;
 import Controller.Ruchi.TestResultController;
-import Controller.TableResizer;
+import controller.TableResizer;
+import gui.Anu.ReagentRequests;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -89,6 +100,7 @@ public class GroupingAndTTIRegister extends javax.swing.JInternalFrame {
 
         jScrollPane2 = new javax.swing.JScrollPane();
         registerTable = new javax.swing.JTable();
+        printButton = new javax.swing.JButton();
 
         setTitle("Grouping And TTI Register");
 
@@ -107,6 +119,14 @@ public class GroupingAndTTIRegister extends javax.swing.JInternalFrame {
         ));
         jScrollPane2.setViewportView(registerTable);
 
+        printButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/Print.png"))); // NOI18N
+        printButton.setText("Print");
+        printButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                printButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -115,21 +135,45 @@ public class GroupingAndTTIRegister extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 1138, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(printButton)
+                .addGap(47, 47, 47))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(printButton)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void printButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printButtonActionPerformed
+        try {
+            JasperReport jr = JasperCompileManager.compileReport("./src/Reports/Ruchi/GroupingAndTTIRegisterReport.jrxml");
+            Map<String, Object> params;
+            params = new HashMap<String, Object>();
+
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(registerTable.getModel());
+
+            JasperPrint jp = JasperFillManager.fillReport(jr, params, dataSource);
+
+            JasperViewer.viewReport(jp,false);
+        } catch (JRException ex) {
+            JOptionPane.showMessageDialog(this, "Error while generating the Report!", "", JOptionPane.ERROR_MESSAGE);
+            Logger.getLogger(ReagentRequests.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_printButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JButton printButton;
     private javax.swing.JTable registerTable;
     // End of variables declaration//GEN-END:variables
 }

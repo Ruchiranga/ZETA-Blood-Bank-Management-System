@@ -39,18 +39,6 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel11">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Returned Packets">
@@ -66,28 +54,23 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="1" attributes="0">
-                              <Group type="103" groupAlignment="1" attributes="0">
-                                  <Component id="jScrollPane1" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="jPanel1" max="32767" attributes="1"/>
-                              </Group>
+                              <Component id="jScrollPane1" max="32767" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="jLabel51" min="-2" pref="242" max="-2" attributes="0"/>
-                                      <EmptySpace min="-2" pref="332" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="1" attributes="0">
-                                      <Component id="removeResultBtn" min="-2" pref="145" max="-2" attributes="0"/>
-                                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                                      <Component id="markAsReturnedBtn" min="-2" pref="168" max="-2" attributes="1"/>
-                                      <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                                  </Group>
-                              </Group>
+                              <EmptySpace min="0" pref="371" max="32767" attributes="0"/>
+                              <Component id="jLabel51" min="-2" pref="242" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="332" max="-2" attributes="0"/>
                           </Group>
+                          <Component id="jPanel1" alignment="0" max="32767" attributes="1"/>
                       </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="removeResultBtn" min="-2" pref="145" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="markAsReturnedBtn" min="-2" pref="168" max="-2" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -96,16 +79,16 @@
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel51" min="-2" pref="56" max="-2" attributes="0"/>
-                      <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" min="-2" pref="217" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="jPanel1" min="-2" pref="217" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="189" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="markAsReturnedBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                          <Component id="removeResultBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="markAsReturnedBtn" min="-2" max="-2" attributes="0"/>
+                          <Component id="removeResultBtn" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <EmptySpace pref="38" max="32767" attributes="0"/>
+                      <EmptySpace pref="60" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -185,7 +168,7 @@
                               </Group>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="returnedDateCalendar" pref="263" max="32767" attributes="1"/>
+                          <Component id="returnedDateCalendar" pref="279" max="32767" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
@@ -262,7 +245,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Packet ID"/>
+                    <Property name="text" type="java.lang.String" value="Packet ID*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel3">
@@ -272,6 +255,7 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="packetIDCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -333,6 +317,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="reasonTxtActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="reasonTxtKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel12">
@@ -469,18 +454,6 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel3">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Search Returned Log by date">
@@ -493,7 +466,7 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace min="0" pref="338" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="344" max="32767" attributes="0"/>
                       <Component id="jLabel53" min="-2" pref="333" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="278" max="-2" attributes="0"/>
                   </Group>
@@ -529,7 +502,7 @@
                       <Component id="jPanel5" min="-2" pref="236" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel2" min="-2" pref="216" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="17" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="39" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -722,7 +695,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="updateReturnBtn" max="32767" attributes="0"/>
-                              <Component id="searchReturnedDateCalendar" pref="263" max="32767" attributes="1"/>
+                              <Component id="searchReturnedDateCalendar" pref="268" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -751,20 +724,17 @@
                                               <Component id="jLabel18" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
                                               <Component id="searchIssuedToText" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="103" alignment="0" groupAlignment="3" attributes="0">
-                                                  <Component id="jLabel16" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                                                  <Component id="searchIssuedDateText" alignment="3" min="-2" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <EmptySpace min="32" pref="32" max="-2" attributes="0"/>
-                                                  <Group type="103" groupAlignment="3" attributes="0">
-                                                      <Component id="jLabel17" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
-                                                      <Component id="searchIssuedTimeText" alignment="3" min="-2" max="-2" attributes="0"/>
-                                                  </Group>
-                                              </Group>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jLabel16" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                                              <Component id="searchIssuedDateText" alignment="3" min="-2" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="3" attributes="0">
+                                              <Component id="jLabel17" alignment="3" min="-2" pref="21" max="-2" attributes="0"/>
+                                              <Component id="searchIssuedTimeText" alignment="3" min="-2" max="-2" attributes="0"/>
+                                          </Group>
+                                          <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="3" attributes="0">
                                               <Component id="seachpatientIssueCheckBox" alignment="3" min="-2" max="-2" attributes="0"/>
                                               <Component id="searchBulkIssueTextBox" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -868,6 +838,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchReasonTextActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchReasonTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel16">

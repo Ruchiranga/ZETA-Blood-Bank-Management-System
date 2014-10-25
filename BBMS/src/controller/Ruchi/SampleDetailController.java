@@ -5,7 +5,7 @@
  */
 package Controller.Ruchi;
 
-import Controller.RecordCounter;
+import controller.RecordCounter;
 import connection.DBConnection;
 import connection.DBHandler;
 import java.sql.Connection;
@@ -19,7 +19,7 @@ import java.sql.SQLException;
 public class SampleDetailController {
 
     public String[] getRequestNos() throws ClassNotFoundException, SQLException {
-        String query = "Select RequestNo From sampledetail";
+        String query = "Select RequestNo From sampledetail where isCrossmatched = 0";
         Connection connection = DBConnection.getConnectionToDB();
         ResultSet rst = DBHandler.getData(connection, query);
         int recordCount = RecordCounter.getRecordCount(rst);
@@ -31,11 +31,17 @@ public class SampleDetailController {
         return nos;
     }
 
+    public int markCrossmatched(String requestNo) throws ClassNotFoundException, SQLException {
+
+        String query = "UPDATE bbms.sampledetail SET `IsCrossmatched` = true WHERE `RequestNo` = '" + requestNo + "'";
+        Connection connection = DBConnection.getConnectionToDB();
+        return DBHandler.setData(connection, query);
+    }
+
     public ResultSet getDetailsOf(String requestNo) throws ClassNotFoundException, SQLException {
         String query = "Select * From sampledetail where RequestNo = '" + requestNo + "'";
         Connection connection = DBConnection.getConnectionToDB();
         ResultSet rst = DBHandler.getData(connection, query);
-        rst.next();
         return rst;
     }
 

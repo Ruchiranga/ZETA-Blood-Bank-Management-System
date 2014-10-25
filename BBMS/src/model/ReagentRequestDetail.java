@@ -14,10 +14,10 @@ public class ReagentRequestDetail {
     
     private String requestID;
     private String itemID;
-    private int qty;
-    private int reason;
+    private float qty;
+    private String reason;
 
-    public ReagentRequestDetail(String requestID, String itemID, int qty, int reason) {
+    public ReagentRequestDetail(String requestID, String itemID, float qty, String reason) {
         this.requestID = requestID;
         this.itemID = itemID;
         this.qty = qty;
@@ -55,30 +55,32 @@ public class ReagentRequestDetail {
     /**
      * @return the qty
      */
-    public int getQty() {
+    public float getQty() {
         return qty;
     }
 
     /**
      * @param qty the qty to set
      */
-    public void setQty(int qty) {
+    public void setQty(float qty) {
         this.qty = qty;
     }
 
     /**
      * @return the reason
      */
-    public int getReason() {
+    public String getReason() {
         return reason;
     }
 
     /**
      * @param reason the reason to set
      */
-    public void setReason(int reason) {
+    public void setReason(String reason) {
         this.reason = reason;
     }
+
+    
     
     
     

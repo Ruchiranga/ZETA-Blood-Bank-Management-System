@@ -1,7 +1,9 @@
 package gui.Naduni;
-import Controller.Nanduni.IssueDA;
-import Controller.Nanduni.SampleDetailsDA;
-import Controller.IDGenerator;
+
+import Controller.Ruchi.BloodPacketController;
+import controller.IssueController;
+import controller.SampleDetailsController;
+import controller.IDGenerator;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.ResultSet;
@@ -13,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
@@ -24,17 +27,35 @@ import javax.swing.table.TableColumnModel;
 public class IssueOfBlood extends javax.swing.JInternalFrame {
 
     private String[] title = {"Packet ID", "NIC of Donor", "Recieved ID", "Blood Group", "Blood Type", "Date of Donation", "Collected Camp ID", "Date of Expiry", "Priority"};
-    private DefaultTableModel dtm1 = new DefaultTableModel(title, 0);
-    private DefaultTableModel dtm2 = new DefaultTableModel(title, 0);
+    private DefaultTableModel dtm1;
+    private DefaultTableModel dtm2;
+    BloodPacketController bPController;
 
     /**
      * Creates new form IssueOfBlood
      */
     public IssueOfBlood(Dimension d) {
+        dtm1 = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        dtm2 = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
         initComponents();
+        bPController = new BloodPacketController();
+
         setSize(d);
         setRequestCombo(requestCombo);
         setIssuerCombo(issueCombo);
+        crossMatchTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        selectedTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
     }
 
@@ -42,12 +63,11 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = SampleDetailsDA.getAllRequestNos();
-
+            rst = SampleDetailsController.getAllFilteredRequestNos();
             while (rst.next()) {
-                combo.addItem(rst.getString("RequestNo"));
+                String number = rst.getString("RequestNo");
+                combo.addItem(number);
             }
-
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
         } catch (ClassNotFoundException ex) {
@@ -59,7 +79,7 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = IssueDA.getAllEmployers();
+            rst = IssueController.getAllEmployers();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("Name"));
@@ -85,14 +105,13 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         requestCombo = new javax.swing.JComboBox();
-        searchBtn = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         crossMatchTable = new javax.swing.JTable();
         addBtn = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        TableSelected = new javax.swing.JTable();
+        selectedTable = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         deleteBtn = new javax.swing.JButton();
         completeBtn = new javax.swing.JButton();
@@ -104,17 +123,12 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
         jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 102), 2));
 
         jLabel12.setFont(new java.awt.Font("Stencil Std", 3, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 204, 204));
         jLabel12.setText("REQUEST ID");
 
         requestCombo.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        requestCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        searchBtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        searchBtn.setText("Search");
-        searchBtn.addActionListener(new java.awt.event.ActionListener() {
+        requestCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBtnActionPerformed(evt);
+                requestComboActionPerformed(evt);
             }
         });
 
@@ -126,9 +140,7 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(requestCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(searchBtn)
+                .addComponent(requestCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -137,9 +149,8 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(requestCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addComponent(requestCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jPanel2.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Croos Matched Blood Packets", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14)), new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 204), 2, true))); // NOI18N
@@ -178,8 +189,8 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selected Blood Packets", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14)), new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 204), 2, true))); // NOI18N
 
-        TableSelected.setModel(dtm2);
-        jScrollPane2.setViewportView(TableSelected);
+        selectedTable.setModel(dtm2);
+        jScrollPane2.setViewportView(selectedTable);
 
         jButton2.setText("Add");
 
@@ -222,8 +233,8 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
         );
 
         completeBtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        completeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/blood-drop.png"))); // NOI18N
         completeBtn.setText("Complete Issue");
+        completeBtn.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 102, 102)));
         completeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 completeBtnActionPerformed(evt);
@@ -256,8 +267,8 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(issueCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(completeBtn)
-                .addGap(51, 51, 51))
+                .addComponent(completeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -269,13 +280,13 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel13)
                         .addComponent(issueCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(completeBtn))
-                .addGap(0, 27, Short.MAX_VALUE))
+                    .addComponent(completeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 35, Short.MAX_VALUE))
         );
 
         pack();
@@ -284,11 +295,11 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
 
         try {
-            int row = TableSelected.getSelectedRow();
-            String Table_click = (TableSelected.getModel().getValueAt(row, 0).toString());
+            int row = selectedTable.getSelectedRow();
+            String Table_click = (selectedTable.getModel().getValueAt(row, 0).toString());
             String request = "" + requestCombo.getSelectedItem();
             ResultSet rst = null;
-            rst = IssueDA.getPreviousInfo(request, Table_click);
+            rst = IssueController.getPreviousInfo(request, Table_click);
 
             while (rst.next()) {
 
@@ -318,46 +329,6 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_deleteBtnActionPerformed
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-
-        try {
-            String requestNo = "" + requestCombo.getSelectedItem();
-            ResultSet rst = null;
-            rst = IssueDA.getCrossMatchedInfo(requestNo);
-            boolean noChoices=true;
-            while (rst.next()) {
-
-                String packetid = rst.getString("PacketID");
-                String nic = rst.getString("Nic");
-                String recievedid = rst.getString("RecievedID");
-                String group = rst.getString("BloodGroup");
-                String type = rst.getString("BloodType");
-                String dateOfDonation = rst.getString("DateOfDonation");
-                String campid = rst.getString("CampID");
-                String dateOfExpiry = rst.getString("DateOfExpiry");
-                String priority = rst.getString("Priority");
-                String[] row = {packetid, nic, recievedid, group, type, dateOfDonation, campid, dateOfExpiry, priority};
-                dtm1 = new DefaultTableModel(title, 0);
-                crossMatchTable.setModel(dtm1);
-
-                dtm1.addRow(row);
-                resizeColumnWidth(crossMatchTable);
-                noChoices=false;
-            }
-            if(noChoices==true){
-                JOptionPane.showMessageDialog(null, "The sample is not cross matched yet!","Warning!",JOptionPane.OK_OPTION);
-            }     
-            
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ArrayIndexOutOfBoundsException ex) {
-            JOptionPane.showMessageDialog(null, "Please select and add the packets to the list", "Warning!", JOptionPane.OK_OPTION);
-        }
-
-    }//GEN-LAST:event_searchBtnActionPerformed
-
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
 
         try {
@@ -365,7 +336,7 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
             String Table_click = (crossMatchTable.getModel().getValueAt(row, 0)).toString();
 
             ResultSet rst = null;
-            rst = IssueDA.getSelectedInfo(Table_click);
+            rst = IssueController.getSelectedInfo(Table_click);
             while (rst.next()) {
                 String packetid = rst.getString("PacketID");
                 String nic = rst.getString("Nic");
@@ -378,10 +349,15 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
                 String priority = rst.getString("Priority");
 
                 String[] selectedRow = {packetid, nic, recievedid, group, type, dateOfDonation, campid, dateOfExpiry, priority};
-                dtm2 = new DefaultTableModel(title, 0);
-                TableSelected.setModel(dtm2);
+                dtm2 = new DefaultTableModel(title, 0) {
+                    @Override
+                    public boolean isCellEditable(int row, int column) {
+                        return false;
+                    }
+                };
+                selectedTable.setModel(dtm2);
                 dtm2.addRow(selectedRow);
-                resizeColumnWidth(TableSelected);
+                resizeColumnWidth(selectedTable);
 
                 dtm1.removeRow(row);
             }
@@ -407,73 +383,129 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
     }
 
     private void completeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_completeBtnActionPerformed
-        int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to commit the issue ?", "Issue", JOptionPane.YES_NO_OPTION);
-        if (confirm == 0) {
-            String issueID = "";
-            ResultSet rst = null;
-            try {
-                rst = IssueDA.getResultIDs();
-                rst.last();
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
-            }
-
-            String curID = null;
-            try {
-                curID = rst.getString("issueID");
+        if (selectedTable.getRowCount() == 0) {
+            JOptionPane.showMessageDialog(null, "Please choose the packets packet(s) for issue", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to commit the issue ?", "Issue", JOptionPane.YES_NO_OPTION);
+            if (confirm == 0) {
+                String issueID = "";
+                ResultSet rst = null;
                 try {
-                    issueID = IDGenerator.generateNextID(curID);
-                } catch (Exception ex) {
-                    Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            } catch (SQLException e) {
-                issueID = "IS00000001";
-            }
-            String employer = "" + issueCombo.getSelectedItem();
-            String employeeid = null;
-            try {
-                rst = IssueDA.getEmployeeId(employer);
-                while (rst.next()) {
-                    employeeid = rst.getString("EmpID");
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
-            } catch (ClassNotFoundException ex) {
-                Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
-            }
-
-            for (int i = 0; i < TableSelected.getRowCount(); i++) {
-                String requestNo = "" + requestCombo.getSelectedItem();
-                String packetID = TableSelected.getValueAt(i, 0).toString();
-                try {
-                    Calendar cal = new GregorianCalendar();
-                    int month = cal.get(Calendar.MONTH);
-                    int year = cal.get(Calendar.YEAR);
-                    int day = cal.get(Calendar.DAY_OF_MONTH);
-                    String date = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
-
-                    int second = cal.get(Calendar.SECOND);
-                    int minute = cal.get(Calendar.MINUTE);
-                    int hour = cal.get(Calendar.HOUR);
-                    String time = Integer.toString(hour) + ":" + Integer.toString(minute) + ":" + Integer.toString(second);
-                    
-                    IssueDA.updateIssue(requestNo, packetID, issueID, employeeid, date, time);
-                    JOptionPane.showMessageDialog(null, "Issued Succesfully !", "Issue", JOptionPane.OK_OPTION);
+                    rst = IssueController.getResultIDs();
+                    rst.last();
                 } catch (ClassNotFoundException ex) {
                     Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+                    JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.ERROR_MESSAGE);
+                }
+
+                String curID = null;
+                try {
+                    curID = rst.getString("issueID");
+                    try {
+                        issueID = IDGenerator.generateNextID(curID);
+                    } catch (Exception ex) {
+                        Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } catch (SQLException e) {
+                    issueID = "IS00000001";
+                }
+                String employer = "" + issueCombo.getSelectedItem();
+                String employeeid = null;
+                try {
+                    rst = IssueController.getEmployeeId(employer);
+                    while (rst.next()) {
+                        employeeid = rst.getString("EmpID");
+                    }
+                } catch (SQLException ex) {
+                    JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.ERROR_MESSAGE);
+                } catch (ClassNotFoundException ex) {
+                    Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                for (int i = 0; i < selectedTable.getRowCount(); i++) {
+                    String requestNo = "" + requestCombo.getSelectedItem();
+                    String packetID = selectedTable.getValueAt(i, 0).toString();
+                    try {
+                        Calendar cal = new GregorianCalendar();
+                        int month = cal.get(Calendar.MONTH);
+                        int year = cal.get(Calendar.YEAR);
+                        int day = cal.get(Calendar.DAY_OF_MONTH);
+                        String date = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
+
+                        int second = cal.get(Calendar.SECOND);
+                        int minute = cal.get(Calendar.MINUTE);
+                        int hour = cal.get(Calendar.HOUR);
+                        String time = Integer.toString(hour) + ":" + Integer.toString(minute) + ":" + Integer.toString(second);
+
+                        IssueController.updateIssue(requestNo, packetID, issueID, employeeid, date, time);
+
+                        JOptionPane.showMessageDialog(null, "Issued Succesfully !", "Issue", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+                for (int i = 0; i < crossMatchTable.getRowCount(); i++) {
+                    String packetID = (String) crossMatchTable.getValueAt(i, 0);
+                    try {
+                        bPController.markUnCrossMatched(packetID);
+                    } catch (ClassNotFoundException ex) {
+                        Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
 
+
     }//GEN-LAST:event_completeBtnActionPerformed
+
+    private void requestComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestComboActionPerformed
+        try {
+            String requestNo = "" + requestCombo.getSelectedItem();
+            ResultSet rst = null;
+            rst = IssueController.getCrossMatchedInfo(requestNo);
+            boolean noChoices = true;
+            dtm1 = new DefaultTableModel(title, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+            crossMatchTable.setModel(dtm1);
+            while (rst.next()) {
+                String packetid = rst.getString("PacketID");
+                String nic = rst.getString("Nic");
+                String recievedid = rst.getString("RecievedID");
+                String group = rst.getString("BloodGroup");
+                String type = rst.getString("BloodType");
+                String dateOfDonation = rst.getString("DateOfDonation");
+                String campid = rst.getString("CampID");
+                String dateOfExpiry = rst.getString("DateOfExpiry");
+                String priority = rst.getString("Priority");
+                String[] row = {packetid, nic, recievedid, group, type, dateOfDonation, campid, dateOfExpiry, priority};
+                dtm1.addRow(row);
+                resizeColumnWidth(crossMatchTable);
+                noChoices = false;
+            }
+            if (noChoices == true) {
+                JOptionPane.showMessageDialog(null, "Something is wrong", "Warning!", JOptionPane.OK_OPTION);
+            }
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Data Error!", "Warning!", JOptionPane.OK_OPTION);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(IssueOfBlood.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ArrayIndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "Please select and add the packets to the list", "Warning!", JOptionPane.OK_OPTION);
+        }
+    }//GEN-LAST:event_requestComboActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable TableSelected;
     private javax.swing.JButton addBtn;
     private javax.swing.JButton completeBtn;
     private javax.swing.JTable crossMatchTable;
@@ -489,7 +521,7 @@ public class IssueOfBlood extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JComboBox requestCombo;
-    private javax.swing.JButton searchBtn;
+    private javax.swing.JTable selectedTable;
     // End of variables declaration//GEN-END:variables
 
 }

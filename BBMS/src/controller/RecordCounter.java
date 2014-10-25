@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package Controller;
+package controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;

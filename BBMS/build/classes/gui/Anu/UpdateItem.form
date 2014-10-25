@@ -37,7 +37,7 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace pref="22" max="32767" attributes="0"/>
               <Component id="jLabel51" min="-2" pref="40" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel8" min="-2" max="-2" attributes="0"/>
@@ -52,13 +52,10 @@
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
             <TitledBorder title="Update Item">
-              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="33" red="0" type="rgb"/>
-                </BevelBorder>
+              <Border PropertyName="innerBorder" info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+                <LineBorder>
+                  <Color PropertyName="color" blue="ff" green="ff" red="ff" type="rgb"/>
+                </LineBorder>
               </Border>
             </TitledBorder>
           </Border>
@@ -148,7 +145,7 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel7">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Item type"/>
+            <Property name="text" type="java.lang.String" value="Item type*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="itemTypeText">
@@ -176,12 +173,14 @@
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel9">
           <Properties>
-            <Property name="text" type="java.lang.String" value="Quantity"/>
+            <Property name="text" type="java.lang.String" value="Quantity*"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="qtyText">
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="qtyTextActionPerformed"/>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="qtyTextKeyReleased"/>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="qtyTextKeyTyped"/>
           </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel16">

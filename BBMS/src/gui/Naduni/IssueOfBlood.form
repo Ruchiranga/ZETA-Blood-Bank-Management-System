@@ -38,8 +38,8 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="issueCombo" min="-2" pref="163" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
-              <Component id="completeBtn" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+              <Component id="completeBtn" min="-2" pref="127" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="55" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,15 +53,15 @@
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jPanel3" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="issueCombo" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="completeBtn" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="completeBtn" alignment="0" min="-2" pref="41" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="35" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -91,9 +91,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jLabel12" min="-2" pref="133" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
-                  <Component id="requestCombo" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="searchBtn" min="-2" max="-2" attributes="0"/>
+                  <Component id="requestCombo" min="-2" pref="118" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
@@ -105,9 +103,8 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="requestCombo" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="searchBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="14" max="32767" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -118,9 +115,6 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Stencil Std" size="18" style="3"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="cc" green="cc" red="ff" type="rgb"/>
-            </Property>
             <Property name="text" type="java.lang.String" value="REQUEST ID"/>
           </Properties>
         </Component>
@@ -130,24 +124,11 @@
               <Font name="Times New Roman" size="14" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
-              </StringArray>
+              <StringArray count="0"/>
             </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="searchBtn">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Times New Roman" size="14" style="1"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Search"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchBtnActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="requestComboActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>
@@ -295,7 +276,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="TableSelected">
+            <Component class="javax.swing.JTable" name="selectedTable">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                   <Connection code="dtm2" type="code"/>
@@ -327,10 +308,14 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Times New Roman" size="14" style="1"/>
         </Property>
-        <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/images/blood-drop.png"/>
-        </Property>
         <Property name="text" type="java.lang.String" value="Complete Issue"/>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
+            <LineBorder>
+              <Color PropertyName="color" blue="66" green="66" red="ff" type="rgb"/>
+            </LineBorder>
+          </Border>
+        </Property>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="completeBtnActionPerformed"/>

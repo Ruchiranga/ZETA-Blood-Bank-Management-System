@@ -11,8 +11,8 @@ import Controller.Ruchi.DonorController;
 import Controller.Ruchi.EmployeeController;
 import Controller.Ruchi.TestController;
 import Controller.Ruchi.TestResultController;
-import Controller.TableCleaner;
-import java.awt.Color;
+import controller.SearchableCombo;
+import controller.TableCleaner;
 import java.beans.PropertyVetoException;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -125,6 +125,11 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         Date date = new Date();
         dateText.setText(dateFormat.format(date));
 
+        new SearchableCombo().setSearchableCombo(packetIDListCombo, true);
+        new SearchableCombo().setSearchableCombo(testListCombo, true);
+        new SearchableCombo().setSearchableCombo(doneByComboBox, true);
+        new SearchableCombo().setSearchableCombo(checkedByComboBox, true);
+
     }
 
     /**
@@ -154,7 +159,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         addNewTestButton = new javax.swing.JButton();
         doneByComboBox = new javax.swing.JComboBox();
         checkedByComboBox = new javax.swing.JComboBox();
-        generateLabelButton = new javax.swing.JButton();
+        OKButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         discardPacketCheckBox = new javax.swing.JCheckBox();
         jPanel3 = new javax.swing.JPanel();
@@ -188,13 +193,29 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         jLabel8.setText("Special Comments");
 
+        commentsTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                commentsTextFieldKeyTyped(evt);
+            }
+        });
+
         testListCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 testListComboActionPerformed(evt);
             }
         });
+        testListCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                testListComboKeyTyped(evt);
+            }
+        });
 
         negativeRadioButton.setText("Negative");
+        negativeRadioButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                negativeRadioButtonActionPerformed(evt);
+            }
+        });
 
         positiveRadioButton.setText("Positive");
         positiveRadioButton.addActionListener(new java.awt.event.ActionListener() {
@@ -298,10 +319,24 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        generateLabelButton.setText("OK");
-        generateLabelButton.addActionListener(new java.awt.event.ActionListener() {
+        doneByComboBox.setEditable(true);
+        doneByComboBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                doneByComboBoxKeyTyped(evt);
+            }
+        });
+
+        checkedByComboBox.setEditable(true);
+        checkedByComboBox.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                checkedByComboBoxKeyTyped(evt);
+            }
+        });
+
+        OKButton.setText("OK");
+        OKButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                generateLabelButtonActionPerformed(evt);
+                OKButtonActionPerformed(evt);
             }
         });
 
@@ -321,9 +356,26 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("ABO Typing Test"));
 
+        bloodGroupCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bloodGroupComboActionPerformed(evt);
+            }
+        });
+        bloodGroupCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                bloodGroupComboKeyTyped(evt);
+            }
+        });
+
         jLabel2.setText("Blood Group");
 
         jLabel12.setText("Special Comment");
+
+        groupCommentTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                groupCommentTextFieldKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -411,9 +463,15 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder("Select Packet"));
 
+        packetIDListCombo.setEditable(true);
         packetIDListCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 packetIDListComboActionPerformed(evt);
+            }
+        });
+        packetIDListCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                packetIDListComboKeyTyped(evt);
             }
         });
 
@@ -476,13 +534,13 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                                         .addComponent(checkedByComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(generateLabelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(OKButton, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cancelButton, generateLabelButton});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {OKButton, cancelButton});
 
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,7 +569,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
                     .addComponent(checkedByComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(generateLabelButton)
+                    .addComponent(OKButton)
                     .addComponent(cancelButton))
                 .addContainerGap(71, Short.MAX_VALUE))
         );
@@ -520,20 +578,21 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void positiveRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_positiveRadioButtonActionPerformed
-        // TODO add your handling code here:
+        commentsTextField.requestFocus();
     }//GEN-LAST:event_positiveRadioButtonActionPerformed
 
     private void discardPacketCheckBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_discardPacketCheckBoxActionPerformed
         if (discardPacketCheckBox.isSelected()) {
             int choice = JOptionPane.showConfirmDialog(this, "Are you sure you want to discard this packet?", "Are You sure?", JOptionPane.YES_NO_OPTION);
             if (choice == 0) {
-                generateLabelButton.setText("      OK      ");
+                OKButton.setText("      OK      ");
             } else {
                 discardPacketCheckBox.setSelected(false);
             }
         } else {
-            generateLabelButton.setText("Generate Packet Label");
+            OKButton.setText("Generate Packet Label");
         }
+        doneByComboBox.requestFocus();
     }//GEN-LAST:event_discardPacketCheckBoxActionPerformed
 
     private void packetIDListComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packetIDListComboActionPerformed
@@ -573,6 +632,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             blacklistdonerButton.setEnabled(true);
             unblacklistButton.setEnabled(false);
         }
+
 
     }//GEN-LAST:event_packetIDListComboActionPerformed
 
@@ -634,8 +694,12 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             }
 
             commentsTextField.setText("");
+            testListCombo.requestFocus(true);
         } else {
             testListCombo.setEnabled(false);
+        }
+        if (testListCombo.getItemCount() == 0) {
+            discardPacketCheckBox.setRequestFocusEnabled(true);
         }
 
     }//GEN-LAST:event_addToListButtonActionPerformed
@@ -662,7 +726,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_deleteRowButtonActionPerformed
 
-    private void generateLabelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateLabelButtonActionPerformed
+    private void OKButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKButtonActionPerformed
 
         if (!discardPacketCheckBox.isSelected() && dtm.getRowCount() == 0) {
             JOptionPane.showMessageDialog(this, "Please specify the test results!", "", JOptionPane.ERROR_MESSAGE);
@@ -739,7 +803,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
             TableCleaner.clearTable(dtm);
             addToListButton.setEnabled(true);
             deleteRowButton.setEnabled(false);
-            
+
             doneByComboBox.setSelectedIndex(0);
             checkedByComboBox.setSelectedIndex(0);
         } else {
@@ -753,7 +817,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         }
 
 
-    }//GEN-LAST:event_generateLabelButtonActionPerformed
+    }//GEN-LAST:event_OKButtonActionPerformed
 
     private void cancelButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelButtonActionPerformed
 
@@ -777,12 +841,14 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
         pane.add(newTestForm);
         pane.setRequestFocusEnabled(true);
         newTestForm.show();
+        new SearchableCombo().setSearchableCombo(testListCombo, true);
     }//GEN-LAST:event_addNewTestButtonActionPerformed
 
     private void testListComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_testListComboActionPerformed
         if (testListCombo.getItemCount() == 0) {
             addToListButton.setEnabled(false);
             testListCombo.setEnabled(false);
+            negativeRadioButton.requestFocus(true);
         } else {
             addToListButton.setEnabled(true);
             testListCombo.setEnabled(true);
@@ -813,6 +879,79 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_unblacklistButtonActionPerformed
 
+    private void bloodGroupComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bloodGroupComboActionPerformed
+    }//GEN-LAST:event_bloodGroupComboActionPerformed
+
+    private void groupCommentTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_groupCommentTextFieldKeyTyped
+//        char c = evt.getKeyChar();
+//        if (groupCommentTextField.getText().length() < 10) {
+//            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+//                nameText.requestFocus(true);
+//            }
+//        } else {
+//            evt.consume();
+//        }
+
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            testListCombo.requestFocus(true);
+        }
+        if (groupCommentTextField.getText().length() >= 200) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_groupCommentTextFieldKeyTyped
+
+    private void negativeRadioButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negativeRadioButtonActionPerformed
+        commentsTextField.requestFocus(true);
+    }//GEN-LAST:event_negativeRadioButtonActionPerformed
+
+    private void commentsTextFieldKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_commentsTextFieldKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            addToListButton.requestFocus(true);
+        }
+        if (commentsTextField.getText().length() >= 75) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_commentsTextFieldKeyTyped
+
+    private void packetIDListComboKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_packetIDListComboKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            bloodGroupCombo.requestFocus(true);
+        }
+    }//GEN-LAST:event_packetIDListComboKeyTyped
+
+    private void bloodGroupComboKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bloodGroupComboKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            groupCommentTextField.requestFocus(true);
+        }
+    }//GEN-LAST:event_bloodGroupComboKeyTyped
+
+    private void testListComboKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_testListComboKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            if (testListCombo.getItemCount() == 0) {
+                negativeRadioButton.requestFocus(true);
+            }
+        }
+    }//GEN-LAST:event_testListComboKeyTyped
+
+    private void doneByComboBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_doneByComboBoxKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            checkedByComboBox.requestFocus();
+        }
+    }//GEN-LAST:event_doneByComboBoxKeyTyped
+
+    private void checkedByComboBoxKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_checkedByComboBoxKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            OKButton.requestFocus();
+        }
+    }//GEN-LAST:event_checkedByComboBoxKeyTyped
+
     public void updateTestListCombo() {
         testListCombo.removeAllItems();
         String[] testList = null;
@@ -839,6 +978,7 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton OKButton;
     private javax.swing.JButton addNewTestButton;
     private javax.swing.JButton addToListButton;
     private javax.swing.JButton blacklistdonerButton;
@@ -851,7 +991,6 @@ public class BloodGroupingAndTTI extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox discardPacketCheckBox;
     private javax.swing.JComboBox doneByComboBox;
     private javax.swing.JTextField donorTextField;
-    private javax.swing.JButton generateLabelButton;
     private javax.swing.JTextField groupCommentTextField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

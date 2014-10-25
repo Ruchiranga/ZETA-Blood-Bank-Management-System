@@ -36,8 +36,8 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane3" min="-2" pref="542" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
+              <Component id="jTabbedPane3" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -53,18 +53,6 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel11">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Discarded Blood Stock">
@@ -97,8 +85,8 @@
                       <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                       <Component id="jLabel50" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jPanel1" max="32767" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -116,28 +104,29 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <EmptySpace pref="585" max="32767" attributes="0"/>
-                          <Component id="jLabel6" min="-2" pref="43" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-                          <Component id="totalTxt" min="-2" pref="87" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jButton4" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="RefreshBtn" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      </Group>
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="1"/>
-                              <Component id="jPanel8" alignment="0" min="-2" max="-2" attributes="1"/>
-                              <Component id="jPanel7" alignment="0" min="-2" max="-2" attributes="1"/>
-                              <Component id="jPanel9" alignment="0" max="32767" attributes="1"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel6" min="-2" pref="43" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                                  <Component id="totalTxt" min="-2" pref="87" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                                  <Component id="RefreshBtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="1"/>
+                                      <Component id="jPanel8" alignment="0" min="-2" max="-2" attributes="1"/>
+                                      <Component id="jPanel7" alignment="0" min="-2" max="-2" attributes="1"/>
+                                      <Component id="jPanel9" alignment="0" max="32767" attributes="1"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="jScrollPane1" min="-2" pref="660" max="-2" attributes="1"/>
+                              </Group>
                           </Group>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" min="-2" pref="660" max="-2" attributes="1"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="16" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -157,17 +146,16 @@
                               </Group>
                               <Group type="102" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
+                                  <Component id="jScrollPane1" pref="358" max="32767" attributes="0"/>
                               </Group>
                           </Group>
-                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="RefreshBtn" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButton4" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="totalTxt" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -192,7 +180,7 @@
                               <Component id="monthRadioBtn" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Component id="yearRadioBtn" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace max="32767" attributes="0"/>
+                              <EmptySpace pref="23" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -246,11 +234,6 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JButton" name="jButton4">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Generate Report"/>
-                  </Properties>
-                </Component>
                 <Component class="javax.swing.JButton" name="RefreshBtn">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Refresh"/>

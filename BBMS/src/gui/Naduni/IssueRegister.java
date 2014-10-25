@@ -1,27 +1,32 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package gui.Naduni;
 
-import Controller.Nanduni.IssueDA;
-import Controller.Nanduni.SampleDetailsDA;
+import controller.IssueController;
+import controller.SampleDetailsController;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -29,16 +34,21 @@ import javax.swing.table.TableColumnModel;
  */
 public class IssueRegister extends javax.swing.JInternalFrame {
 
-    String[] title = {"Request No", "Packet ID", "Blood Group", "Isssue Component", "Expiry Date", "Issued By", "Issued Date", "Issued Time"};
-    DefaultTableModel dtm = new DefaultTableModel(title, 0);
+    String[] title = {"Request No", "Packet ID", "Blood Group", "Issue Component", "Expiry Date", "Issued By", "Issued Date", "Issued Time"};
+    DefaultTableModel dtm = new DefaultTableModel(title, 0) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false;
+        }
+    };
 
-    String request ;
-    String packetid ;
-    String bloodgroup ;
-    String type ;
-    String expiryDate ;
-    String issuedDate ;
-    String issuedOfficer ;
+    String request;
+    String packetid;
+    String bloodgroup;
+    String type;
+    String expiryDate;
+    String issuedDate;
+    String issuedOfficer;
 
     /**
      * Creates new form IssueRegister
@@ -51,13 +61,14 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         setPacketCombo(packetCombo);
         setComponentCombo(componentCombo);
         setIssuerCombo(IssuerCombo);
+
     }
 
     public void setRequestCombo(JComboBox combo) {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = SampleDetailsDA.getAllRequestNos();
+            rst = SampleDetailsController.getAllRequestNos();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("RequestNo"));
@@ -74,7 +85,7 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = IssueDA.getPacketInfo();
+            rst = IssueController.getPacketInfo();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("PacketID"));
@@ -91,7 +102,7 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = SampleDetailsDA.getAllTypes();
+            rst = SampleDetailsController.getAllTypes();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("BloodType"));
@@ -108,14 +119,14 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = IssueDA.getAllEmployers();
+            rst = IssueController.getAllEmployers();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("Name"));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(IssueDA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IssueController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SampleDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -136,7 +147,6 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         issueTable = new javax.swing.JTable();
         searchPanel = new javax.swing.JPanel();
-        searchBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         requestCombo = new javax.swing.JComboBox();
         requestLabel = new javax.swing.JLabel();
@@ -197,18 +207,14 @@ public class IssueRegister extends javax.swing.JInternalFrame {
 
         searchPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Slelect Options", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Times New Roman", 1, 14))); // NOI18N
 
-        searchBtn.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-        searchBtn.setText("Search");
-        searchBtn.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 204), 1, true));
-        searchBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchBtnActionPerformed(evt);
-            }
-        });
-
         requestCombo.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         requestCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         requestCombo.setEnabled(false);
+        requestCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestComboActionPerformed(evt);
+            }
+        });
 
         requestLabel.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         requestLabel.setText("Request No");
@@ -259,6 +265,11 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         packetCombo.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         packetCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         packetCombo.setEnabled(false);
+        packetCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                packetComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -296,6 +307,11 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         groupCombo.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         groupCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-" }));
         groupCombo.setEnabled(false);
+        groupCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupComboActionPerformed(evt);
+            }
+        });
 
         groupLabel.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         groupLabel.setText("Blood Group");
@@ -310,9 +326,9 @@ public class IssueRegister extends javax.swing.JInternalFrame {
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(groupCheck)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(groupLabel)
-                        .addContainerGap())
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 0, Short.MAX_VALUE))))
@@ -332,6 +348,11 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         componentCombo.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         componentCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         componentCombo.setEnabled(false);
+        componentCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                componentComboActionPerformed(evt);
+            }
+        });
 
         componentCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -382,6 +403,11 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         });
 
         expireDate.setEnabled(false);
+        expireDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                expireDatePropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -423,6 +449,11 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         IssuerCombo.setFont(new java.awt.Font("Times New Roman", 1, 12)); // NOI18N
         IssuerCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         IssuerCombo.setEnabled(false);
+        IssuerCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                IssuerComboActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
         jPanel8.setLayout(jPanel8Layout);
@@ -434,7 +465,7 @@ public class IssueRegister extends javax.swing.JInternalFrame {
                     .addComponent(IssuerCombo, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addComponent(officerCheck)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(officerLabel)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -462,6 +493,11 @@ public class IssueRegister extends javax.swing.JInternalFrame {
         });
 
         issueDate.setEnabled(false);
+        issueDate.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                issueDatePropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
         jPanel9.setLayout(jPanel9Layout);
@@ -472,7 +508,7 @@ public class IssueRegister extends javax.swing.JInternalFrame {
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel9Layout.createSequentialGroup()
                         .addComponent(dateCheck)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(dateLabel)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addComponent(issueDate, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE))
@@ -512,24 +548,17 @@ public class IssueRegister extends javax.swing.JInternalFrame {
                         .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(43, 43, 43)))
                 .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(149, 149, 149)
-                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(162, 162, 162))
+                .addGap(444, 444, 444))
         );
         searchPanelLayout.setVerticalGroup(
             searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(searchPanelLayout.createSequentialGroup()
-                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(searchPanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, searchPanelLayout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap()
+                .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(searchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -610,11 +639,7 @@ public class IssueRegister extends javax.swing.JInternalFrame {
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         searchPanel.setVisible(true);
         searchButton.setVisible(false);
-        System.out.println("Search issue"+dtm.getRowCount());
-        for (int i = 0; i < dtm.getRowCount(); i++) {
-            dtm.removeRow(i);
-        }
-
+        resizeColumnWidth(issueTable);
     }//GEN-LAST:event_searchButtonActionPerformed
 
     private void requestCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestCheckActionPerformed
@@ -627,6 +652,8 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             requestLabel.setEnabled(false);
             request = null;
         }
+        search();
+
     }//GEN-LAST:event_requestCheckActionPerformed
 
     private void packetCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packetCheckActionPerformed
@@ -639,6 +666,8 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             packetLabel.setEnabled(false);
             packetid = null;
         }
+        search();
+
     }//GEN-LAST:event_packetCheckActionPerformed
 
     private void groupCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupCheckActionPerformed
@@ -651,6 +680,8 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             groupLabel.setEnabled(false);
             bloodgroup = null;
         }
+        search();
+
     }//GEN-LAST:event_groupCheckActionPerformed
 
     private void componentCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_componentCheckActionPerformed
@@ -663,6 +694,8 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             componentLabel.setEnabled(false);
             type = null;
         }
+
+        search();
     }//GEN-LAST:event_componentCheckActionPerformed
 
     private void expiryCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_expiryCheckActionPerformed
@@ -675,6 +708,8 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             expiryLabel.setEnabled(false);
             expiryDate = null;
         }
+        search();
+
     }//GEN-LAST:event_expiryCheckActionPerformed
 
     private void officerCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_officerCheckActionPerformed
@@ -687,6 +722,8 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             IssuerCombo.setEnabled(false);
             issuedOfficer = null;
         }
+        search();
+
     }//GEN-LAST:event_officerCheckActionPerformed
 
     private void dateCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dateCheckActionPerformed
@@ -699,13 +736,18 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             dateLabel.setEnabled(false);
             issuedDate = null;
         }
+        search();
+
     }//GEN-LAST:event_dateCheckActionPerformed
 
-    private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        System.out.println(dtm.getRowCount());
-        for (int i = 0; i < dtm.getRowCount(); i++) {
-            dtm.removeRow(i);;
-        }
+    private void search() {
+        dtm = new DefaultTableModel(title, 0) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        issueTable.setModel(dtm);
 
         request = null;
         packetid = null;
@@ -743,26 +785,18 @@ public class IssueRegister extends javax.swing.JInternalFrame {
             issuedOfficer = "" + IssuerCombo.getSelectedItem();
         }
 
-//        IssueDA.getSearchedInfo(request,packetid,bloodgroup,type,expiryDate,issuedDate,issuedOfficer);
         try {
             ResultSet rst = null;
-            rst = IssueDA.getIssueInfo();
+            rst = IssueController.getIssueInfo();
 
             while (rst.next()) {
                 String irequest = rst.getString("RequestNo");
-                //System.out.println(irequest + "   " + request);
                 String ipacketid = rst.getString("PacketID");
-                //System.out.println(ipacketid + "   " + packetid);
                 String ibloodgroup = rst.getString("BloodGroup");
-                //System.out.println(ibloodgroup + "   " + bloodgroup);
                 String itype = rst.getString("BloodType");
-                //System.out.println(itype + "   " + type);
                 String iexpiryDate = rst.getString("DateOfExpiry");
-                //System.out.println(iexpiryDate + "   " + expiryDate);
                 String iissuedDate = rst.getString("Date");
-                //System.out.println(iissuedDate + "   " + issuedDate);
                 String iissuedOfficer = rst.getString("Name");
-                //System.out.println(iissuedOfficer + "   " + issuedOfficer);
                 String itime = rst.getString("Time");
                 int count = 0, satisfy = 0;
                 if (request != null) {
@@ -808,29 +842,83 @@ public class IssueRegister extends javax.swing.JInternalFrame {
                     }
                 }
 
-                if (count == satisfy && count!=0) {
+                if (count != 0 && count == satisfy) {
                     String[] row = {irequest, ipacketid, ibloodgroup, itype, iexpiryDate, iissuedOfficer, iissuedDate, itime};
                     dtm.addRow(row);
+                    resizeColumnWidth(issueTable);
 
                 }
-                if(count==0){
+                if (satisfy == 0) {
                     JOptionPane.showMessageDialog(null, "Select options to continue search");
+                    break;
                 }
 
             }
         } catch (SQLException ex) {
             System.out.println("sql");
-            Logger.getLogger(IssueDA.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(IssueController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SampleDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-
-    }//GEN-LAST:event_searchBtnActionPerformed
+    }
 
     private void reportBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reportBtnActionPerformed
-        // TODO add your handling code here:
+        try {
+
+            JasperReport jr = JasperCompileManager.compileReport("./src/gui/Naduni/IssueReport.jrxml");
+            Map<String, Object> params;
+            params = new HashMap<String, Object>();
+            JRTableModelDataSource dataSource = new JRTableModelDataSource(issueTable.getModel());
+            JasperPrint jp = JasperFillManager.fillReport(jr, params, dataSource);
+            JasperViewer.viewReport(jp, false);
+
+        } catch (JRException ex) {
+            Logger.getLogger(IssueRegister.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_reportBtnActionPerformed
+
+    private void IssuerComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_IssuerComboActionPerformed
+        if (IssuerCombo.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_IssuerComboActionPerformed
+
+    private void requestComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestComboActionPerformed
+        if (requestCombo.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_requestComboActionPerformed
+
+    private void groupComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupComboActionPerformed
+        if (groupCombo.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_groupComboActionPerformed
+
+    private void packetComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packetComboActionPerformed
+        if (packetCombo.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_packetComboActionPerformed
+
+    private void componentComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_componentComboActionPerformed
+        if (componentCombo.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_componentComboActionPerformed
+
+    private void expireDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_expireDatePropertyChange
+        if (expireDate.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_expireDatePropertyChange
+
+    private void issueDatePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_issueDatePropertyChange
+        if (issueDate.isEnabled()) {
+            search();
+        }
+    }//GEN-LAST:event_issueDatePropertyChange
 
     public void resizeColumnWidth(JTable table) {
         final TableColumnModel columnModel = table.getColumnModel();
@@ -852,8 +940,13 @@ public class IssueRegister extends javax.swing.JInternalFrame {
     private void fillTable() {
         try {
             ResultSet rst = null;
-            rst = IssueDA.getIssueInfo();
-            dtm = new DefaultTableModel(title, 0);
+            rst = IssueController.getIssueInfo();
+            dtm = new DefaultTableModel(title, 0) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
             issueTable.setModel(dtm);
 
             while (rst.next()) {
@@ -871,6 +964,7 @@ public class IssueRegister extends javax.swing.JInternalFrame {
 
                 dtm.addRow(selectedRow);
                 resizeColumnWidth(issueTable);
+                issueTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             }
 
@@ -920,7 +1014,6 @@ public class IssueRegister extends javax.swing.JInternalFrame {
     private javax.swing.JCheckBox requestCheck;
     private javax.swing.JComboBox requestCombo;
     private javax.swing.JLabel requestLabel;
-    private javax.swing.JButton searchBtn;
     private javax.swing.JButton searchButton;
     private javax.swing.JPanel searchPanel;
     // End of variables declaration//GEN-END:variables

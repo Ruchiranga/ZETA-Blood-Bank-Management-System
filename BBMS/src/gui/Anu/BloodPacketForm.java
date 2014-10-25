@@ -10,12 +10,14 @@
  */
 package gui.Anu;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
-import Controller.anu.BloodGroupDA;
-import Controller.anu.BloodPacketDA;
-import Controller.anu.BloodTypeDA;
-import Controller.anu.CampController;
-import Controller.anu.DonorDA;
+import controller.anu.BloodGroupController;
+import controller.anu.BloodPacketController;
+import controller.anu.BloodTypeController;
+import controller.anu.CampController;
+import controller.anu.DonorController;
+import connection.NotifierConnection;
+import controller.SearchableCombo;
+import controller.anu.BloodStockUpdateNotifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -38,10 +40,14 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
      */
     Calendar currenttime = Calendar.getInstance();
     java.util.Date today = new java.util.Date((currenttime.getTime()).getTime());
-    
+
+    BloodStockUpdateNotifier notifier = null;
+
     public BloodPacketForm() {
         initComponents();
-        
+
+        notifier = NotifierConnection.getNotifierConnection(null);
+
         setPacketIDCombo(searchPacketIDCombo);
         setBloodGroupCombo(groupCombo);
         setBloodGroupCombo(searchBloodGroupCombo);
@@ -51,32 +57,34 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         setDonorNicCombo(searchDonorNicCombo);
         setCampNameCombo(CampNameCombo);
         setCampNameCombo(searchCampNameCombo);
-        
+
         dateOfCollectionCalendar.setDate(today);
         dateOfExpiryCalendar.setDate(today);
-        
+
         clearSearchFields();
+        new SearchableCombo().setSearchableCombo(searchPacketIDCombo, true);
+        packIDText.requestFocus(true);
     }
-    
-    private void resetAdd(){
+
+    private void resetAdd() {
         packIDText.setText("");
         inhouseRadioBtn.setSelected(true);
         MobileRadioBtn.setSelected(false);
         commentTxt.setText("");
     }
-    
+
     private void setPacketIDCombo(JComboBox combo) {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = BloodPacketDA.getAllBloodPackets();
+            rst = BloodPacketController.getAllBloodPackets();
 
             while (rst.next()) {
                 String packetID = rst.getString("PacketID");
-                if(packetID.startsWith("KP")){
+                if (packetID.startsWith("KP")) {
                     combo.addItem(packetID);
                 }
-                
+
             }
 
         } catch (ClassNotFoundException ex) {
@@ -90,7 +98,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = BloodTypeDA.getAllTypes();
+            rst = BloodTypeController.getAllTypes();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("BloodType"));
@@ -107,7 +115,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = BloodGroupDA.getAllGroups();
+            rst = BloodGroupController.getAllGroups();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("GroupName"));
@@ -124,14 +132,14 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = DonorDA.getAllDonors();
+            rst = DonorController.getAllDonors();
 
             while (rst.next()) {
                 String nic = rst.getString("nic");
-                if(!nic.endsWith("-")){
+                if (!nic.endsWith("-")) {
                     combo.addItem(nic);
                 }
-                
+
             }
 
         } catch (ClassNotFoundException ex) {
@@ -140,7 +148,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private void setCampNameCombo(JComboBox combo) {
         try {
             combo.removeAllItems();
@@ -157,8 +165,8 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void makeUpdateFieldsActive(){
+
+    private void makeUpdateFieldsActive() {
         searchDonorNicCombo.setEnabled(true);
         searchBloodTypeCombo.setEnabled(true);
         searchBloodGroupCombo.setEnabled(true);
@@ -170,8 +178,8 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         searchCommentText.setEnabled(true);
         updateBtn.setEnabled(true);
     }
-    
-    private void makeUpdateFieldsInactive(){
+
+    private void makeUpdateFieldsInactive() {
         searchDonorNicCombo.setEnabled(false);
         searchBloodTypeCombo.setEnabled(false);
         searchBloodGroupCombo.setEnabled(false);
@@ -250,23 +258,31 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         editBtn = new javax.swing.JButton();
         searchPacketIDCombo = new javax.swing.JComboBox();
 
-        jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
+        setMinimumSize(new java.awt.Dimension(844, 589));
 
-        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 204), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)));
+        jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Add blood packet details"));
 
-        jLabel3.setText("Packet ID");
+        jLabel3.setText("Packet ID*");
 
         packIDText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 packIDTextActionPerformed(evt);
             }
         });
+        packIDText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                packIDTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                packIDTextKeyTyped(evt);
+            }
+        });
 
-        jLabel4.setText("Donor NIC");
+        jLabel4.setText("Donor NIC*");
 
-        jLabel6.setText("Date of expiry");
+        jLabel6.setText("Date of expiry*");
 
         jLabel7.setText("Donor Name");
 
@@ -278,13 +294,23 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel8.setText("Date of collection");
+        jLabel8.setText("Date of collection*");
 
         jLabel10.setText("Campaign Name");
 
-        jLabel11.setText("Blood Group");
+        jLabel11.setText("Blood Group*");
 
         groupCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Blood Groups" }));
+        groupCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupComboActionPerformed(evt);
+            }
+        });
+        groupCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                groupComboKeyReleased(evt);
+            }
+        });
 
         printBtn.setText("Print Report");
         printBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -302,9 +328,24 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
 
         dateOfCollectionCalendar.setForeground(new java.awt.Color(255, 255, 255));
         dateOfCollectionCalendar.setDateFormatString("yyyy-MM-dd");
+        dateOfCollectionCalendar.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                dateOfCollectionCalendarPropertyChange(evt);
+            }
+        });
+        dateOfCollectionCalendar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateOfCollectionCalendarKeyReleased(evt);
+            }
+        });
 
         dateOfExpiryCalendar.setForeground(new java.awt.Color(255, 255, 255));
         dateOfExpiryCalendar.setDateFormatString("yyyy-MM-dd");
+        dateOfExpiryCalendar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateOfExpiryCalendarKeyReleased(evt);
+            }
+        });
 
         CampNameCombo.setEnabled(false);
         CampNameCombo.addActionListener(new java.awt.event.ActionListener() {
@@ -312,11 +353,25 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 CampNameComboActionPerformed(evt);
             }
         });
+        CampNameCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                CampNameComboKeyReleased(evt);
+            }
+        });
 
-        jLabel22.setText("Blood Type");
+        jLabel22.setText("Blood Type*");
 
         bloodTypeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Blood types" }));
+        bloodTypeCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                bloodTypeComboKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                bloodTypeComboKeyTyped(evt);
+            }
+        });
 
+        donorNicCombo.setEditable(true);
         donorNicCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Donor NICs" }));
         donorNicCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -326,6 +381,14 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         donorNicCombo.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 donorNicComboPropertyChange(evt);
+            }
+        });
+        donorNicCombo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                donorNicComboKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                donorNicComboKeyTyped(evt);
             }
         });
 
@@ -339,6 +402,11 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 inhouseRadioBtnActionPerformed(evt);
             }
         });
+        inhouseRadioBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                inhouseRadioBtnKeyReleased(evt);
+            }
+        });
 
         buttonGroup1.add(MobileRadioBtn);
         MobileRadioBtn.setText("Mobile");
@@ -347,12 +415,22 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 MobileRadioBtnActionPerformed(evt);
             }
         });
+        MobileRadioBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                MobileRadioBtnKeyReleased(evt);
+            }
+        });
 
         jLabel21.setText("Comment");
 
         commentTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 commentTxtActionPerformed(evt);
+            }
+        });
+        commentTxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                commentTxtKeyTyped(evt);
             }
         });
 
@@ -380,7 +458,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                                     .addComponent(CampNameCombo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addGap(1, 1, 1)
-                                        .addComponent(packIDText, javax.swing.GroupLayout.DEFAULT_SIZE, 247, Short.MAX_VALUE))
+                                        .addComponent(packIDText))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -392,12 +470,12 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                                 .addGap(84, 84, 84)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(155, 155, 155))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
                                         .addComponent(jLabel22, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(bloodTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(bloodTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE))))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(inhouseRadioBtn)
                                 .addGap(18, 18, 18)
@@ -416,7 +494,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addContainerGap(51, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -477,14 +555,13 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         jPanel11Layout.setHorizontalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel11Layout.createSequentialGroup()
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel11Layout.createSequentialGroup()
-                        .addGap(301, 301, 301)
-                        .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addGap(301, 301, 301)
+                .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(289, Short.MAX_VALUE))
+            .addGroup(jPanel11Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel11Layout.setVerticalGroup(
             jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -493,23 +570,21 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Add Blood Packet", jPanel11);
-
-        jPanel2.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 204), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
 
         jLabel52.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
         jLabel52.setText("Search/Update Blood Packet");
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Add blood packet details"));
 
-        jLabel5.setText("Packet ID");
+        jLabel5.setText("Packet ID*");
 
-        jLabel25.setText("Donor NIC");
+        jLabel25.setText("Donor NIC*");
 
-        jLabel26.setText("Date of expiry");
+        jLabel26.setText("Date of expiry*");
 
         jLabel27.setText("Donor Name");
 
@@ -522,11 +597,11 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel28.setText("Date of collection");
+        jLabel28.setText("Date of collection*");
 
         campNameLabel.setText("Campaign Name");
 
-        jLabel30.setText("Blood Group");
+        jLabel30.setText("Blood Group*");
 
         searchBloodGroupCombo.setForeground(new java.awt.Color(255, 255, 255));
         searchBloodGroupCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Blood Groups" }));
@@ -567,12 +642,13 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel31.setText("Blood Type");
+        jLabel31.setText("Blood Type*");
 
         searchBloodTypeCombo.setForeground(new java.awt.Color(255, 255, 255));
         searchBloodTypeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Blood types" }));
         searchBloodTypeCombo.setEnabled(false);
 
+        searchDonorNicCombo.setEditable(true);
         searchDonorNicCombo.setForeground(new java.awt.Color(255, 255, 255));
         searchDonorNicCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Donor NICs" }));
         searchDonorNicCombo.setEnabled(false);
@@ -624,6 +700,11 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 searchCommentTextActionPerformed(evt);
             }
         });
+        searchCommentText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchCommentTextKeyTyped(evt);
+            }
+        });
 
         editBtn.setText("Edit");
         editBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -632,6 +713,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
         });
 
+        searchPacketIDCombo.setEditable(true);
         searchPacketIDCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchPacketIDComboActionPerformed(evt);
@@ -778,7 +860,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(267, 267, 267)
                         .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 308, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -787,7 +869,7 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Search/Update Blood Packet", jPanel2);
@@ -796,24 +878,18 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane3)
-                .addContainerGap())
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane3)
-                .addContainerGap())
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 527, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void donorNameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_donorNameTextActionPerformed
-        
+
 }//GEN-LAST:event_donorNameTextActionPerformed
 
     private void packIDTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_packIDTextActionPerformed
@@ -821,42 +897,48 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
 }//GEN-LAST:event_packIDTextActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
+
         try {
-            String packetID = packIDText.getText();
-            String nic = "" + donorNicCombo.getSelectedItem();
-            String bloodGroup = "" + groupCombo.getSelectedItem();
-            String bloodType = "" + bloodTypeCombo.getSelectedItem();
-
-            /*Collection date*/
-            java.util.Date dateC = dateOfCollectionCalendar.getDate();
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-            String dateCollection = df.format(dateC);
-            java.sql.Date sqlDateC = new java.sql.Date(dateC.getTime());
-
-            /*Expiry date*/
-            java.util.Date dateE = dateOfExpiryCalendar.getDate();
-            String dateExpiry = df.format(dateE);
-            java.sql.Date sqlDateE = new java.sql.Date(dateE.getTime());
-
-            String campName = "";
-            String campID = null;
-
-            if (MobileRadioBtn.isSelected()) {
-                campName = "" + CampNameCombo.getSelectedItem();
-                campID = CampController.getCampID(campName);
-            }
-
-            String comment = commentTxt.getText();
-            
-            BloodPacket newPacket = new BloodPacket(packetID, nic, null, sqlDateC, sqlDateE, bloodType, (byte)0, (byte)0, (byte)0, campID, (byte)0, bloodGroup, null, null, null, comment, null);
-
-            int added = BloodPacketDA.addPacket(newPacket);
-            if (added == 1) {
-                JOptionPane.showMessageDialog(null, "Added Succesfully");
-                resetAdd();
-                setPacketIDCombo(searchPacketIDCombo);
+            if (packIDText.getText().length() < 1 ) {
+                JOptionPane.showMessageDialog(null, "Error: Please fill the required fields!");
             } else {
-                JOptionPane.showMessageDialog(null, "Error!");
+                String packetID = packIDText.getText();
+                String nic = "" + donorNicCombo.getSelectedItem();
+                String bloodGroup = "" + groupCombo.getSelectedItem();
+                String bloodType = "" + bloodTypeCombo.getSelectedItem();
+
+                /*Collection date*/
+                java.util.Date dateC = dateOfCollectionCalendar.getDate();
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String dateCollection = df.format(dateC);
+                java.sql.Date sqlDateC = new java.sql.Date(dateC.getTime());
+
+                /*Expiry date*/
+                java.util.Date dateE = dateOfExpiryCalendar.getDate();
+                String dateExpiry = df.format(dateE);
+                java.sql.Date sqlDateE = new java.sql.Date(dateE.getTime());
+
+                String campName = "";
+                String campID = null;
+
+                if (MobileRadioBtn.isSelected()) {
+                    campName = "" + CampNameCombo.getSelectedItem();
+                    campID = CampController.getCampID(campName);
+                }
+
+                String comment = commentTxt.getText();
+
+                BloodPacket newPacket = new BloodPacket(packetID, nic, null, sqlDateC, sqlDateE, bloodType, (byte) 0, (byte) 0, (byte) 0, campID, (byte) 0, bloodGroup, null, null, null, comment, null);
+
+                int added = BloodPacketController.addPacket(newPacket);
+                if (added == 1) {
+                    notifier.notifyUpdateBloodStock();
+                    JOptionPane.showMessageDialog(null, "Added Succesfully");
+                    resetAdd();
+                    setPacketIDCombo(searchPacketIDCombo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error!");
+                }
             }
 
         } catch (ClassNotFoundException ex) {
@@ -886,27 +968,30 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         int reply = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete the selected Blood Packet?", "Delete Blood Packet", JOptionPane.YES_NO_OPTION);
-            if (reply == JOptionPane.YES_OPTION) {
-                try {
-                    String pakcketID = ""+searchPacketIDCombo.getSelectedItem();
-                    int res = BloodPacketDA.deletePacket(pakcketID);
-                    if(res==1){
-                        JOptionPane.showMessageDialog(null, "Blood Packet Deleted Successfully..");
-                        setPacketIDCombo(searchPacketIDCombo);
-                    }else{
-                        JOptionPane.showMessageDialog(null, "Error occured while deleting blood packet");
-                    }
-                }catch (ClassNotFoundException ex) {
-                    Logger.getLogger(Nurse.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (SQLException ex) {
-                    JOptionPane.showMessageDialog(null, "Cannot delete this Blood Packet as it has other records associated with it. Delete those records first to delete this packet from the system.");
+        if (reply == JOptionPane.YES_OPTION) {
+            try {
+                String pakcketID = "" + searchPacketIDCombo.getSelectedItem();
+                int res = BloodPacketController.deletePacket(pakcketID);
+                if (res == 1) {
+                    notifier.notifyUpdateBloodStock();
+                    JOptionPane.showMessageDialog(null, "Blood Packet Deleted Successfully..");
+                    setPacketIDCombo(searchPacketIDCombo);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Error occured while deleting blood packet");
+
                 }
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(Nurse.class
+                        .getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                JOptionPane.showMessageDialog(null, "Cannot delete this Blood Packet as it has other records associated with it. Delete those records first to delete this packet from the system.");
             }
+        }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void updateBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateBtnActionPerformed
-            try {
-            String packetID = ""+searchPacketIDCombo.getSelectedItem();
+        try {
+            String packetID = "" + searchPacketIDCombo.getSelectedItem();
             String nic = "" + searchDonorNicCombo.getSelectedItem();
             String bloodGroup = "" + searchBloodGroupCombo.getSelectedItem();
             String bloodType = "" + searchBloodTypeCombo.getSelectedItem();
@@ -931,11 +1016,12 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
 
             String comment = searchCommentText.getText();
-            
-            BloodPacket newPacket = new BloodPacket(packetID, nic, null, sqlDateC, sqlDateE, bloodType, (byte)0, (byte)0, (byte)0, campID, (byte)0, bloodGroup, null, null, null, comment, null);
 
-            int updated = BloodPacketDA.updatePacket(newPacket);
+            BloodPacket newPacket = new BloodPacket(packetID, nic, null, sqlDateC, sqlDateE, bloodType, (byte) 0, (byte) 0, (byte) 0, campID, (byte) 0, bloodGroup, null, null, null, comment, null);
+
+            int updated = BloodPacketController.updatePacket(newPacket);
             if (updated == 1) {
+                notifier.notifyUpdateBloodStock();
                 JOptionPane.showMessageDialog(null, "Updated successfully");
                 setPacketIDCombo(searchPacketIDCombo);
             } else {
@@ -970,15 +1056,18 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         String donorName;
         try {
             System.out.println("" + donorNicCombo.getSelectedItem());
-            donorName = DonorDA.getDonorName("" + donorNicCombo.getSelectedItem());
-            
+            donorName = DonorController.getDonorName("" + donorNicCombo.getSelectedItem());
+
             if (donorName != null) {
                 donorNameText.setText(donorName);
+
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
 
 
@@ -988,32 +1077,23 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         String donorName;
         try {
             System.out.println("" + searchDonorNicCombo.getSelectedItem());
-            donorName = DonorDA.getDonorName("" + searchDonorNicCombo.getSelectedItem());
-            
+            donorName = DonorController.getDonorName("" + searchDonorNicCombo.getSelectedItem());
+
             if (donorName != null) {
                 searchDonorText.setText(donorName);
+
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_searchDonorNicComboActionPerformed
 
     private void donorNicComboPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_donorNicComboPropertyChange
-        String donorName;
-        try {
-            System.out.println("" + donorNicCombo.getSelectedItem());
-            donorName = DonorDA.getDonorName("" + donorNicCombo.getSelectedItem());
-            
-            if (donorName != null) {
-                donorNameText.setText(donorName);
-            }
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
-        }
+
     }//GEN-LAST:event_donorNicComboPropertyChange
 
     private void searchMobileRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchMobileRadioBtnActionPerformed
@@ -1031,11 +1111,11 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_MobileRadioBtnActionPerformed
 
     private void searchMobileRadioBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_searchMobileRadioBtnMouseClicked
-        
+
     }//GEN-LAST:event_searchMobileRadioBtnMouseClicked
 
     private void inhouseRadioBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_inhouseRadioBtnActionPerformed
-        CampNameCombo.setEnabled(true);
+        CampNameCombo.setEnabled(false);
     }//GEN-LAST:event_inhouseRadioBtnActionPerformed
 
     private void searchPacketIDComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchPacketIDComboActionPerformed
@@ -1043,9 +1123,9 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         ResultSet rst;
         try {
             clearSearchFields();
-            rst = BloodPacketDA.getBloodPackets(""+searchPacketIDCombo.getSelectedItem());
+            rst = BloodPacketController.getBloodPackets("" + searchPacketIDCombo.getSelectedItem());
 
-            while(rst.next()){
+            while (rst.next()) {
                 searchDonorNicCombo.setSelectedItem(rst.getString("nic"));
                 searchDonorText.setText(rst.getString("name"));
                 searchBloodTypeCombo.setSelectedItem(rst.getString("BloodType"));
@@ -1059,22 +1139,22 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 java.util.Date utilDateOfExpiry = new java.util.Date(sqlDateOfExpiry.getTime());
                 searchDateOfExpiryCalendar.setDate(utilDateOfExpiry);
 
-                if(rst.getString("CampID")==null){
+                if (rst.getString("CampID") == null) {
                     searchInhouseRadioBtn.setSelected(true);
                     searchMobileRadioBtn.setSelected(false);
                     searchCampNameCombo.setVisible(false);
                     campNameLabel.setVisible(false);
-                }else{
+                } else {
                     searchInhouseRadioBtn.setSelected(false);
                     searchMobileRadioBtn.setSelected(true);
                     searchCampNameCombo.setVisible(true);
                     campNameLabel.setVisible(true);
                     String campID = rst.getString("CampID");
                     String campName = CampController.getCampName(campID);
-                    if(campName != null){
+                    if (campName != null) {
                         searchCampNameCombo.setSelectedItem(campName);
                     }
-                    
+
                 }
 
                 searchCommentText.setText(rst.getString("Comment"));
@@ -1082,9 +1162,11 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_searchPacketIDComboActionPerformed
 
@@ -1093,9 +1175,9 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         ResultSet rst;
         try {
             clearSearchFields();
-            rst = BloodPacketDA.getBloodPackets(""+searchPacketIDCombo.getSelectedItem());
+            rst = BloodPacketController.getBloodPackets("" + searchPacketIDCombo.getSelectedItem());
 
-            while(rst.next()){
+            while (rst.next()) {
                 searchDonorNicCombo.setSelectedItem(rst.getString("nic"));
                 searchDonorText.setText(rst.getString("name"));
                 searchBloodTypeCombo.setSelectedItem(rst.getString("BloodType"));
@@ -1109,19 +1191,19 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
                 java.util.Date utilDateOfExpiry = new java.util.Date(sqlDateOfExpiry.getTime());
                 searchDateOfExpiryCalendar.setDate(utilDateOfExpiry);
 
-                if(rst.getString("CampID")==null){
+                if (rst.getString("CampID") == null) {
                     searchInhouseRadioBtn.setSelected(true);
                     searchMobileRadioBtn.setSelected(false);
                     searchCampNameCombo.setVisible(false);
                     campNameLabel.setVisible(false);
-                }else{
+                } else {
                     searchInhouseRadioBtn.setSelected(false);
                     searchMobileRadioBtn.setSelected(true);
                     searchCampNameCombo.setVisible(true);
                     campNameLabel.setVisible(true);
                     String campID = rst.getString("CampID");
                     String campName = CampController.getCampName(campID);
-                    if(campName != null){
+                    if (campName != null) {
                         searchCampNameCombo.setSelectedItem(campName);
                     }
                 }
@@ -1131,9 +1213,11 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
             }
 
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_searchPacketIDComboPropertyChange
 
@@ -1141,35 +1225,120 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
         String donorName;
         try {
             System.out.println("" + searchDonorNicCombo.getSelectedItem());
-            donorName = DonorDA.getDonorName("" + searchDonorNicCombo.getSelectedItem());
-            
+            donorName = DonorController.getDonorName("" + searchDonorNicCombo.getSelectedItem());
+
             if (donorName != null) {
                 searchDonorText.setText(donorName);
+
             }
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(BloodPacketForm.class
+                    .getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_searchDonorNicComboPropertyChange
 
-    private void clearSearchFields(){
+    private void packIDTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_packIDTextKeyReleased
+
+    }//GEN-LAST:event_packIDTextKeyReleased
+
+    private void bloodTypeComboKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bloodTypeComboKeyReleased
+
+    }//GEN-LAST:event_bloodTypeComboKeyReleased
+
+    private void donorNicComboKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_donorNicComboKeyReleased
+
+    }//GEN-LAST:event_donorNicComboKeyReleased
+
+    private void groupComboKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_groupComboKeyReleased
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            dateOfCollectionCalendar.requestFocus(true);
+        }
+    }//GEN-LAST:event_groupComboKeyReleased
+
+    private void dateOfCollectionCalendarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateOfCollectionCalendarKeyReleased
+
+    }//GEN-LAST:event_dateOfCollectionCalendarKeyReleased
+
+    private void dateOfExpiryCalendarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateOfExpiryCalendarKeyReleased
+
+    }//GEN-LAST:event_dateOfExpiryCalendarKeyReleased
+
+    private void inhouseRadioBtnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_inhouseRadioBtnKeyReleased
+
+    }//GEN-LAST:event_inhouseRadioBtnKeyReleased
+
+    private void MobileRadioBtnKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MobileRadioBtnKeyReleased
+
+    }//GEN-LAST:event_MobileRadioBtnKeyReleased
+
+    private void CampNameComboKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CampNameComboKeyReleased
+
+    }//GEN-LAST:event_CampNameComboKeyReleased
+
+    private void packIDTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_packIDTextKeyTyped
+        char c = evt.getKeyChar();
+        if (packIDText.getText().length() < 20) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                donorNicCombo.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_packIDTextKeyTyped
+
+    private void groupComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupComboActionPerformed
+
+
+    }//GEN-LAST:event_groupComboActionPerformed
+
+    private void donorNicComboKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_donorNicComboKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            bloodTypeCombo.requestFocus(true);
+        }
+    }//GEN-LAST:event_donorNicComboKeyTyped
+
+    private void bloodTypeComboKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bloodTypeComboKeyTyped
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bloodTypeComboKeyTyped
+
+    private void dateOfCollectionCalendarPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_dateOfCollectionCalendarPropertyChange
+
+    }//GEN-LAST:event_dateOfCollectionCalendarPropertyChange
+
+    private void commentTxtKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_commentTxtKeyTyped
+        if (commentTxt.getText().length() >= 200) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_commentTxtKeyTyped
+
+    private void searchCommentTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchCommentTextKeyTyped
+        if (searchCommentText.getText().length() >= 200) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_searchCommentTextKeyTyped
+
+    private void clearSearchFields() {
         searchDonorNicCombo.setSelectedItem(searchDonorNicCombo.getItemAt(0));
         searchDonorText.setText("");
         searchBloodTypeCombo.setSelectedItem(searchBloodTypeCombo.getItemAt(0));
         searchBloodGroupCombo.setSelectedItem(searchBloodGroupCombo.getItemAt(0));
-        
+
         searchDateOfCollectionCalendar.setDate(today);
         searchDateOfExpiryCalendar.setDate(today);
-        
+
         searchInhouseRadioBtn.setSelected(false);
         searchMobileRadioBtn.setSelected(false);
         searchCampNameCombo.setSelectedItem(searchCampNameCombo.getItemAt(0));
-        
+
         searchCommentText.setText("");
     }
-    
-    
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox CampNameCombo;
     private javax.swing.JRadioButton MobileRadioBtn;
@@ -1228,4 +1397,5 @@ public class BloodPacketForm extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox searchPacketIDCombo;
     private javax.swing.JButton updateBtn;
     // End of variables declaration//GEN-END:variables
+
 }

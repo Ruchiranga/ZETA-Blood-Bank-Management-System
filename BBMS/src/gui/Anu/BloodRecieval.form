@@ -39,18 +39,6 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel11">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="0" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="cc" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Add Blood Recieval">
@@ -148,7 +136,7 @@
                                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Group type="102" attributes="0">
-                                                  <Component id="requesteeCombo" pref="219" max="32767" attributes="0"/>
+                                                  <Component id="requesteeCombo" pref="225" max="32767" attributes="0"/>
                                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                                   <Component id="addSenderBtn" min="-2" pref="134" max="-2" attributes="0"/>
                                                   <EmptySpace min="-2" pref="421" max="-2" attributes="0"/>
@@ -229,7 +217,7 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="AddPacketBtn" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jScrollPane1" pref="162" max="32767" attributes="0"/>
+                          <Component id="jScrollPane1" pref="176" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="editPacketBtn" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -244,17 +232,17 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recieved Date"/>
+                    <Property name="text" type="java.lang.String" value="Recieved Date*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recieved Time"/>
+                    <Property name="text" type="java.lang.String" value="Recieved Time*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel5">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Sent From"/>
+                    <Property name="text" type="java.lang.String" value="Sent From*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
@@ -265,6 +253,8 @@
                 <Component class="javax.swing.JTextField" name="tempText">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="tempTextActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tempTextKeyReleased"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="tempTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="recievedDateCalendar">
@@ -295,11 +285,12 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel7">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recieving Officer"/>
+                    <Property name="text" type="java.lang.String" value="Recieving Officer*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="empNamesCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
                         <StringItem index="0" value="Emp Names"/>
@@ -326,16 +317,6 @@
                   <SubComponents>
                     <Component class="javax.swing.JTable" name="recievalTable">
                       <Properties>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                            <BevelBorder>
-                              <Color PropertyName="highlightOuter" blue="ff" green="ff" red="0" type="rgb"/>
-                              <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                              <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                              <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                            </BevelBorder>
-                          </Border>
-                        </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="dtm" type="code"/>
                         </Property>
@@ -369,6 +350,7 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="requesteeCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
                         <StringItem index="0" value="Requestee Names"/>
@@ -392,6 +374,9 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="sendingOfficerText">
+                  <Events>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="sendingOfficerTextKeyTyped"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
@@ -406,18 +391,6 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel1">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Search Blood Recieval">
@@ -516,7 +489,7 @@
                                               <Component id="searchSendingOfficerText" alignment="0" min="-2" pref="290" max="-2" attributes="0"/>
                                               <Component id="searchIcePacketsCombo" alignment="0" min="-2" pref="108" max="-2" attributes="0"/>
                                           </Group>
-                                          <EmptySpace min="30" pref="34" max="32767" attributes="0"/>
+                                          <EmptySpace min="30" pref="37" max="32767" attributes="0"/>
                                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Component id="jLabel17" min="-2" pref="111" max="-2" attributes="0"/>
@@ -531,7 +504,7 @@
                                                   <Component id="jLabel16" min="-2" pref="17" max="-2" attributes="0"/>
                                               </Group>
                                           </Group>
-                                          <EmptySpace min="0" pref="5" max="32767" attributes="0"/>
+                                          <EmptySpace min="0" pref="8" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="102" alignment="0" attributes="0">
                                           <Component id="searchRecievedTimer" min="-2" max="-2" attributes="0"/>
@@ -543,9 +516,11 @@
                                       </Group>
                                   </Group>
                               </Group>
-                              <Component id="jLabel10" alignment="1" max="32767" attributes="0"/>
-                              <Group type="102" alignment="0" attributes="0">
-                                  <Component id="jLabel15" min="-2" pref="83" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="jLabel15" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
+                                      <Component id="jLabel10" alignment="0" min="-2" pref="96" max="-2" attributes="0"/>
+                                  </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
                           </Group>
@@ -587,7 +562,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="jSeparator2" min="-2" pref="10" max="-2" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="jScrollPane2" pref="205" max="32767" attributes="0"/>
+                          <Component id="jScrollPane2" pref="219" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="editPacketBtn1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -603,7 +578,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel10">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recieved Time"/>
+                    <Property name="text" type="java.lang.String" value="Recieved Time*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel14">
@@ -617,6 +592,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchTempTextActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchTempTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel15">
@@ -643,11 +619,12 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel17">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Recieving Officer"/>
+                    <Property name="text" type="java.lang.String" value="Recieving Officer*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="searchEmpNamesCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
                         <StringItem index="0" value="Emp Names"/>
@@ -676,16 +653,6 @@
                   <SubComponents>
                     <Component class="javax.swing.JTable" name="searchRecievalTable">
                       <Properties>
-                        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-                          <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                            <BevelBorder>
-                              <Color PropertyName="highlightOuter" blue="ff" green="ff" red="0" type="rgb"/>
-                              <Color PropertyName="highlightInner" blue="ff" green="0" red="0" type="rgb"/>
-                              <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                              <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                            </BevelBorder>
-                          </Border>
-                        </Property>
                         <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
                           <Connection code="searchDtm" type="code"/>
                         </Property>
@@ -744,6 +711,9 @@
                     </Property>
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchSendingOfficerTextKeyTyped"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="editRecievalBtn">
                   <Properties>
@@ -791,6 +761,7 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="searchRequesteeCombo">
               <Properties>
+                <Property name="editable" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
                     <StringItem index="0" value="Requestee Names"/>
@@ -808,6 +779,7 @@
             </Component>
             <Component class="javax.swing.JComboBox" name="searchRecievedIDCombo">
               <Properties>
+                <Property name="editable" type="boolean" value="true"/>
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="1">
                     <StringItem index="0" value="RecievedIDs"/>

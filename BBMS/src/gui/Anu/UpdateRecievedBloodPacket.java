@@ -5,13 +5,15 @@
  */
 package gui.Anu;
 
-import Controller.IDGenerator;
-import Controller.anu.BloodGroupDA;
-import Controller.anu.BloodPacketDA;
-import Controller.anu.BloodTypeDA;
-import Controller.anu.DonorDA;
-import Controller.anu.TestController;
-import Controller.anu.TestResultController;
+import controller.IDGenerator;
+import controller.anu.BloodGroupController;
+import controller.anu.BloodPacketController;
+import controller.anu.BloodTypeController;
+import controller.anu.DonorController;
+import controller.anu.TestController;
+import controller.anu.TestResultController;
+import connection.NotifierConnection;
+import controller.anu.BloodStockUpdateNotifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -37,6 +39,8 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
     int rowNo;
     String[] title = {"TTI Results"};
     DefaultTableModel dtm = new DefaultTableModel(title, 0);
+    
+    BloodStockUpdateNotifier notifier = null;
 
     /**
      * Creates new form SearchRecievedBloodPacket
@@ -44,6 +48,9 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
     public UpdateRecievedBloodPacket(BloodRecieval recievalForm, String[] row, int rowNo) {
 
         initComponents();
+        
+        notifier = NotifierConnection.getNotifierConnection(null);
+        
         this.recievalForm = recievalForm;
         this.row = row;
         this.rowNo = rowNo;
@@ -112,7 +119,7 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = BloodTypeDA.getAllTypes();
+            rst = BloodTypeController.getAllTypes();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("BloodType"));
@@ -129,7 +136,7 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = BloodGroupDA.getAllGroups();
+            rst = BloodGroupController.getAllGroups();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("GroupName"));
@@ -179,11 +186,9 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
 
         jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 3, 14)); // NOI18N
 
-        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 204), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 51, 255)));
-
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Add blood packet details"));
 
-        jLabel3.setText("Packet ID");
+        jLabel3.setText("Packet ID*");
 
         packIDText.setDisabledTextColor(new java.awt.Color(255, 255, 255));
         packIDText.setEnabled(false);
@@ -193,13 +198,13 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel4.setText("Donor Name");
+        jLabel4.setText("Donor Name*");
 
-        jLabel6.setText("Date of expiry");
+        jLabel6.setText("Date of expiry*");
 
-        jLabel8.setText("Date of collection");
+        jLabel8.setText("Date of collection*");
 
-        jLabel11.setText("Blood Group");
+        jLabel11.setText("Blood Group*");
 
         groupCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Blood Groups" }));
 
@@ -214,7 +219,7 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
 
         dateOfExpiryCalendar.setDateFormatString("yyyy-MM-dd");
 
-        jLabel22.setText("Blood Type");
+        jLabel22.setText("Blood Type*");
 
         bloodTypeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Blood Types" }));
 
@@ -231,7 +236,6 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
 
         jLabel5.setText("Remarks");
 
-        ttiTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
         ttiTable.setModel(dtm);
         jScrollPane1.setViewportView(ttiTable);
 
@@ -256,9 +260,9 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(80, 80, 80)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(52, 52, 52)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(donorNameText)
                                     .addComponent(packIDText)))
@@ -358,7 +362,7 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
             .addGroup(jPanel11Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addContainerGap(36, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel51, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -424,14 +428,15 @@ public class UpdateRecievedBloodPacket extends javax.swing.JInternalFrame {
                 }
             }
 
-            String donorNic = BloodPacketDA.getDonorNic(packetID);
+            String donorNic = BloodPacketController.getDonorNic(packetID);
 
             BloodPacket newPacket = new BloodPacket(packetID, donorNic, null, sqlDateC, sqlDateE, bloodType, (byte) 0, (byte) 0, (byte) 0, null, (byte) 0, bloodGroup, null, null, null, comment, null);
 
-            int resDonor = DonorDA.updateDonorFromOtherBloodBank(donorNic, name);
-            int resPacket = BloodPacketDA.updateRecievedBloodPacket(newPacket);
+            int resDonor = DonorController.updateDonorFromOtherBloodBank(donorNic, name);
+            int resPacket = BloodPacketController.updateRecievedBloodPacket(newPacket);
 
             if (resDonor == 1 && resPacket == 1) {
+                notifier.notifyUpdateBloodStock();
                 JOptionPane.showMessageDialog(null, "Updated successfully!");
                 recievalForm.updateData(rowNo, packetID, name, bloodGroup, bloodType, dateCollection, dateExpiry, testResults, comment);
                 this.dispose();

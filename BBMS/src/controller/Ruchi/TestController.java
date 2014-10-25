@@ -8,12 +8,11 @@ package Controller.Ruchi;
 
 import connection.DBConnection;
 import connection.DBHandler;
-import Controller.IDGenerator;
+import controller.IDGenerator;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import model.Employee;
 import model.Test;
 
 /**

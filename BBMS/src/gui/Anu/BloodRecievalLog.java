@@ -5,7 +5,7 @@
  */
 package gui.Anu;
 
-import Controller.anu.BloodPacketDA;
+import controller.anu.BloodPacketController; 
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -190,6 +190,7 @@ public class BloodRecievalLog extends javax.swing.JInternalFrame {
         jLabel3.setText("End Date");
 
         startDateCalendar.setDateFormatString("yyyy-MM-dd");
+        startDateCalendar.setEnabled(false);
         startDateCalendar.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 startDateCalendarPropertyChange(evt);
@@ -197,6 +198,7 @@ public class BloodRecievalLog extends javax.swing.JInternalFrame {
         });
 
         endDateCalendar.setDateFormatString("yyyy-MM-dd");
+        endDateCalendar.setEnabled(false);
         endDateCalendar.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 endDateCalendarPropertyChange(evt);
@@ -385,7 +387,7 @@ public class BloodRecievalLog extends javax.swing.JInternalFrame {
                 /*End date*/
                 String endDate = df.format(dateE);
                 java.sql.Date sqlDateE = new java.sql.Date(dateE.getTime());
-                ResultSet rst = BloodPacketDA.getRecievedBloodPacketsByDuration(sqlDateS, sqlDateE);
+                ResultSet rst = BloodPacketController.getRecievedBloodPacketsByDuration(sqlDateS, sqlDateE);
 
                 String packetID = null;
                 String bloodType = null;
@@ -424,7 +426,7 @@ public class BloodRecievalLog extends javax.swing.JInternalFrame {
                 dtm = new DefaultTableModel(title, 0);
                 discardedBloodTable.setModel(dtm);
 
-                ResultSet rst = BloodPacketDA.getRecievedBloodPacketsByMonth(month + 1);
+                ResultSet rst = BloodPacketController.getRecievedBloodPacketsByMonth(month + 1);
 
                 String packetID = null;
                 String bloodType = null;
@@ -463,7 +465,7 @@ public class BloodRecievalLog extends javax.swing.JInternalFrame {
                 dtm = new DefaultTableModel(title, 0);
                 discardedBloodTable.setModel(dtm);
                 
-                ResultSet rst = BloodPacketDA.getRecievedBloodPacketsByYear(year);
+                ResultSet rst = BloodPacketController.getRecievedBloodPacketsByYear(year);
 
                 String packetID = null;
                 String bloodType = null;

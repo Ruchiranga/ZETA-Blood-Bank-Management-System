@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package Controller.anu;
+package controller.anu;
 
 import connection.DBConnection;
 import connection.DBHandler;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import model.BloodrecievedDetail;
+import model.BloodrecievedDetail; 
 
 /**
  *

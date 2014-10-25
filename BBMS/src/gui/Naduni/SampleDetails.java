@@ -5,7 +5,7 @@
  */
 package gui.Naduni;
 
-import Controller.Nanduni.SampleDetailsDA;
+import controller.SampleDetailsController;
 import java.awt.Dimension;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,7 +18,9 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import model.Hospital;
 import model.SampleDetail;
+import gui.Anu.AddHospitalWard;
 
 /**
  *
@@ -36,13 +38,13 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         setWardCombo(wardCombo);
         symptomLabel.setEnabled(false);
         symptomText.setEnabled(false);
-        
+
     }
-    
+
     public JLabel getSymptomLabel() {
         return this.symptomLabel;
     }
-    
+
     public JTextField getSymptomText() {
         return this.symptomText;
     }
@@ -123,28 +125,60 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         );
 
         jLabel12.setFont(new java.awt.Font("Stencil Std", 3, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 204, 204));
-        jLabel12.setText("request ID*");
+        jLabel12.setText("Request ID*");
 
         requestIDText.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        requestIDText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                requestIDTextActionPerformed(evt);
+            }
+        });
+        requestIDText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                requestIDTextKeyTyped(evt);
+            }
+        });
 
         jLabel13.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(255, 204, 204));
         jLabel13.setText("Collected By:");
 
         CollectorText.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
+        CollectorText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CollectorTextActionPerformed(evt);
+            }
+        });
+        CollectorText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                CollectorTextKeyTyped(evt);
+            }
+        });
 
         jLabel17.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel17.setForeground(new java.awt.Color(255, 204, 204));
         jLabel17.setText("Collected Date*");
 
+        dateChooser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                dateChooserKeyReleased(evt);
+            }
+        });
+
         jLabel18.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel18.setForeground(new java.awt.Color(255, 204, 204));
         jLabel18.setText("Collected Time*");
 
         jPanel4.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(255, 204, 204), 2, true));
 
         bhtText.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        bhtText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                bhtTextActionPerformed(evt);
+            }
+        });
+        bhtText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                bhtTextKeyTyped(evt);
+            }
+        });
 
         buttonGroup7.add(maleRadio);
         maleRadio.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
@@ -160,6 +194,11 @@ public class SampleDetails extends javax.swing.JInternalFrame {
 
         groupCombo.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         groupCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "A+", "A-", "B+", "B-", "O+", "O-", "AB+", "AB-" }));
+        groupCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                groupComboActionPerformed(evt);
+            }
+        });
 
         buttonGroup1.add(reactionYesRadio);
         reactionYesRadio.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
@@ -207,8 +246,28 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         jLabel7.setText("H/O of any Transfusion reactions");
 
         nameText.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        nameText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nameTextActionPerformed(evt);
+            }
+        });
+        nameText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                nameTextKeyTyped(evt);
+            }
+        });
 
         ageText.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        ageText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ageTextActionPerformed(evt);
+            }
+        });
+        ageText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                ageTextKeyTyped(evt);
+            }
+        });
 
         jLabel9.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel9.setText("Weight(kg)");
@@ -217,6 +276,11 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         jLabel6.setText("Diagnosis/Clinical condition");
 
         conditionText.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        conditionText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                conditionTextKeyTyped(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         jLabel3.setText("Name*");
@@ -225,6 +289,11 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         symptomText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 symptomTextActionPerformed(evt);
+            }
+        });
+        symptomText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                symptomTextKeyTyped(evt);
             }
         });
 
@@ -240,6 +309,16 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         symptomLabel.setText("Symptoms/Signs");
 
         weightText.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
+        weightText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                weightTextActionPerformed(evt);
+            }
+        });
+        weightText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                weightTextKeyTyped(evt);
+            }
+        });
 
         wardCombo.setFont(new java.awt.Font("Times New Roman", 1, 13)); // NOI18N
         wardCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Unknown" }));
@@ -261,7 +340,7 @@ public class SampleDetails extends javax.swing.JInternalFrame {
                             .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel4Layout.createSequentialGroup()
                                     .addComponent(jLabel8)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addGap(18, 18, 18)
                                     .addComponent(hospitalCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
                                 .addGroup(jPanel4Layout.createSequentialGroup()
@@ -296,17 +375,8 @@ public class SampleDetails extends javax.swing.JInternalFrame {
                                             .addComponent(ageText, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                                         .addComponent(wardCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGap(1, 1, 1))))
-                        .addGroup(jPanel4Layout.createSequentialGroup()
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(symptomLabel)
-                                .addComponent(jLabel7))
-                            .addGap(45, 45, 45)
-                            .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel4Layout.createSequentialGroup()
-                                    .addComponent(reactionYesRadio)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(reactionNoRadio))
-                                .addComponent(symptomText, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(symptomLabel)
+                        .addComponent(jLabel7))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
@@ -315,7 +385,12 @@ public class SampleDetails extends javax.swing.JInternalFrame {
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(conditionText, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4)
-                            .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(groupCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addComponent(reactionYesRadio)
+                                .addGap(18, 18, 18)
+                                .addComponent(reactionNoRadio))
+                            .addComponent(symptomText, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
@@ -335,8 +410,9 @@ public class SampleDetails extends javax.swing.JInternalFrame {
                                     .addComponent(maleRadio)
                                     .addComponent(femaleRadio)))
                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(5, 5, 5)
                                 .addComponent(jLabel15)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel9)
                                     .addComponent(weightText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
@@ -372,8 +448,13 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         );
 
         jLabel19.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel19.setForeground(new java.awt.Color(255, 204, 204));
         jLabel19.setText("Recieved Date*");
+
+        recievedDateChooser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                recievedDateChooserKeyReleased(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -427,9 +508,7 @@ public class SampleDetails extends javax.swing.JInternalFrame {
                     .addComponent(jLabel19)
                     .addComponent(recievedDateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addGap(1, 1, 1)
-                            .addComponent(jLabel18))
+                        .addComponent(jLabel18)
                         .addComponent(addTime, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -453,11 +532,10 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         });
 
         jLabel11.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 204, 204));
         jLabel11.setText("Priority");
 
         priorityCombo.setFont(new java.awt.Font("Times New Roman", 1, 16)); // NOI18N
-        priorityCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Urgent", "Not urgent" }));
+        priorityCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Urgent", "Routine" }));
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -511,7 +589,7 @@ public class SampleDetails extends javax.swing.JInternalFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         pack();
@@ -521,29 +599,29 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = SampleDetailsDA.getAllHospitals();
-            
+            rst = SampleDetailsController.getAllHospitals();
+
             while (rst.next()) {
                 combo.addItem(rst.getString("Name"));
             }
-            
+
         } catch (SQLException ex) {
             //Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(SampleDetails.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void setWardCombo(JComboBox combo) {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = SampleDetailsDA.getAllWards();
-            
+            rst = SampleDetailsController.getAllWards();
+
             while (rst.next()) {
                 combo.addItem(rst.getString("Name"));
             }
-            
+
         } catch (SQLException ex) {
             //Logger.getLogger(BloodPacketForm.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ClassNotFoundException ex) {
@@ -552,32 +630,32 @@ public class SampleDetails extends javax.swing.JInternalFrame {
     }
 
     private void addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addActionPerformed
-        
+
         try {
             String empty = "";
             String requestID = requestIDText.getText();
             String name = nameText.getText();
             String bloodGroup = "" + groupCombo.getSelectedItem();
             int age = Integer.parseInt(ageText.getText());
-            
+
             String gender = "";
             if (maleRadio.isSelected()) {
                 gender = "Male";
             } else {
                 gender = "Female";
             }
-            
+
             String weight = weightText.getText();
             String hospital = "" + hospitalCombo.getSelectedItem();
             String bht = bhtText.getText();
             String ward = "" + wardCombo.getSelectedItem();
             String condition = "" + conditionText.getText();
-            
+
             String symptoms = "";
             if (reactionYesRadio.isSelected()) {
                 symptoms = symptomText.getText();
             }
-            
+
             String collector = CollectorText.getText();
 
             /*Collection date*/
@@ -594,40 +672,40 @@ public class SampleDetails extends javax.swing.JInternalFrame {
             } catch (ParseException ex) {
                 Logger.getLogger(SampleDetails.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
+
             String priority = "" + priorityCombo.getSelectedItem();
-            
+
             /*Recieved date*/
             java.util.Date receivededDate = recievedDateChooser.getDate();
             df = new SimpleDateFormat("yyyy-MM-dd");
             String dateOfRecieval = df.format(receivededDate);
             java.sql.Date sqlDateR = new java.sql.Date(receivededDate.getTime());
-            
+
             if (name.equals(empty) || requestID.equals(empty) || bloodGroup.equals(empty) || gender.equals(empty) || dateCollection.equals(empty) || bht.equals(empty) || ward.equals(empty) || hospital.equals(empty) || sqlTime.equals(empty) || sqlDateR.equals(empty)) {
-                JOptionPane.showMessageDialog(null, "Please fill the required fields", "Warning!", JOptionPane.OK_OPTION);
+                JOptionPane.showMessageDialog(null, "Please fill the required fields", "Warning!", JOptionPane.WARNING_MESSAGE);
             } else {
                 int confirm = JOptionPane.showConfirmDialog(null, "Are you sure you want to add the sample ?", "Add Sample", JOptionPane.YES_NO_OPTION);
                 if (confirm == 0) {
                     try {
-                        
+
                         SampleDetail sample = new SampleDetail(requestID, name, bht, age, gender, bloodGroup, ward, weight, hospital, condition, symptoms, sqlDateC, sqlTime, collector, priority, sqlDateR);
-                        
+
                         int added = 0;
                         try {
-                            added = SampleDetailsDA.addSample(sample);
+                            added = SampleDetailsController.addSample(sample);
                         } catch (SQLException ex) {
                             Logger.getLogger(SampleDetails.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         if (added == 1) {
-                            JOptionPane.showMessageDialog(null, "Added Succesfully !", "Add Sample", JOptionPane.OK_OPTION);
+                            JOptionPane.showMessageDialog(null, "Added Succesfully !", "Add Sample", JOptionPane.INFORMATION_MESSAGE);
                             int p = JOptionPane.showConfirmDialog(null, "Do you want to add more samples?", "Continue", JOptionPane.YES_NO_OPTION);
-                            
+
                             if (p == 0) {
                                 clear();
                             } else {
                                 this.setVisible(false);
                             }
-                            
+
                         } else {
                             JOptionPane.showMessageDialog(null, "Error!");
                         }
@@ -640,7 +718,7 @@ public class SampleDetails extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Please fill the required fields", "Warning!", JOptionPane.OK_OPTION);
         }
     }//GEN-LAST:event_addActionPerformed
-    
+
     private void clear() {
         requestIDText.setText("");
         ageText.setText("");
@@ -679,6 +757,7 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         if (reactionYesRadio.isSelected()) {
             symptomLabel.setEnabled(true);
             symptomText.setEnabled(true);
+            symptomText.requestFocus(true);
         }
     }//GEN-LAST:event_reactionYesRadioActionPerformed
 
@@ -686,24 +765,156 @@ public class SampleDetails extends javax.swing.JInternalFrame {
         if (reactionNoRadio.isSelected()) {
             symptomLabel.setEnabled(false);
             symptomText.setEnabled(false);
+            CollectorText.requestFocus(true);
         }
     }//GEN-LAST:event_reactionNoRadioActionPerformed
 
     private void femaleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_femaleRadioActionPerformed
-
+        weightText.requestFocus(true);
     }//GEN-LAST:event_femaleRadioActionPerformed
 
     private void maleRadioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_maleRadioActionPerformed
-
+        weightText.requestFocus(true);
     }//GEN-LAST:event_maleRadioActionPerformed
 
     private void hospitalComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hospitalComboActionPerformed
-        // TODO add your handling code here:
+        bhtText.requestFocus(true);
     }//GEN-LAST:event_hospitalComboActionPerformed
 
     private void wardComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wardComboActionPerformed
-        // TODO add your handling code here:
+        groupCombo.requestFocus(true);
     }//GEN-LAST:event_wardComboActionPerformed
+
+    private void ageTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ageTextKeyTyped
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+
+        c = evt.getKeyChar();
+        if (nameText.getText().length() < 10) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                maleRadio.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_ageTextKeyTyped
+
+    private void weightTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_weightTextKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE) || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+        c = evt.getKeyChar();
+        if (nameText.getText().length() < 4) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                hospitalCombo.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+
+    }//GEN-LAST:event_weightTextKeyTyped
+
+    private void requestIDTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestIDTextActionPerformed
+
+    }//GEN-LAST:event_requestIDTextActionPerformed
+
+    private void requestIDTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_requestIDTextKeyTyped
+        char c = evt.getKeyChar();
+        if (requestIDText.getText().length() < 10) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                nameText.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_requestIDTextKeyTyped
+
+    private void nameTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nameTextKeyTyped
+        char c = evt.getKeyChar();
+        if (nameText.getText().length() < 70) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                ageText.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_nameTextKeyTyped
+
+    private void ageTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ageTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ageTextActionPerformed
+
+    private void weightTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_weightTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_weightTextActionPerformed
+
+    private void bhtTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_bhtTextKeyTyped
+        char c = evt.getKeyChar();
+        if (nameText.getText().length() < 20) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                wardCombo.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_bhtTextKeyTyped
+
+    private void groupComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_groupComboActionPerformed
+        conditionText.requestFocus(true);
+    }//GEN-LAST:event_groupComboActionPerformed
+
+    private void conditionTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_conditionTextKeyTyped
+        char c = evt.getKeyChar();
+        if (nameText.getText().length() < 100) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                reactionYesRadio.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_conditionTextKeyTyped
+
+    private void symptomTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_symptomTextKeyTyped
+        char c = evt.getKeyChar();
+        if (nameText.getText().length() < 150) {
+            if (c == java.awt.event.KeyEvent.VK_ENTER) {
+                CollectorText.requestFocus(true);
+            }
+        } else {
+            evt.consume();
+        }
+    }//GEN-LAST:event_symptomTextKeyTyped
+
+    private void CollectorTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_CollectorTextKeyTyped
+        char c = evt.getKeyChar();
+        if (c == java.awt.event.KeyEvent.VK_ENTER) {
+            dateChooser.requestFocus(true);
+        }
+    }//GEN-LAST:event_CollectorTextKeyTyped
+
+    private void CollectorTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CollectorTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CollectorTextActionPerformed
+
+    private void dateChooserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_dateChooserKeyReleased
+        recievedDateChooser.requestFocus(true);
+    }//GEN-LAST:event_dateChooserKeyReleased
+
+    private void recievedDateChooserKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_recievedDateChooserKeyReleased
+        addTime.requestFocus(true);
+    }//GEN-LAST:event_recievedDateChooserKeyReleased
+
+    private void nameTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_nameTextActionPerformed
+
+    private void bhtTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bhtTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_bhtTextActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

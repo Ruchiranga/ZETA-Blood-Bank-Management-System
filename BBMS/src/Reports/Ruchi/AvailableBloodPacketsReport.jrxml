@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="searchCategory" class="java.lang.String"/>
+	<parameter name="choice" class="java.lang.String"/>
+	<field name="Packet ID" class="java.lang.String"/>
+	<field name="Blood group" class="java.lang.String"/>
+	<field name="Component Type" class="java.lang.String"/>
+	<field name="Received By" class="java.lang.String"/>
+	<field name="Date of expiry" class="java.lang.String"/>
+	<field name="Date of collection" class="java.lang.String"/>
+	<field name="Cross matched" class="java.lang.String"/>
+	<field name="Under observation" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<image>
+				<reportElement x="33" y="4" width="761" height="65"/>
+				<imageExpression><![CDATA[".\\src\\images\\LandscapeHeader1.jpg"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="92" splitType="Stretch">
+			<staticText>
+				<reportElement x="239" y="6" width="358" height="35"/>
+				<textElement textAlignment="Center">
+					<font fontName="Times New Roman" size="24" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Available Blood Packets]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="21" y="57" width="66" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Availability by]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="89" y="57" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{searchCategory}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="197" y="57" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{choice}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy HH.mm.ss">
+				<reportElement x="663" y="57" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="189" y="57" width="8" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="43" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="10" width="140" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Packet ID]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="10" width="45" height="33"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Blood group]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="205" y="10" width="89" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Component Type]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="308" y="10" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Received By]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="422" y="10" width="88" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Date of expiry]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="525" y="10" width="86" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Date of collection]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="624" y="10" width="81" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Cross matched]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="705" y="10" width="89" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<text><![CDATA[Under observation]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="41" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="12" width="140" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Packet ID}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="12" width="45" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Blood group}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="205" y="12" width="89" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Component Type}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="308" y="12" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Received By}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="422" y="12" width="88" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Date of expiry}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="526" y="12" width="85" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Date of collection}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="624" y="12" width="77" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Cross matched}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="705" y="12" width="100" height="20"/>
+				<textElement>
+					<font fontName="Times New Roman" size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{Under observation}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

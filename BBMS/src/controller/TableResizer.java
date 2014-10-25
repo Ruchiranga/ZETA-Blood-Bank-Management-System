@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controller;
+package controller;
 
 import java.awt.Component;
-import javax.swing.JTable;
+import javax.swing.JTable;  
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 

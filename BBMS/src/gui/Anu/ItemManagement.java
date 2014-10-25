@@ -10,8 +10,9 @@
  */
 package gui.Anu;
 
-import Controller.IDGenerator;
-import Controller.anu.ItemDA;
+import controller.IDGenerator;
+import controller.TableResizer;
+import controller.anu.ItemController;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -42,7 +43,6 @@ public class ItemManagement extends javax.swing.JInternalFrame {
      * Creates new form ItemManagement
      */
     public ItemManagement(Nurse nurseForm) {
-
         initComponents();
         setTableItems();
         setItemIDLabel();
@@ -62,7 +62,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         ResultSet rst;
 
         try {
-            rst = ItemDA.getResultIDs();
+            rst = ItemController.getResultIDs();
             rst.last();
             String curID = null;
             try {
@@ -95,7 +95,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             onlyReagentsDtm = new DefaultTableModel(only_reagent_title, 0);
             onlyReagentTable.setModel(onlyReagentsDtm);
 
-            ResultSet rst = ItemDA.getAllItems();
+            ResultSet rst = ItemController.getAllItems();
             String id = null;
             String type = null;
             String desc = null;
@@ -123,6 +123,9 @@ public class ItemManagement extends javax.swing.JInternalFrame {
                 count++;
             }
             totalText.setText("" + count);
+            TableResizer.resizeColumnWidth(itemTable);
+            TableResizer.resizeColumnWidth(onlyItemTable);
+            TableResizer.resizeColumnWidth(onlyReagentTable);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(ItemManagement.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
@@ -168,7 +171,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         deleteItemBtn = new javax.swing.JButton();
         updateItemBtn = new javax.swing.JButton();
         jPanel10 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
+        jLabel52 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         onlyItemTable = new javax.swing.JTable();
@@ -179,11 +182,8 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         onlyReagentTable = new javax.swing.JTable();
         jButton12 = new javax.swing.JButton();
         jButton13 = new javax.swing.JButton();
-        jLabel52 = new javax.swing.JLabel();
 
         jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
-
-        jPanel12.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(51, 51, 255)));
 
         jLabel51.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
         jLabel51.setText("Manage Items");
@@ -197,7 +197,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
 
         jLabel6.setText("Item ID");
 
-        jLabel7.setText("Item type");
+        jLabel7.setText("Item type*");
 
         itemTypeText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -220,11 +220,16 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             }
         });
 
-        jLabel9.setText("Quantity");
+        jLabel9.setText("Quantity*");
 
         qtyText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 qtyTextActionPerformed(evt);
+            }
+        });
+        qtyText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qtyTextKeyTyped(evt);
             }
         });
 
@@ -384,10 +389,10 @@ public class ItemManagement extends javax.swing.JInternalFrame {
 
         jTabbedPane3.addTab("Manage Items", jPanel12);
 
-        jPanel10.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
         jPanel10.setForeground(new java.awt.Color(255, 255, 255));
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Item Recieved Log"));
+        jLabel52.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
+        jLabel52.setText("Item/Reagent Stock");
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder("Item Stock"));
 
@@ -408,20 +413,21 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(268, 268, 268)
+                .addComponent(jButton11)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton1)
+                .addContainerGap(25, Short.MAX_VALUE))
+            .addGroup(jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addComponent(jButton11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jScrollPane3)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -445,7 +451,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             .addGroup(jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 483, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                         .addComponent(jButton13)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -456,7 +462,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel9Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 261, Short.MAX_VALUE)
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 303, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton12)
@@ -464,51 +470,31 @@ public class ItemManagement extends javax.swing.JInternalFrame {
                 .addContainerGap())
         );
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(14, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel9, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(17, 17, 17))
-        );
-
-        jLabel52.setFont(new java.awt.Font("Monotype Corsiva", 1, 24)); // NOI18N
-        jLabel52.setText("Item/Reagent Stock");
-
         javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
         jPanel10.setLayout(jPanel10Layout);
         jPanel10Layout.setHorizontalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel10Layout.createSequentialGroup()
+            .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(429, 429, 429))
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel10Layout.setVerticalGroup(
             jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel10Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(18, 18, 18))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
 
         jTabbedPane3.addTab("Item/Reagent Stock", jPanel10);
@@ -517,17 +503,11 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1086, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 1086, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+            .addComponent(jTabbedPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 523, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -555,7 +535,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             }
 
             Item item = new Item(itemID, itemType, description, isReagent, units, qty);
-            int added = ItemDA.addItem(item);
+            int added = ItemController.addItem(item);
 
             if (added == 1) {
                 JOptionPane.showMessageDialog(null, "Added Succesfully");
@@ -581,10 +561,6 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
 }//GEN-LAST:event_unitsTextActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-}//GEN-LAST:event_jButton1ActionPerformed
-
     private void deleteItemBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteItemBtnActionPerformed
         int row = itemTable.getSelectedRow();
 
@@ -593,7 +569,7 @@ public class ItemManagement extends javax.swing.JInternalFrame {
             if (reply == JOptionPane.YES_OPTION) {
                 try {
                     String itemID = "" + allItemsDtm.getValueAt(row, 0);
-                    int res = ItemDA.deleteItem(itemID);
+                    int res = ItemController.deleteItem(itemID);
                     if (res == 1) {
                         JOptionPane.showMessageDialog(null, "Item deleted successfully.");
                         setTableItems();
@@ -641,6 +617,18 @@ public class ItemManagement extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_updateItemBtnActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void qtyTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qtyTextKeyTyped
+        char c = evt.getKeyChar();
+
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE || c == '.') || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_qtyTextKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addItemBtn;
     private javax.swing.ButtonGroup buttonGroup1;
@@ -664,7 +652,6 @@ public class ItemManagement extends javax.swing.JInternalFrame {
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;

@@ -5,7 +5,7 @@
  */
 package gui.Ruchi;
 
-import Controller.Predictions;
+import controller.Predictions;
 import Controller.Ruchi.SampleDetailController;
 import com.toedter.components.JSpinField;
 import java.awt.Color;

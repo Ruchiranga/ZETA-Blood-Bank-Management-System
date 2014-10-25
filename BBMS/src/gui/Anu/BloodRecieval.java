@@ -10,15 +10,19 @@
  */
 package gui.Anu;
 
-import Controller.anu.BloodPacketDA;
-import Controller.anu.BloodRecievedDetailController;
-import Controller.anu.BloodRecievedLogController;
-import Controller.anu.DonorDA;
-import Controller.anu.EmployeeController;
-import Controller.anu.RequesteeDA;
-import Controller.anu.TestController;
-import Controller.anu.TestResultController;
-import Controller.IDGenerator;
+import controller.anu.BloodPacketController;
+import controller.anu.BloodRecievedDetailController;
+import controller.anu.BloodRecievedLogController;
+import controller.anu.DonorController;
+import controller.anu.EmployeeController;
+import controller.anu.RequesteeController;
+import controller.anu.TestController;
+import controller.anu.TestResultController;
+import controller.IDGenerator;
+import controller.TableResizer;
+import connection.NotifierConnection;
+import controller.SearchableCombo;
+import controller.anu.BloodStockUpdateNotifier;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -49,6 +53,8 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
     DefaultTableModel dtm = new DefaultTableModel(title, 0);
     DefaultTableModel searchDtm = new DefaultTableModel(title, 0);
 
+    BloodStockUpdateNotifier notifier = null;
+
     /**
      * Creates new form BloodRecieval
      */
@@ -65,6 +71,12 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         setEmpCombo(empNamesCombo);
         setEmpCombo(searchEmpNamesCombo);
 
+        notifier = NotifierConnection.getNotifierConnection(null);
+        new SearchableCombo().setSearchableCombo(requesteeCombo, true);
+        new SearchableCombo().setSearchableCombo(empNamesCombo, true);
+        new SearchableCombo().setSearchableCombo(searchEmpNamesCombo, true);
+
+
     }
 
     private void clear() {
@@ -79,8 +91,17 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         ResultSet rst = BloodRecievedLogController.getSenders(sqlDateC);
         searchRequesteeCombo.removeAllItems();
         while (rst.next()) {
+            
+            boolean exists = false;
+            for (int i = 0; i < searchRequesteeCombo.getItemCount(); i++) {
+                if((""+searchRequesteeCombo.getItemAt(i)).equalsIgnoreCase("" + rst.getString("Requestee"))){
+                    exists = true;
+                }
+            }
             searchRequesteeCombo.addItem("" + rst.getString("Requestee"));
         }
+        new SearchableCombo().setSearchableCombo(searchRequesteeCombo, true);
+
     }
 
     private void setSearchRecievedIDsComboItems(java.sql.Date sqlDateC, String sender) throws ClassNotFoundException, SQLException {
@@ -89,7 +110,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         while (rst.next()) {
             searchRecievedIDCombo.addItem("" + rst.getString("RecievedID"));
         }
-
+        new SearchableCombo().setSearchableCombo(searchRecievedIDCombo, true);
     }
 
     private void setSearchRecievedData(String id) throws ClassNotFoundException, SQLException {
@@ -102,64 +123,61 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             }
 
         }
-        
-            ResultSet rst = BloodRecievedLogController.getDetails(id);
-            int count = 0;
-            while (rst.next()) {
-                count++;
-                searchTempText.setText("" + rst.getFloat("Tempereture"));
-                searchIcePacketsCombo.setSelectedItem(rst.getString("IcePacketCobdition"));
-                searchSendingOfficerText.setText(rst.getString("SendingOfficer"));
-                searchEmpNamesCombo.setSelectedItem(rst.getString("Name"));
 
-                /*Time*/
-                java.sql.Time sqlTime = rst.getTime("RecievedTime");
-                searchRecievedTimer.setTime(sqlTime);
+        ResultSet rst = BloodRecievedLogController.getDetails(id);
+        int count = 0;
+        while (rst.next()) {
+            count++;
+            searchTempText.setText("" + rst.getFloat("Tempereture"));
+            searchIcePacketsCombo.setSelectedItem(rst.getString("IcePacketCobdition"));
+            searchSendingOfficerText.setText(rst.getString("SendingOfficer"));
+            searchEmpNamesCombo.setSelectedItem(rst.getString("Name"));
 
-            }
-            
-            if(count == 0){
-                clearUpdateFields();
-            }
+            /*Time*/
+            java.sql.Time sqlTime = rst.getTime("RecievedTime");
+            searchRecievedTimer.setTime(sqlTime);
 
-        //"Unit No", "Donor's Name", "Blood Group", "Blood Type", "Date of collection", "Date of Expiry", "TTI Results", "Remarks"
-            //searchDtm = new DefaultTableModel(title2, 0);
-            ResultSet rst2 = BloodRecievedDetailController.getDetails(id);
-            while (rst2.next()) {
+        }
 
-                String[] row = {"", "", "", "", "", "", "", ""};
-                row[0] = rst2.getString("PacketID");
-                row[1] = rst2.getString("Name");
-                row[2] = rst2.getString("BloodGroup");
-                row[3] = rst2.getString("BloodType");
-                row[4] = "" + rst2.getDate("DateOfDonation");
-                row[5] = "" + rst2.getDate("DateOfExpiry");
+        if (count == 0) {
+            clearUpdateFields();
+        }
 
-                ResultSet testResult = TestResultController.getTestResults(row[0]);
+        ResultSet rst2 = BloodRecievedDetailController.getDetails(id);
+        while (rst2.next()) {
 
-                String tests = "";
-                int i = 0;
-                while (testResult.next()) {
-                    tests += ("" + testResult.getString("Name"));
-                    i++;
-                    if (i == 1) {
-                        break;
-                    }
+            String[] row = {"", "", "", "", "", "", "", ""};
+            row[0] = rst2.getString("PacketID");
+            row[1] = rst2.getString("Name");
+            row[2] = rst2.getString("BloodGroup");
+            row[3] = rst2.getString("BloodType");
+            row[4] = "" + rst2.getDate("DateOfDonation");
+            row[5] = "" + rst2.getDate("DateOfExpiry");
+
+            ResultSet testResult = TestResultController.getTestResults(row[0]);
+
+            String tests = "";
+            int i = 0;
+            while (testResult.next()) {
+                tests += ("" + testResult.getString("Name"));
+                i++;
+                if (i == 1) {
+                    break;
                 }
-                while (testResult.next()) {
-                    tests += ("," + testResult.getString("Name"));
-                }
-
-                row[6] = tests;
-                row[7] = rst2.getString("Comment");
-                searchDtm.addRow(row);
+            }
+            while (testResult.next()) {
+                tests += ("," + testResult.getString("Name"));
             }
 
-        
+            row[6] = tests;
+            row[7] = rst2.getString("Comment");
+            searchDtm.addRow(row);
+            TableResizer.resizeColumnWidth(searchRecievalTable);
+        }
 
     }
-    
-    private void clearUpdateFields(){
+
+    private void clearUpdateFields() {
         int rows = searchDtm.getRowCount();
         for (int i = 0; i < rows; i++) {
             try {
@@ -173,8 +191,8 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         java.sql.Time sqlTime = java.sql.Time.valueOf("00:00:00");
         searchRecievedTimer.setTime(sqlTime);
     }
-    
-    private void enableUpdateFields(){
+
+    private void enableUpdateFields() {
         searchRecievedTimer.setEnabled(true);
         searchIcePacketsCombo.setEnabled(true);
         searchSendingOfficerText.setEnabled(true);
@@ -186,8 +204,8 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         editPacketBtn1.setEnabled(true);
         updateBloodRecievalBtn.setEnabled(true);
     }
-    
-    private void disableUpdateFields(){
+
+    private void disableUpdateFields() {
         searchRecievedTimer.setEnabled(false);
         searchIcePacketsCombo.setEnabled(false);
         searchSendingOfficerText.setEnabled(false);
@@ -204,11 +222,13 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
     public void setData(String packetID, String name, String bloodGroup, String bloodType, String dateC, String dateE, String testResults, String comment) {
         String[] row = {packetID, name, bloodGroup, bloodType, dateC, dateE, testResults, comment};
         dtm.addRow(row);
+        TableResizer.resizeColumnWidth(recievalTable);
     }
 
     public void setUpdateNewPacketData(String packetID, String name, String bloodGroup, String bloodType, String dateC, String dateE, String testResults, String comment) {
         String[] row = {packetID, name, bloodGroup, bloodType, dateC, dateE, testResults, comment};
         searchDtm.addRow(row);
+        TableResizer.resizeColumnWidth(searchRecievalTable);
     }
 
     public void updateData(int rowNo, String packetID, String name, String bloodGroup, String bloodType, String dateC, String dateE, String testResults, String comment) {
@@ -231,7 +251,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         try {
             combo.removeAllItems();
             ResultSet rst = null;
-            rst = RequesteeDA.getAllRequestees();
+            rst = RequesteeController.getAllRequestees();
 
             while (rst.next()) {
                 combo.addItem(rst.getString("RequesteeName"));
@@ -329,21 +349,27 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         jTabbedPane3.setFont(new java.awt.Font("Times New Roman", 1, 14)); // NOI18N
 
-        jPanel11.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 204), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
-
         jPanel19.setBorder(javax.swing.BorderFactory.createTitledBorder("Add Blood Recieval"));
 
-        jLabel3.setText("Recieved Date");
+        jLabel3.setText("Recieved Date*");
 
-        jLabel4.setText("Recieved Time");
+        jLabel4.setText("Recieved Time*");
 
-        jLabel5.setText("Sent From");
+        jLabel5.setText("Sent From*");
 
         jLabel6.setText("Temperature inside the container at the time of recieval");
 
         tempText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 tempTextActionPerformed(evt);
+            }
+        });
+        tempText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                tempTextKeyReleased(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tempTextKeyTyped(evt);
             }
         });
 
@@ -355,8 +381,9 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         jLabel12.setText("C");
 
-        jLabel7.setText("Recieving Officer");
+        jLabel7.setText("Recieving Officer*");
 
+        empNamesCombo.setEditable(true);
         empNamesCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Emp Names" }));
 
         AddPacketBtn.setText("Add Blood Packet");
@@ -366,7 +393,6 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             }
         });
 
-        recievalTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
         recievalTable.setModel(dtm);
         jScrollPane1.setViewportView(recievalTable);
 
@@ -391,6 +417,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             }
         });
 
+        requesteeCombo.setEditable(true);
         requesteeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Requestee Names" }));
 
         addSenderBtn.setText("Add new sender");
@@ -401,6 +428,12 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         });
 
         jLabel8.setText("Sending Officer");
+
+        sendingOfficerText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                sendingOfficerTextKeyTyped(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel19Layout = new javax.swing.GroupLayout(jPanel19);
         jPanel19.setLayout(jPanel19Layout);
@@ -446,7 +479,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel19Layout.createSequentialGroup()
-                                        .addComponent(requesteeCombo, 0, 219, Short.MAX_VALUE)
+                                        .addComponent(requesteeCombo, 0, 225, Short.MAX_VALUE)
                                         .addGap(18, 18, 18)
                                         .addComponent(addSenderBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(421, 421, 421))
@@ -506,7 +539,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(AddPacketBtn)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 176, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel19Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editPacketBtn)
@@ -543,11 +576,9 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         jTabbedPane3.addTab("Add Blood Recieval", jPanel11);
 
-        jPanel1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(51, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
-
         jPanel20.setBorder(javax.swing.BorderFactory.createTitledBorder("Search Blood Recieval"));
 
-        jLabel10.setText("Recieved Time");
+        jLabel10.setText("Recieved Time*");
 
         jLabel14.setText("Temperature inside the container at the time of recieval");
 
@@ -555,6 +586,11 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         searchTempText.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchTempTextActionPerformed(evt);
+            }
+        });
+        searchTempText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchTempTextKeyTyped(evt);
             }
         });
 
@@ -565,8 +601,9 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         jLabel16.setText("C");
 
-        jLabel17.setText("Recieving Officer");
+        jLabel17.setText("Recieving Officer*");
 
+        searchEmpNamesCombo.setEditable(true);
         searchEmpNamesCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Emp Names" }));
         searchEmpNamesCombo.setEnabled(false);
 
@@ -578,7 +615,6 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             }
         });
 
-        searchRecievalTable.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, new java.awt.Color(0, 255, 255), new java.awt.Color(0, 0, 255), new java.awt.Color(153, 255, 255), new java.awt.Color(0, 102, 255)));
         searchRecievalTable.setModel(searchDtm);
         searchRecievalTable.setEnabled(false);
         jScrollPane2.setViewportView(searchRecievalTable);
@@ -613,6 +649,11 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         searchSendingOfficerText.setCaretColor(new java.awt.Color(255, 255, 255));
         searchSendingOfficerText.setEnabled(false);
+        searchSendingOfficerText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                searchSendingOfficerTextKeyTyped(evt);
+            }
+        });
 
         editRecievalBtn.setText("Edit Recieval");
         editRecievalBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -654,7 +695,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(searchSendingOfficerText, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(searchIcePacketsCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(30, 34, Short.MAX_VALUE)
+                                .addGap(30, 37, Short.MAX_VALUE)
                                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel20Layout.createSequentialGroup()
                                         .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -666,7 +707,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                                         .addComponent(searchTempText, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(12, 12, 12)
                                         .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 17, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGap(0, 5, Short.MAX_VALUE))
+                                .addGap(0, 8, Short.MAX_VALUE))
                             .addGroup(jPanel20Layout.createSequentialGroup()
                                 .addComponent(searchRecievedTimer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -674,9 +715,10 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(deleteRecievalBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(22, 22, 22))))
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(jPanel20Layout.createSequentialGroup()
-                        .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -708,7 +750,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editPacketBtn1)
@@ -732,6 +774,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         jLabel13.setText("Sent From");
 
+        searchRequesteeCombo.setEditable(true);
         searchRequesteeCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Requestee Names" }));
         searchRequesteeCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -741,6 +784,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
 
         jLabel1.setText("Recieval ID");
 
+        searchRecievedIDCombo.setEditable(true);
         searchRecievedIDCombo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "RecievedIDs" }));
         searchRecievedIDCombo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -815,7 +859,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_tempTextActionPerformed
 
     private void AddPacketBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPacketBtnActionPerformed
-        RecievedBloodPacket bloodPacket = new RecievedBloodPacket("Add", this, ""+searchRecievedIDCombo.getSelectedItem());
+        RecievedBloodPacket bloodPacket = new RecievedBloodPacket("Add", this, "" + searchRecievedIDCombo.getSelectedItem());
         bloodPacket.setClosable(true);
         bloodPacket.setMaximizable(false);
         nurseForm.getDesktop().add(bloodPacket);
@@ -873,7 +917,6 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             float temp = Float.parseFloat(tempText.getText());
             String icePacketCondition = "" + icePacketsCombo.getSelectedItem();
             String recievingOfficerID = EmployeeController.getEmpID("" + empNamesCombo.getSelectedItem());
-            System.out.println("emp ID : " + recievingOfficerID);
 
             BloodReceivedLog log = new BloodReceivedLog(recievedID, requestee, sqlDateC, sqlTime, sendingOfficer, recievingOfficerID, temp, icePacketCondition);
             int res1 = BloodRecievedLogController.addLog(log);
@@ -904,7 +947,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                         Random r = new Random();
                         donor_nic = Math.abs((r.nextInt() % 1000000000)) + 1;
 
-                    } while (DonorDA.isNicDuplicate(donor_nic));
+                    } while (DonorController.isNicDuplicate(donor_nic));
 
                     String donorNic = "" + donor_nic + "-";
                     System.out.println("NIC : " + donorNic);
@@ -933,11 +976,11 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                     String ttiResults = "" + dtm.getValueAt(i, 6);;
                     String comment = "" + dtm.getValueAt(i, 7);
 
-                    res_donor += DonorDA.addDonorFromOtherBloodBank(donorNic, donorName);
+                    res_donor += DonorController.addDonorFromOtherBloodBank(donorNic, donorName);
 
                     BloodPacket newPacket = new BloodPacket(packetID, donorNic, recievedID, sqlDateCollection, sqlDateExpiry, bloodType, (byte) 0, (byte) 0, (byte) 0, null, (byte) 0, bloodGroup, null, null, null, comment, null);
 
-                    res_bloodPacket += BloodPacketDA.addRecievedPacket(newPacket);
+                    res_bloodPacket += BloodPacketController.addRecievedPacket(newPacket);
                     res_bloodPacketRecievedDetail += BloodRecievedDetailController.addDetail(detail);
 
                     //=========================================================================================
@@ -965,7 +1008,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                         String test = tests[j];
                         String testId = TestController.getTestID(test);
                         if (testId != null) {
-                            TestResult result = new TestResult(testResultID, testId, packetID, "negative", "None", null, null, null, null);
+                            TestResult result = new TestResult(testResultID, testId, packetID, "Negative", "None", null, null, null, null);
                             res_Test += TestResultController.addTestResultOfRecievedBloodPackets(result);
                         }
 
@@ -974,6 +1017,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                 }
 
                 if ((res_donor + res_bloodPacket + res_bloodPacketRecievedDetail) == 3 * dtm.getRowCount() && res_Test > 0) {
+                    notifier.notifyUpdateBloodStock();
                     JOptionPane.showMessageDialog(null, "Successfully updated");
                     clear();
                     setSenderComboData();
@@ -1020,7 +1064,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_searchTempTextActionPerformed
 
     private void AddPacketBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddPacketBtn1ActionPerformed
-        RecievedBloodPacket bloodPacket = new RecievedBloodPacket("Update", this, ""+searchRecievedIDCombo.getSelectedItem());
+        RecievedBloodPacket bloodPacket = new RecievedBloodPacket("Update", this, "" + searchRecievedIDCombo.getSelectedItem());
         bloodPacket.setClosable(true);
         bloodPacket.setMaximizable(false);
         nurseForm.getDesktop().add(bloodPacket);
@@ -1053,7 +1097,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         try {
 
             //===============================================================================================
-            String recievedID = ""+searchRecievedIDCombo.getSelectedItem();
+            String recievedID = "" + searchRecievedIDCombo.getSelectedItem();
 
             String requestee = "" + searchRequesteeCombo.getSelectedItem();
 
@@ -1079,10 +1123,11 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             System.out.println("emp ID : " + recievingOfficerID);
 
             BloodReceivedLog log = new BloodReceivedLog(recievedID, requestee, sqlDateC, sqlTime, sendingOfficer, recievingOfficerID, temp, icePacketCondition);
-            
+
             int res1 = BloodRecievedLogController.updateLog(log);
 
-            if(res1 == 1){
+            if (res1 == 1) {
+                notifier.notifyUpdateBloodStock();
                 JOptionPane.showMessageDialog(null, "Updated successfully!");
                 setSenderComboData();
             } else {
@@ -1143,7 +1188,7 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
         try {
             disableUpdateFields();
             String id = null;
-            id = ""+searchRecievedIDCombo.getSelectedItem();
+            id = "" + searchRecievedIDCombo.getSelectedItem();
             setSearchRecievedData(id);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(BloodRecieval.class.getName()).log(Level.SEVERE, null, ex);
@@ -1173,8 +1218,9 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                 String recievedID = "" + searchRecievedIDCombo.getSelectedItem();
                 int resRecieval = BloodRecievedLogController.deleteRecieval(recievedID);
                 if (resRecieval == 1) {
+                    notifier.notifyUpdateBloodStock();
                     JOptionPane.showMessageDialog(null, "Recival records deleted successfully!");
-                    searchRecievedIDCombo.removeItem(""+recievedID);
+                    searchRecievedIDCombo.removeItem("" + recievedID);
                     setSenderComboData();
                 } else {
                     JOptionPane.showMessageDialog(null, "Error occured while deleting records");
@@ -1199,10 +1245,11 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
                 int resPacket = 0;
                 try {
                     resPacket = BloodRecievedLogController.deletePacketRecievalData("" + searchDtm.getValueAt(row, 0));
-                    if(resPacket == 1){
+                    if (resPacket == 1) {
+                        notifier.notifyUpdateBloodStock();
                         JOptionPane.showMessageDialog(null, "Blood Packet deleted successfully!");
                         setSenderComboData();
-                    }else{
+                    } else {
                         JOptionPane.showMessageDialog(null, "Error occured while deleting blood packet!");
                     }
                 } catch (ClassNotFoundException ex) {
@@ -1216,6 +1263,42 @@ public class BloodRecieval extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "Select a row");
         }
     }//GEN-LAST:event_deletePacketBtn1ActionPerformed
+
+    private void tempTextKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tempTextKeyReleased
+
+    }//GEN-LAST:event_tempTextKeyReleased
+
+    private void tempTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tempTextKeyTyped
+        char c = evt.getKeyChar();
+        if (tempText.getText().length() >= 12) {
+            evt.consume();
+        }
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE || c == '.') || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_tempTextKeyTyped
+
+    private void searchTempTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchTempTextKeyTyped
+        char c = evt.getKeyChar();
+        if (searchTempText.getText().length() >= 12) {
+            evt.consume();
+        }
+        if (!(Character.isDigit(c) || c == java.awt.event.KeyEvent.VK_BACK_SPACE || c == '.') || c == java.awt.event.KeyEvent.VK_DELETE) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_searchTempTextKeyTyped
+
+    private void sendingOfficerTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_sendingOfficerTextKeyTyped
+        if (sendingOfficerText.getText().length() >= 200) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_sendingOfficerTextKeyTyped
+
+    private void searchSendingOfficerTextKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_searchSendingOfficerTextKeyTyped
+        if (searchSendingOfficerText.getText().length() >= 200) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_searchSendingOfficerTextKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -77,13 +77,16 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="103" groupAlignment="1" attributes="0">
                               <Group type="102" attributes="0">
-                                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel1" pref="76" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="addRequesteeText" pref="199" max="32767" attributes="0"/>
+                                  <Component id="addRequesteeText" min="-2" pref="175" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="addBtn" alignment="1" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                                  <Component id="addBtn" min="-2" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -99,7 +102,7 @@
                           </Group>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Component id="addBtn" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="91" max="32767" attributes="0"/>
+                          <EmptySpace pref="103" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -107,10 +110,13 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel1">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Requestee"/>
+                    <Property name="text" type="java.lang.String" value="Requestee*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="addRequesteeText">
+                  <Events>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="addRequesteeTextKeyTyped"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="addBtn">
                   <Properties>
@@ -216,6 +222,7 @@
               <SubComponents>
                 <Component class="javax.swing.JComboBox" name="requesteeCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>
@@ -232,6 +239,7 @@
                 <Component class="javax.swing.JTextField" name="updateRequesteeText">
                   <Events>
                     <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="updateRequesteeTextKeyPressed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="updateRequesteeTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="updateBtn">

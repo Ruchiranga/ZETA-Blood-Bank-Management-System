@@ -5,10 +5,8 @@
 
 package bbms;
 
-import de.javasoft.plaf.synthetica.SyntheticaBlackEyeLookAndFeel;
-import de.javasoft.plaf.synthetica.SyntheticaClassyLookAndFeel;
-import gui.Login;
-import java.io.IOException;
+import de.javasoft.plaf.synthetica.SyntheticaBlackMoonLookAndFeel;
+import gui.Login2;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,14 +26,14 @@ public class Main {
         try {
 //            UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
             //UIManager.setLookAndFeel(new SyntheticaClassyLookAndFeel());
-            UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+            //UIManager.setLookAndFeel(new SyntheticaBlackEyeLookAndFeel());
+            UIManager.setLookAndFeel(new SyntheticaBlackMoonLookAndFeel());
+
             //MedicalOfficer bbms = new MedicalOfficer();
             //bbms.setVisible(true);
-            Login bbms = new Login();
+            Login2 bbms = new Login2();
             bbms.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (UnsupportedLookAndFeelException ex) {
+        }catch (UnsupportedLookAndFeelException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParseException ex) {
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);

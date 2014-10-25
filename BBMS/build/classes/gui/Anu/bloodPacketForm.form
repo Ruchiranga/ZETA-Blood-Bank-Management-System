@@ -7,6 +7,11 @@
     <Component class="javax.swing.ButtonGroup" name="buttonGroup2">
     </Component>
   </NonVisualComponents>
+  <Properties>
+    <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[844, 589]"/>
+    </Property>
+  </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
   </SyntheticProperties>
@@ -25,20 +30,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane3" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPane3" min="-2" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="jTabbedPane3" max="32767" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-          </Group>
+          <Component id="jTabbedPane3" min="-2" pref="527" max="-2" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
@@ -53,18 +50,6 @@
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
         <Container class="javax.swing.JPanel" name="jPanel11">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="cc" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="33" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Add Blood Packet">
@@ -77,17 +62,14 @@
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace max="-2" attributes="0"/>
-                              <Component id="jPanel1" min="-2" max="-2" attributes="1"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="301" max="-2" attributes="0"/>
-                              <Component id="jLabel51" min="-2" pref="213" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <EmptySpace pref="24" max="32767" attributes="0"/>
+                      <EmptySpace min="-2" pref="301" max="-2" attributes="0"/>
+                      <Component id="jLabel51" min="-2" pref="213" max="-2" attributes="0"/>
+                      <EmptySpace pref="289" max="32767" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel1" max="32767" attributes="1"/>
+                      <EmptySpace max="-2" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -98,7 +80,7 @@
                       <Component id="jLabel51" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="41" max="32767" attributes="0"/>
+                      <EmptySpace pref="27" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -137,7 +119,7 @@
                                               <Component id="CampNameCombo" alignment="0" max="32767" attributes="1"/>
                                               <Group type="102" alignment="1" attributes="0">
                                                   <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
-                                                  <Component id="packIDText" pref="247" max="32767" attributes="1"/>
+                                                  <Component id="packIDText" max="32767" attributes="1"/>
                                               </Group>
                                               <Group type="102" alignment="0" attributes="0">
                                                   <Group type="103" groupAlignment="1" attributes="0">
@@ -153,14 +135,14 @@
                                           </Group>
                                           <EmptySpace min="-2" pref="84" max="-2" attributes="0"/>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Group type="102" alignment="0" attributes="0">
-                                                  <Component id="jLabel11" min="-2" pref="71" max="-2" attributes="0"/>
-                                                  <EmptySpace min="-2" pref="155" max="-2" attributes="0"/>
-                                              </Group>
-                                              <Group type="102" alignment="0" attributes="0">
+                                              <Group type="102" attributes="0">
                                                   <Component id="jLabel22" min="-2" pref="71" max="-2" attributes="0"/>
                                                   <EmptySpace max="32767" attributes="0"/>
                                                   <Component id="bloodTypeCombo" min="-2" pref="102" max="-2" attributes="1"/>
+                                              </Group>
+                                              <Group type="102" attributes="0">
+                                                  <Component id="jLabel11" min="-2" pref="97" max="-2" attributes="0"/>
+                                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                               </Group>
                                           </Group>
                                       </Group>
@@ -191,7 +173,7 @@
                 <DimensionLayout dim="1">
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace pref="34" max="32767" attributes="0"/>
+                          <EmptySpace pref="51" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel3" min="-2" pref="21" max="-2" attributes="0"/>
@@ -265,22 +247,24 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel3">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Packet ID"/>
+                    <Property name="text" type="java.lang.String" value="Packet ID*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="packIDText">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="packIDTextActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="packIDTextKeyReleased"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="packIDTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Donor NIC"/>
+                    <Property name="text" type="java.lang.String" value="Donor NIC*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel6">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Date of expiry"/>
+                    <Property name="text" type="java.lang.String" value="Date of expiry*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel7">
@@ -301,7 +285,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel8">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Date of collection"/>
+                    <Property name="text" type="java.lang.String" value="Date of collection*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel10">
@@ -311,7 +295,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel11">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Blood Group"/>
+                    <Property name="text" type="java.lang.String" value="Blood Group*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="groupCombo">
@@ -322,6 +306,10 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="groupComboActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="groupComboKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="printBtn">
                   <Properties>
@@ -346,6 +334,10 @@
                     </Property>
                     <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="dateOfCollectionCalendarPropertyChange"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dateOfCollectionCalendarKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="com.toedter.calendar.JDateChooser" name="dateOfExpiryCalendar">
                   <Properties>
@@ -354,6 +346,9 @@
                     </Property>
                     <Property name="dateFormatString" type="java.lang.String" value="yyyy-MM-dd"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="dateOfExpiryCalendarKeyReleased"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="CampNameCombo">
                   <Properties>
@@ -364,11 +359,12 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="CampNameComboActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="CampNameComboKeyReleased"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel22">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Blood Type"/>
+                    <Property name="text" type="java.lang.String" value="Blood Type*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="bloodTypeCombo">
@@ -379,9 +375,14 @@
                       </StringArray>
                     </Property>
                   </Properties>
+                  <Events>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="bloodTypeComboKeyReleased"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="bloodTypeComboKeyTyped"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="donorNicCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="1">
                         <StringItem index="0" value="Donor NICs"/>
@@ -391,6 +392,8 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="donorNicComboActionPerformed"/>
                     <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="donorNicComboPropertyChange"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="donorNicComboKeyReleased"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="donorNicComboKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel9">
@@ -408,6 +411,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="inhouseRadioBtnActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="inhouseRadioBtnKeyReleased"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JRadioButton" name="MobileRadioBtn">
@@ -419,6 +423,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MobileRadioBtnActionPerformed"/>
+                    <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="MobileRadioBtnKeyReleased"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel21">
@@ -429,6 +434,7 @@
                 <Component class="javax.swing.JTextField" name="commentTxt">
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="commentTxtActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="commentTxtKeyTyped"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -444,18 +450,6 @@
           </SubComponents>
         </Container>
         <Container class="javax.swing.JPanel" name="jPanel2">
-          <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
-                <BevelBorder>
-                  <Color PropertyName="highlightOuter" blue="ff" green="ff" red="33" type="rgb"/>
-                  <Color PropertyName="highlightInner" blue="cc" green="0" red="0" type="rgb"/>
-                  <Color PropertyName="shadowOuter" blue="ff" green="ff" red="99" type="rgb"/>
-                  <Color PropertyName="shadowInner" blue="ff" green="66" red="0" type="rgb"/>
-                </BevelBorder>
-              </Border>
-            </Property>
-          </Properties>
           <Constraints>
             <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
               <JTabbedPaneConstraints tabName="Search/Update Blood Packet">
@@ -478,7 +472,7 @@
                               <Component id="jLabel52" min="-2" pref="308" max="-2" attributes="0"/>
                           </Group>
                       </Group>
-                      <EmptySpace pref="23" max="32767" attributes="0"/>
+                      <EmptySpace pref="29" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -489,7 +483,7 @@
                       <Component id="jLabel52" min="-2" pref="36" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="45" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -676,17 +670,17 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel5">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Packet ID"/>
+                    <Property name="text" type="java.lang.String" value="Packet ID*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel25">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Donor NIC"/>
+                    <Property name="text" type="java.lang.String" value="Donor NIC*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel26">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Date of expiry"/>
+                    <Property name="text" type="java.lang.String" value="Date of expiry*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel27">
@@ -710,7 +704,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel28">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Date of collection"/>
+                    <Property name="text" type="java.lang.String" value="Date of collection*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="campNameLabel">
@@ -720,7 +714,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel30">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Blood Group"/>
+                    <Property name="text" type="java.lang.String" value="Blood Group*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="searchBloodGroupCombo">
@@ -789,7 +783,7 @@
                 </Component>
                 <Component class="javax.swing.JLabel" name="jLabel31">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Blood Type"/>
+                    <Property name="text" type="java.lang.String" value="Blood Type*"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JComboBox" name="searchBloodTypeCombo">
@@ -807,6 +801,7 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="searchDonorNicCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="ff" red="ff" type="rgb"/>
                     </Property>
@@ -875,6 +870,7 @@
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="searchCommentTextActionPerformed"/>
+                    <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="searchCommentTextKeyTyped"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="editBtn">
@@ -887,6 +883,7 @@
                 </Component>
                 <Component class="javax.swing.JComboBox" name="searchPacketIDCombo">
                   <Properties>
+                    <Property name="editable" type="boolean" value="true"/>
                     <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                       <StringArray count="0"/>
                     </Property>

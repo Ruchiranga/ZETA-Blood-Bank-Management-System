@@ -5,6 +5,7 @@
 package gui.Ruchi;
 
 import Controller.Ruchi.SampleDetailController;
+import controller.SearchableCombo;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -28,7 +29,11 @@ public class Requests extends javax.swing.JInternalFrame {
         initComponents();
         sampleDetailController = new SampleDetailController();
         this.pane = pane;
+        updateRequestNoCombo();
+    }
 
+    public void updateRequestNoCombo() {
+        requestNoComboBox.removeAllItems();
         String[] requestNos = null;
         try {
             requestNos = sampleDetailController.getRequestNos();
@@ -41,7 +46,7 @@ public class Requests extends javax.swing.JInternalFrame {
         for (String no : requestNos) {
             requestNoComboBox.addItem(no);
         }
-
+        new SearchableCombo().setSearchableCombo(requestNoComboBox, true);
     }
 
     /**
@@ -192,6 +197,7 @@ public class Requests extends javax.swing.JInternalFrame {
 
         jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Requst No."));
 
+        requestNoComboBox.setEditable(true);
         requestNoComboBox.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 requestNoComboBoxActionPerformed(evt);
@@ -281,7 +287,7 @@ public class Requests extends javax.swing.JInternalFrame {
     private void crossmatchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_crossmatchButtonActionPerformed
         CrossMatch window;
         if (requestNoComboBox.getSelectedIndex() >= 0) {
-            window = new CrossMatch((String) requestNoComboBox.getSelectedItem(),this);
+            window = new CrossMatch((String) requestNoComboBox.getSelectedItem(), this);
             this.hide();
             window.setClosable(true);
             window.setMaximizable(true);
@@ -294,18 +300,29 @@ public class Requests extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_crossmatchButtonActionPerformed
 
+    private void clearFields() {
+        nameText.setText("");
+        wardText.setText("");
+        bhtText.setText("");
+        hospitalText.setText("");
+        groupText.setText("");
+        dateText.setText("");
+    }
     private void requestNoComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_requestNoComboBoxActionPerformed
+        clearFields();
         String requestNo = (String) requestNoComboBox.getSelectedItem();
         ResultSet result;
         try {
             result = sampleDetailController.getDetailsOf(requestNo);
+            while (result.next()) {
 
-            nameText.setText(result.getString("PatientName"));
-            wardText.setText(result.getString("Ward"));
-            bhtText.setText(result.getString("BHTNo"));
-            hospitalText.setText(result.getString("Hospital"));
-            groupText.setText(result.getString("BloodGroup"));
-            dateText.setText(result.getDate("Date").toString());
+                nameText.setText(result.getString("PatientName"));
+                wardText.setText(result.getString("Ward"));
+                bhtText.setText(result.getString("BHTNo"));
+                hospitalText.setText(result.getString("Hospital"));
+                groupText.setText(result.getString("BloodGroup"));
+                dateText.setText(result.getDate("Date").toString());
+            }
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Requests.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
