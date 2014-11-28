@@ -6,9 +6,8 @@
 
 package connection;
 
-import controller.anu.BloodStockUpdateNotifier;
-import gui.Anu.Nurse;
-import java.sql.DriverManager;
+import controller.blood_stock_management.BloodStockUpdateNotifier;
+import view.users.Nurse;
 
 /**
  *

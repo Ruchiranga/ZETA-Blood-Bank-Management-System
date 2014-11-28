@@ -1,0 +1,933 @@
+-- MySQL dump 10.13  Distrib 5.6.16, for Win32 (x86)
+--
+-- Host: localhost    Database: bbms
+-- ------------------------------------------------------
+-- Server version	5.6.16
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `balance`
+--
+
+DROP TABLE IF EXISTS `balance`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `balance` (
+  `StockDate` date NOT NULL,
+  `BloodType` varchar(20) NOT NULL,
+  `Balance` int(11) DEFAULT NULL,
+  PRIMARY KEY (`StockDate`,`BloodType`),
+  KEY `BloodType` (`BloodType`),
+  CONSTRAINT `balance_ibfk_1` FOREIGN KEY (`BloodType`) REFERENCES `bloodtype` (`BloodType`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `balance`
+--
+
+LOCK TABLES `balance` WRITE;
+/*!40000 ALTER TABLE `balance` DISABLE KEYS */;
+INSERT INTO `balance` VALUES ('2014-10-26','CRYO',3),('2014-10-26','FFP',2),('2014-10-26','Fresh blood',16),('2014-10-26','Plasma/CSP',2),('2014-10-26','Platelets',3);
+/*!40000 ALTER TABLE `balance` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodcamp`
+--
+
+DROP TABLE IF EXISTS `bloodcamp`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodcamp` (
+  `CampID` varchar(10) NOT NULL,
+  `Place` varchar(40) NOT NULL,
+  `Date` datetime NOT NULL,
+  `ExpDonors` int(10) DEFAULT NULL,
+  `Organizer` varchar(12) NOT NULL,
+  PRIMARY KEY (`CampID`),
+  KEY `bloodcamp_ibfk_1` (`Organizer`),
+  CONSTRAINT `bloodcamp_ibfk_1` FOREIGN KEY (`Organizer`) REFERENCES `organizer` (`Nic`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodcamp`
+--
+
+LOCK TABLES `bloodcamp` WRITE;
+/*!40000 ALTER TABLE `bloodcamp` DISABLE KEYS */;
+INSERT INTO `bloodcamp` VALUES ('C000000001','Karapitiya Temple','2014-10-29 00:00:00',300,'628374632V'),('C000000002','Welipotha Temple','2014-10-30 00:00:00',250,'833622366V'),('C000000003','Vidyaloka College','2014-11-20 00:00:00',400,'833744366V'),('C000000004','Richmond College','2014-11-23 00:00:00',500,'833622366V'),('C000000005','ThuwakkuGala Temple','2015-10-31 00:00:00',120,'833744366V'),('C000000006','Vidyaloka College','2014-10-31 00:00:00',200,'628374632V'),('C000000007','Mahinda College','2014-10-31 00:00:00',200,'733266355V'),('C000000008','Southlands Collge','2014-10-31 00:00:00',250,'844733644V'),('C000000009','Richmond College','2014-11-01 00:00:00',350,'844733644V'),('C000000010','Welipotha Temple','2014-10-27 00:00:00',150,'833744366V'),('C000000011','Karapitiya Temple','2014-10-27 00:00:00',300,'833744366V'),('C000000012','Mahinda College','2014-10-27 00:00:00',250,'925713644V'),('C000000013','Richmond College','2014-10-29 00:00:00',400,'844733644V'),('C000000014','Sacred Heart Convent','2014-10-29 00:00:00',200,'925713644V'),('C000000015','Karaptiya Temple','2014-10-27 00:00:00',250,'628374632V');
+/*!40000 ALTER TABLE `bloodcamp` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodgroup`
+--
+
+DROP TABLE IF EXISTS `bloodgroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodgroup` (
+  `GroupName` varchar(20) NOT NULL,
+  PRIMARY KEY (`GroupName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodgroup`
+--
+
+LOCK TABLES `bloodgroup` WRITE;
+/*!40000 ALTER TABLE `bloodgroup` DISABLE KEYS */;
+INSERT INTO `bloodgroup` VALUES ('A+'),('A-'),('AB+'),('AB-'),('B+'),('B-'),('O+'),('O-'),('UG');
+/*!40000 ALTER TABLE `bloodgroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodpacket`
+--
+
+DROP TABLE IF EXISTS `bloodpacket`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodpacket` (
+  `PacketID` varchar(20) NOT NULL,
+  `Nic` varchar(10) NOT NULL,
+  `RecievedID` varchar(20) DEFAULT NULL,
+  `DateOfDonation` date NOT NULL,
+  `DateOfExpiry` date NOT NULL,
+  `BloodType` varchar(20) NOT NULL,
+  `IsCrossmatched` bit(1) NOT NULL DEFAULT b'0',
+  `IsSpecialReservation` bit(1) NOT NULL DEFAULT b'0',
+  `IsUnderObservation` bit(1) NOT NULL DEFAULT b'0',
+  `CampID` varchar(20) DEFAULT NULL,
+  `IsDiscarded` bit(1) NOT NULL DEFAULT b'0',
+  `BloodGroup` varchar(3) DEFAULT NULL,
+  `DiscardedDate` date DEFAULT NULL,
+  `ReturnID` varchar(20) DEFAULT NULL,
+  `PatientIssueID` varchar(10) DEFAULT NULL,
+  `Comment` varchar(200) DEFAULT NULL,
+  `BulkIssueID` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`PacketID`),
+  KEY `Nic` (`Nic`),
+  KEY `RecievedID` (`RecievedID`),
+  KEY `BloodType` (`BloodType`),
+  KEY `CampID` (`CampID`),
+  KEY `BloodGroup` (`BloodGroup`),
+  KEY `BulkIssueID` (`BulkIssueID`),
+  KEY `PatientIssueID` (`PatientIssueID`),
+  KEY `ReturnID` (`ReturnID`),
+  CONSTRAINT `bloodpacket_ibfk_1` FOREIGN KEY (`Nic`) REFERENCES `donor` (`nic`),
+  CONSTRAINT `bloodpacket_ibfk_2` FOREIGN KEY (`RecievedID`) REFERENCES `bloodrecievedlog` (`RecievedID`),
+  CONSTRAINT `bloodpacket_ibfk_3` FOREIGN KEY (`BloodType`) REFERENCES `bloodtype` (`BloodType`),
+  CONSTRAINT `bloodpacket_ibfk_4` FOREIGN KEY (`CampID`) REFERENCES `bloodcamp` (`CampID`),
+  CONSTRAINT `bloodpacket_ibfk_5` FOREIGN KEY (`BloodGroup`) REFERENCES `bloodgroup` (`GroupName`),
+  CONSTRAINT `bloodpacket_ibfk_6` FOREIGN KEY (`BulkIssueID`) REFERENCES `bulkissue` (`IssueID`),
+  CONSTRAINT `bloodpacket_ibfk_7` FOREIGN KEY (`PatientIssueID`) REFERENCES `issue` (`IssueID`),
+  CONSTRAINT `bloodpacket_ibfk_8` FOREIGN KEY (`ReturnID`) REFERENCES `returnedlog` (`ReturnedID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodpacket`
+--
+
+LOCK TABLES `bloodpacket` WRITE;
+/*!40000 ALTER TABLE `bloodpacket` DISABLE KEYS */;
+INSERT INTO `bloodpacket` VALUES ('KP000000000000000001','833722466V',NULL,'2014-05-12','2015-05-12','Fresh blood','','','\0',NULL,'\0','AB+',NULL,'RET0000003',NULL,'',NULL),('KP000000000000000002','922733244V',NULL,'2014-10-26','2014-10-26','Fresh blood','','\0','\0','C000000004','\0','B+',NULL,NULL,NULL,'',NULL),('KP000000000000000003','922833233V',NULL,'2014-10-26','2014-10-26','Fresh blood','\0','\0','\0','C000000003','\0','O+',NULL,NULL,NULL,'',NULL),('KP000000000000000004','923744855V',NULL,'2014-10-26','2015-10-26','Fresh blood','\0','\0','\0','C000000005','\0','A-',NULL,NULL,NULL,'',NULL),('KP000000000000000005','988277337V',NULL,'2014-10-26','2015-10-26','Fresh blood','','\0','\0',NULL,'\0','O+',NULL,NULL,NULL,'',NULL),('KP000000000000000006','833233455V',NULL,'2014-08-26','2015-08-26','Fresh blood','','\0','\0','C000000005','\0','B-',NULL,'RET0000001',NULL,'',NULL),('KP000000000000000007','788437673V',NULL,'2014-05-26','2015-05-26','CRYO','','\0','\0',NULL,'\0','B-',NULL,NULL,NULL,'',NULL),('KP000000000000000008','923744855V',NULL,'2014-09-26','2015-09-26','Fresh blood','\0','\0','\0','C000000008','\0','O-',NULL,NULL,NULL,'',NULL),('KP000000000000000009','833233455V',NULL,'2014-09-26','2015-09-26','CRYO','\0','\0','\0',NULL,'\0','A-',NULL,NULL,NULL,'',NULL),('KP000000000000000010','922733244V',NULL,'2014-08-26','2015-08-26','Platelets','\0','\0','\0',NULL,'\0','O+',NULL,NULL,NULL,'',NULL),('KP000000000000000020','788437673V',NULL,'2014-10-26','2015-10-26','Fresh blood','\0','','\0',NULL,'\0','A+',NULL,NULL,NULL,'',NULL),('KP000000000000000021','922733244V',NULL,'2014-05-20','2015-10-20','Fresh blood','','','\0',NULL,'\0','A+',NULL,NULL,'IS00000001','',NULL),('KP000000000000000022','833233455V',NULL,'2014-01-08','2015-12-09','Fresh blood','\0','\0','\0',NULL,'','AB-','2014-10-26',NULL,NULL,'',NULL),('KP000000000000000023','922733244V',NULL,'2014-01-08','2015-12-09','Fresh blood','\0','\0','\0',NULL,'\0','O+',NULL,NULL,NULL,'Bombay',NULL),('KP000000000000000024','922744233V',NULL,'2014-01-08','2015-12-09','Fresh blood','','\0','\0',NULL,'\0','O+',NULL,'RET0000002',NULL,'',NULL),('KP000000000000000025','922744233V',NULL,'2014-01-08','2015-12-09','Fresh blood','\0','\0','\0',NULL,'\0','UG',NULL,NULL,NULL,'',NULL),('KP000000000000000026','788437673V',NULL,'2014-01-08','2015-12-09','Fresh blood','\0','\0','\0',NULL,'\0','O+',NULL,NULL,NULL,'Bombay',NULL),('KP000000000000000027','788437673V',NULL,'2014-01-08','2015-12-09','Fresh blood','\0','\0','\0','C000000001','\0','UG',NULL,NULL,NULL,'',NULL),('KP000000000000000028','922833447V',NULL,'2014-01-01','2014-12-31','Fresh blood','\0','\0','\0',NULL,'\0','UG',NULL,NULL,NULL,'',NULL),('KP000000000000000029','988277337V',NULL,'2014-01-01','2014-12-31','Fresh blood','\0','\0','\0',NULL,'','B+','2014-10-26',NULL,NULL,'',NULL),('KP000000000000000030','922833233V',NULL,'2014-01-01','2014-12-31','Fresh blood','\0','\0','\0',NULL,'\0','UG',NULL,NULL,NULL,'',NULL),('NH000000000000000011','859466695-','RE00000001','2014-10-26','2015-10-26','CRYO','','\0','\0',NULL,'\0','B-',NULL,NULL,NULL,'',NULL),('NH000000000000000012','155-','RE00000001','2014-05-26','2015-05-26','FFP','\0','\0','\0',NULL,'\0','B-',NULL,NULL,NULL,'',NULL),('NH000000000000000013','257602634-','RE00000001','2014-03-26','2014-09-26','Platelets','\0','\0','\0',NULL,'\0','O+',NULL,NULL,NULL,'Bombay',NULL),('NH000000000000000014','54955527-','RE00000001','2014-05-26','2014-11-26','Plasma/CSP','\0','\0','\0',NULL,'\0','O+',NULL,NULL,NULL,'',NULL),('NH000000000000000015','751366080-','RE00000001','2014-05-26','2014-11-26','Plasma/CSP','\0','\0','\0',NULL,'\0','B+',NULL,NULL,NULL,'',NULL),('NH000000000000000016','546487436-','RE00000002','2013-10-26','2014-04-26','Fresh blood','\0','\0','\0',NULL,'\0','AB-',NULL,NULL,NULL,'',NULL),('NH000000000000000017','12435840-','RE00000002','2014-03-26','2015-03-26','FFP','','\0','\0',NULL,'\0','B-',NULL,NULL,NULL,'',NULL),('NH000000000000000018','712207671-','RE00000002','2013-10-21','2014-10-26','Platelets','\0','\0','\0',NULL,'\0','AB+',NULL,NULL,NULL,'',NULL),('NH000000000000000019','92706568-','RE00000002','2014-01-26','2014-06-26','Platelets','','\0','\0',NULL,'\0','B+',NULL,NULL,'IS00000003','',NULL);
+/*!40000 ALTER TABLE `bloodpacket` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodrecieveddetail`
+--
+
+DROP TABLE IF EXISTS `bloodrecieveddetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodrecieveddetail` (
+  `RecievedID` varchar(10) NOT NULL,
+  `packetID` varchar(20) NOT NULL,
+  PRIMARY KEY (`RecievedID`,`packetID`),
+  KEY `packetID` (`packetID`),
+  CONSTRAINT `bloodrecieveddetail_ibfk_1` FOREIGN KEY (`RecievedID`) REFERENCES `bloodrecievedlog` (`RecievedID`),
+  CONSTRAINT `bloodrecieveddetail_ibfk_2` FOREIGN KEY (`packetID`) REFERENCES `bloodpacket` (`PacketID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodrecieveddetail`
+--
+
+LOCK TABLES `bloodrecieveddetail` WRITE;
+/*!40000 ALTER TABLE `bloodrecieveddetail` DISABLE KEYS */;
+INSERT INTO `bloodrecieveddetail` VALUES ('RE00000001','NH000000000000000011'),('RE00000001','NH000000000000000012'),('RE00000001','NH000000000000000013'),('RE00000001','NH000000000000000014'),('RE00000001','NH000000000000000015'),('RE00000002','NH000000000000000016'),('RE00000002','NH000000000000000017'),('RE00000002','NH000000000000000018'),('RE00000002','NH000000000000000019');
+/*!40000 ALTER TABLE `bloodrecieveddetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodrecievedlog`
+--
+
+DROP TABLE IF EXISTS `bloodrecievedlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodrecievedlog` (
+  `RecievedID` varchar(10) NOT NULL,
+  `Requestee` varchar(100) NOT NULL,
+  `RecievedDate` date NOT NULL,
+  `RecievedTime` time NOT NULL,
+  `SendingOfficer` varchar(200) DEFAULT NULL,
+  `RecievingOfficerID` varchar(10) NOT NULL,
+  `Tempereture` float DEFAULT NULL,
+  `IcePacketCobdition` varchar(20) DEFAULT NULL,
+  PRIMARY KEY (`RecievedID`),
+  KEY `Requestee` (`Requestee`),
+  KEY `bloodrecievedlog_ibfk_2` (`RecievingOfficerID`),
+  CONSTRAINT `bloodrecievedlog_ibfk_1` FOREIGN KEY (`Requestee`) REFERENCES `requestee` (`RequesteeName`),
+  CONSTRAINT `bloodrecievedlog_ibfk_2` FOREIGN KEY (`RecievingOfficerID`) REFERENCES `employee` (`EmpID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodrecievedlog`
+--
+
+LOCK TABLES `bloodrecievedlog` WRITE;
+/*!40000 ALTER TABLE `bloodrecievedlog` DISABLE KEYS */;
+INSERT INTO `bloodrecievedlog` VALUES ('RE00000001','Kamburugamuwa','2014-10-26','17:48:46','Chathura Siriwardana','E000000001',0,'Frozen'),('RE00000002','Pilimathalawa','2013-10-08','00:12:46','Thilina Jayamaha','E000000004',1,'Dissolved');
+/*!40000 ALTER TABLE `bloodrecievedlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodstockhistory`
+--
+
+DROP TABLE IF EXISTS `bloodstockhistory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodstockhistory` (
+  `StockDate` date NOT NULL,
+  `BloodGroup` varchar(20) NOT NULL,
+  `Unx` int(11) DEFAULT NULL,
+  `x` int(11) DEFAULT NULL,
+  `Spec_res` int(11) DEFAULT NULL,
+  `Underobs` int(11) DEFAULT NULL,
+  `total` int(11) DEFAULT NULL,
+  PRIMARY KEY (`StockDate`,`BloodGroup`),
+  KEY `BloodGroup` (`BloodGroup`),
+  CONSTRAINT `bloodstockhistory_ibfk_1` FOREIGN KEY (`BloodGroup`) REFERENCES `bloodgroup` (`GroupName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodstockhistory`
+--
+
+LOCK TABLES `bloodstockhistory` WRITE;
+/*!40000 ALTER TABLE `bloodstockhistory` DISABLE KEYS */;
+INSERT INTO `bloodstockhistory` VALUES ('2014-10-26','A+',0,0,1,0,1),('2014-10-26','A-',1,0,0,0,1),('2014-10-26','AB+',0,0,1,0,1),('2014-10-26','AB-',1,0,0,0,1),('2014-10-26','B+',0,1,0,0,1),('2014-10-26','B-',0,1,0,0,1),('2014-10-26','O+',3,2,0,0,5),('2014-10-26','O-',1,0,0,0,1),('2014-10-26','UG',NULL,NULL,NULL,NULL,4);
+/*!40000 ALTER TABLE `bloodstockhistory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bloodtype`
+--
+
+DROP TABLE IF EXISTS `bloodtype`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bloodtype` (
+  `BloodType` varchar(20) NOT NULL,
+  PRIMARY KEY (`BloodType`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bloodtype`
+--
+
+LOCK TABLES `bloodtype` WRITE;
+/*!40000 ALTER TABLE `bloodtype` DISABLE KEYS */;
+INSERT INTO `bloodtype` VALUES ('CRYO'),('FFP'),('Fresh blood'),('Plasma/CSP'),('Platelets');
+/*!40000 ALTER TABLE `bloodtype` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bulkissue`
+--
+
+DROP TABLE IF EXISTS `bulkissue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bulkissue` (
+  `IssueID` varchar(10) NOT NULL,
+  `Requester` varchar(100) NOT NULL,
+  `Date` date NOT NULL,
+  `Time` time NOT NULL,
+  `SendingOfficer` varchar(10) DEFAULT NULL,
+  `VehicleNo` varchar(15) DEFAULT NULL,
+  `Driver` varchar(70) DEFAULT NULL,
+  `Temperature` float DEFAULT NULL,
+  `AreIcePacketsSent` bit(1) NOT NULL,
+  PRIMARY KEY (`IssueID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bulkissue`
+--
+
+LOCK TABLES `bulkissue` WRITE;
+/*!40000 ALTER TABLE `bulkissue` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bulkissue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `bulkissuedetail`
+--
+
+DROP TABLE IF EXISTS `bulkissuedetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `bulkissuedetail` (
+  `IssueID` varchar(10) NOT NULL,
+  `PacketID` varchar(20) NOT NULL,
+  PRIMARY KEY (`IssueID`),
+  KEY `PacketID` (`PacketID`),
+  CONSTRAINT `bulkissuedetail_ibfk_1` FOREIGN KEY (`PacketID`) REFERENCES `bloodpacket` (`PacketID`),
+  CONSTRAINT `bulkissuedetail_ibfk_2` FOREIGN KEY (`IssueID`) REFERENCES `bulkissue` (`IssueID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `bulkissuedetail`
+--
+
+LOCK TABLES `bulkissuedetail` WRITE;
+/*!40000 ALTER TABLE `bulkissuedetail` DISABLE KEYS */;
+/*!40000 ALTER TABLE `bulkissuedetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `componentstockhistory`
+--
+
+DROP TABLE IF EXISTS `componentstockhistory`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `componentstockhistory` (
+  `StockDate` date NOT NULL,
+  `BloodType` varchar(20) NOT NULL,
+  `BloodGroup` varchar(20) NOT NULL,
+  `qty` int(11) DEFAULT NULL,
+  PRIMARY KEY (`StockDate`,`BloodType`,`BloodGroup`),
+  KEY `BloodGroup` (`BloodGroup`),
+  KEY `BloodType` (`BloodType`),
+  CONSTRAINT `componentstockhistory_ibfk_1` FOREIGN KEY (`BloodGroup`) REFERENCES `bloodgroup` (`GroupName`),
+  CONSTRAINT `componentstockhistory_ibfk_2` FOREIGN KEY (`BloodType`) REFERENCES `bloodtype` (`BloodType`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `componentstockhistory`
+--
+
+LOCK TABLES `componentstockhistory` WRITE;
+/*!40000 ALTER TABLE `componentstockhistory` DISABLE KEYS */;
+INSERT INTO `componentstockhistory` VALUES ('2014-10-26','CRYO','A+',0),('2014-10-26','CRYO','A-',1),('2014-10-26','CRYO','AB+',0),('2014-10-26','CRYO','AB-',0),('2014-10-26','CRYO','B+',0),('2014-10-26','CRYO','B-',2),('2014-10-26','CRYO','O+',0),('2014-10-26','CRYO','O-',0),('2014-10-26','CRYO','UG',0),('2014-10-26','FFP','A+',0),('2014-10-26','FFP','A-',0),('2014-10-26','FFP','AB+',0),('2014-10-26','FFP','AB-',0),('2014-10-26','FFP','B+',0),('2014-10-26','FFP','B-',2),('2014-10-26','FFP','O+',0),('2014-10-26','FFP','O-',0),('2014-10-26','FFP','UG',0),('2014-10-26','Plasma/CSP','A+',0),('2014-10-26','Plasma/CSP','A-',0),('2014-10-26','Plasma/CSP','AB+',0),('2014-10-26','Plasma/CSP','AB-',0),('2014-10-26','Plasma/CSP','B+',1),('2014-10-26','Plasma/CSP','B-',0),('2014-10-26','Plasma/CSP','O+',1),('2014-10-26','Plasma/CSP','O-',0),('2014-10-26','Plasma/CSP','UG',0),('2014-10-26','Platelets','A+',0),('2014-10-26','Platelets','A-',0),('2014-10-26','Platelets','AB+',1),('2014-10-26','Platelets','AB-',0),('2014-10-26','Platelets','B+',0),('2014-10-26','Platelets','B-',0),('2014-10-26','Platelets','O+',2),('2014-10-26','Platelets','O-',0),('2014-10-26','Platelets','UG',0);
+/*!40000 ALTER TABLE `componentstockhistory` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `crossmatchdetail`
+--
+
+DROP TABLE IF EXISTS `crossmatchdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `crossmatchdetail` (
+  `RequestNo` varchar(10) NOT NULL,
+  `PacketID` varchar(20) NOT NULL,
+  `Date` date NOT NULL,
+  `DoneBY` varchar(10) NOT NULL,
+  PRIMARY KEY (`RequestNo`,`PacketID`),
+  KEY `PacketID` (`PacketID`),
+  KEY `DoneBY` (`DoneBY`),
+  CONSTRAINT `crossmatchdetail_ibfk_1` FOREIGN KEY (`RequestNo`) REFERENCES `sampledetail` (`RequestNo`),
+  CONSTRAINT `crossmatchdetail_ibfk_2` FOREIGN KEY (`PacketID`) REFERENCES `bloodpacket` (`PacketID`),
+  CONSTRAINT `crossmatchdetail_ibfk_3` FOREIGN KEY (`DoneBY`) REFERENCES `employee` (`EmpID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `crossmatchdetail`
+--
+
+LOCK TABLES `crossmatchdetail` WRITE;
+/*!40000 ALTER TABLE `crossmatchdetail` DISABLE KEYS */;
+INSERT INTO `crossmatchdetail` VALUES ('328878G','NH000000000000000017','2013-12-29','E000000001'),('RQ00000001','KP000000000000000020','2013-12-29','E000000001'),('RQ00000001','KP000000000000000021','2013-12-29','E000000001'),('RQ00000002','KP000000000000000001','2013-12-29','E000000001'),('RQ00000003','KP000000000000000002','2013-12-29','E000000001'),('RQ00000003','NH000000000000000019','2013-12-29','E000000001'),('RQ00000004','KP000000000000000006','2013-12-29','E000000001'),('RQ00000004','KP000000000000000007','2013-12-29','E000000001'),('RQ00000004','NH000000000000000011','2013-12-29','E000000001'),('RQ00000005','KP000000000000000005','2013-12-29','E000000001'),('RQ00000005','KP000000000000000024','2013-12-29','E000000001');
+/*!40000 ALTER TABLE `crossmatchdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `donor`
+--
+
+DROP TABLE IF EXISTS `donor`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `donor` (
+  `nic` varchar(10) NOT NULL,
+  `name` longtext NOT NULL,
+  `dob` date DEFAULT NULL,
+  `gender` varchar(10) DEFAULT NULL,
+  `age` int(11) DEFAULT NULL,
+  `weight` int(3) DEFAULT NULL,
+  `homeAddress` longtext,
+  `officeAddress` longtext,
+  `homeTp` int(11) DEFAULT NULL,
+  `officeTp` int(11) DEFAULT NULL,
+  `mobileTp` int(11) DEFAULT NULL,
+  `email` longtext,
+  `previouslyDonated` bit(1) DEFAULT b'0',
+  `difficultiesAfterDonation` longtext,
+  `goodHealth` bit(1) DEFAULT b'1',
+  `diseases` longtext,
+  `usingMedicine` bit(1) DEFAULT NULL,
+  `surgeries` bit(1) DEFAULT b'0',
+  `heavyWork` bit(1) DEFAULT b'0',
+  `pregnantLactationAbortion` bit(1) DEFAULT b'0',
+  `immunized` bit(1) DEFAULT b'0',
+  `piercedTatooed` bit(1) DEFAULT b'0',
+  `imprisoned` bit(1) DEFAULT b'0',
+  `youOrSpouceGoneAbroad` bit(1) DEFAULT b'0',
+  `youOrSpouceTakenBlood` bit(1) DEFAULT b'0',
+  `sufferedFromYelowFeverHepatitis` bit(1) DEFAULT b'0',
+  `sufferedFromTuberculosis` bit(1) DEFAULT b'0',
+  `sufferedFromMalaria` bit(1) DEFAULT b'0',
+  `sufferedFromChickenpoxMeaselsRubellaDiarrheaDengue` bit(1) DEFAULT b'0',
+  `dentalSurgeryUsedAntibioticsMedicine` bit(1) DEFAULT b'0',
+  `blacklisted` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`nic`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `donor`
+--
+
+LOCK TABLES `donor` WRITE;
+/*!40000 ALTER TABLE `donor` DISABLE KEYS */;
+INSERT INTO `donor` VALUES ('12435840-','Alexander Merlyn',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('155-','Chethana Piyadigama',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('257602634-','Oshadie Wickramanayaka',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('546487436-','Kalpa Laknath Dissanayaka',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('54955527-','Ravi Tharaka Wijesekara',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('712207671-','Sajath Lakshitha',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('751366080-','Janitha Migunthanna',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('788437673V','Vimukthi Vithanage','1975-02-15','male',40,35,'No, Galle Road,Ambalangoda','',912264475,0,0,'vmrockz@gmail.com','\0','','\0','Blood diseases , Fits , ','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('833233455V','Kalpa Laknath Dissanayaka','1989-07-19','male',25,77,'22/1 Morris Rd, Labuduwa, Galle','',912234885,0,77643423,'kldis@yahoo.com','\0','','\0','Asthma/ lung diseases , ','\0','\0','\0','\0','\0','','\0','\0','','\0','\0','','','\0','\0'),('833722466V','Yasith Prabuddhaka','1990-01-15','male',25,25,'No 12, Rathnapura Road,Madampe','',125657738,0,0,'ypnang@gmail.com','\0','','\0','Fits , ','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('844377466V','Mevni Piyarisi','1990-12-26','female',24,67,'No .10, Ginigama,Galle','',0,0,0,'','\0','','\0','','\0','\0','\0','\0','\0','','\0','\0','\0','','\0','\0','\0','','\0'),('859466695-','Chathuranga Wijepala',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('922733244V','Yaminda Randika','1992-10-19','male',22,65,'21 G, Molpe Road, Katubedda, Moratuwa','',912253347,0,779342354,'','','','','','\0','\0','','','','\0','\0','\0','','\0','\0','','','','\0'),('922744233V','Sachini Weerasekara','1992-04-05','female',22,33,'No 100, Horawala,Matugama','',0,0,0,'','\0','','','Fits , ','','\0','','','\0','\0','\0','\0','\0','','\0','\0','','\0','\0'),('922833233V','Chanusha Jayawardana','1993-06-30','female',21,50,'No. 123, Pamunuwa Road,Maharagama','',12224374,0,0,'chanusha@yahoo.com','\0','','\0','','\0','\0','\0','\0','\0','\0','','\0','\0','','\0','','\0','\0','\0'),('922833447V','Pushpika Prasad','1966-06-21','male',59,90,'No. 230, Galle Road,Panadura','',11755834,0,0,'','','','','Heart diseases , Paralysis , Kidney diseases , Diabetes , Asthma/ lung diseases , Blood diseases , Fits , Liver diseases , Cancers , ','','','','','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('923744855V','Viduranga Thuduwage','1992-07-28','male',22,65,'No122, Anuradhapura Road,Kurunegala','',912245578,0,71273466,'thudda@gmail.com','\0','','\0','Kidney diseases , Asthma/ lung diseases , ','\0','\0','','\0','','\0','\0','\0','\0','\0','','','\0','','\0'),('92706568-','Supem Amaradasa',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'\0',NULL,'',NULL,NULL,'\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0','\0'),('988277337V','Eshan Nishruk Jayasekara','1980-06-20','male',33,87,'N0. 34 Ginthota,Aluthgama','',912273381,0,0,'','','','','Blood diseases , ','\0','\0','\0','\0','\0','','\0','','\0','\0','','\0','','\0','');
+/*!40000 ALTER TABLE `donor` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `employee`
+--
+
+DROP TABLE IF EXISTS `employee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `employee` (
+  `EmpID` varchar(10) NOT NULL,
+  `Name` varchar(70) NOT NULL,
+  `Dob` date DEFAULT NULL,
+  `HomeAddress` varchar(90) DEFAULT NULL,
+  `Tp` varchar(10) DEFAULT NULL,
+  `DateOfRecruitment` date DEFAULT NULL,
+  PRIMARY KEY (`EmpID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `employee`
+--
+
+LOCK TABLES `employee` WRITE;
+/*!40000 ALTER TABLE `employee` DISABLE KEYS */;
+INSERT INTO `employee` VALUES ('E000000001','Dr.M.H.Jayasinghe','2014-01-16','No 21, Sarasavi pedesa, Kithulampitya','0772813374','2014-09-08'),('E000000002','Mr.Somapala','2013-07-24','No. Baddegama Road,Galle','0783722361','2014-09-08'),('E000000003','Mrs.Somawathi\n','2014-06-03','No. Diggala Road,Keselwatta','0712833923','2014-09-08'),('E000000004','Mr.M.A.Sirirathne','2014-05-21','No. Kandy Road,Jaffna','0772813829','2014-09-08');
+/*!40000 ALTER TABLE `employee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hospital`
+--
+
+DROP TABLE IF EXISTS `hospital`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hospital` (
+  `Name` varchar(50) NOT NULL,
+  PRIMARY KEY (`Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hospital`
+--
+
+LOCK TABLES `hospital` WRITE;
+/*!40000 ALTER TABLE `hospital` DISABLE KEYS */;
+INSERT INTO `hospital` VALUES ('Hemas'),('Karapitiya');
+/*!40000 ALTER TABLE `hospital` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issue`
+--
+
+DROP TABLE IF EXISTS `issue`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issue` (
+  `IssueID` varchar(10) NOT NULL,
+  `EmpID` varchar(10) NOT NULL,
+  `Time` time NOT NULL,
+  `Date` date NOT NULL,
+  `SampleID` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`IssueID`),
+  KEY `EmpID` (`EmpID`),
+  KEY `SampleID` (`SampleID`),
+  CONSTRAINT `issue_ibfk_1` FOREIGN KEY (`EmpID`) REFERENCES `employee` (`EmpID`),
+  CONSTRAINT `issue_ibfk_2` FOREIGN KEY (`SampleID`) REFERENCES `sampledetail` (`RequestNo`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issue`
+--
+
+LOCK TABLES `issue` WRITE;
+/*!40000 ALTER TABLE `issue` DISABLE KEYS */;
+INSERT INTO `issue` VALUES ('IS00000001','E000000001','05:13:45','2014-09-26','RQ00000001'),('IS00000002','E000000001','05:37:07','2014-09-26','RQ00000002'),('IS00000003','E000000001','05:40:35','2014-09-26','RQ00000003'),('IS00000004','E000000001','05:46:28','2014-09-26','RQ00000004'),('IS00000005','E000000001','05:46:47','2014-09-26','RQ00000005');
+/*!40000 ALTER TABLE `issue` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `issuedetail`
+--
+
+DROP TABLE IF EXISTS `issuedetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `issuedetail` (
+  `IssueID` varchar(10) NOT NULL,
+  `PacketID` varchar(20) NOT NULL,
+  PRIMARY KEY (`IssueID`,`PacketID`),
+  KEY `PacketID` (`PacketID`),
+  CONSTRAINT `issuedetail_ibfk_1` FOREIGN KEY (`PacketID`) REFERENCES `bloodpacket` (`PacketID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `issuedetail`
+--
+
+LOCK TABLES `issuedetail` WRITE;
+/*!40000 ALTER TABLE `issuedetail` DISABLE KEYS */;
+INSERT INTO `issuedetail` VALUES ('IS00000002','KP000000000000000001'),('IS00000004','KP000000000000000006'),('IS00000001','KP000000000000000021'),('IS00000005','KP000000000000000024'),('IS00000003','NH000000000000000019');
+/*!40000 ALTER TABLE `issuedetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `item`
+--
+
+DROP TABLE IF EXISTS `item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `item` (
+  `ItemID` varchar(10) NOT NULL,
+  `ItemType` varchar(30) NOT NULL,
+  `Description` varchar(100) DEFAULT NULL,
+  `Units` varchar(20) DEFAULT NULL,
+  `Quantity` float NOT NULL DEFAULT '0',
+  `IsReagent` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`ItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `item`
+--
+
+LOCK TABLES `item` WRITE;
+/*!40000 ALTER TABLE `item` DISABLE KEYS */;
+INSERT INTO `item` VALUES ('I000000001','CR book','Singled ruled, 80 pages','books',15,'\0'),('I000000002','Reagent-A','For platelet identification','bottles',5,''),('I000000003','Reagent-B','For Plasma identification','bottles',5,''),('I000000004','Half sheet','A4','bundles',5,'\0'),('I000000005','Reagent-C','CCP identification','bottles',4,'');
+/*!40000 ALTER TABLE `item` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `itemrecieveddetail`
+--
+
+DROP TABLE IF EXISTS `itemrecieveddetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `itemrecieveddetail` (
+  `RecievedID` varchar(10) NOT NULL,
+  `ItemID` varchar(10) NOT NULL,
+  `Qty` float NOT NULL,
+  PRIMARY KEY (`RecievedID`,`ItemID`),
+  KEY `ItemID` (`ItemID`),
+  CONSTRAINT `itemrecieveddetail_ibfk_1` FOREIGN KEY (`RecievedID`) REFERENCES `itemrecievedlog` (`RecievedID`),
+  CONSTRAINT `itemrecieveddetail_ibfk_2` FOREIGN KEY (`ItemID`) REFERENCES `item` (`ItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `itemrecieveddetail`
+--
+
+LOCK TABLES `itemrecieveddetail` WRITE;
+/*!40000 ALTER TABLE `itemrecieveddetail` DISABLE KEYS */;
+INSERT INTO `itemrecieveddetail` VALUES ('IR00000001','I000000001',5),('IR00000001','I000000002',3),('IR00000001','I000000003',5),('IR00000001','I000000004',2),('IR00000001','I000000005',5),('IR00000002','I000000001',10),('IR00000002','I000000002',30),('IR00000002','I000000003',30),('IR00000002','I000000004',4),('IR00000002','I000000005',30);
+/*!40000 ALTER TABLE `itemrecieveddetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `itemrecievedlog`
+--
+
+DROP TABLE IF EXISTS `itemrecievedlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `itemrecievedlog` (
+  `RecievedID` varchar(10) NOT NULL,
+  `RecievedDate` date NOT NULL,
+  `RecievedFrom` varchar(50) NOT NULL,
+  PRIMARY KEY (`RecievedID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `itemrecievedlog`
+--
+
+LOCK TABLES `itemrecievedlog` WRITE;
+/*!40000 ALTER TABLE `itemrecievedlog` DISABLE KEYS */;
+INSERT INTO `itemrecievedlog` VALUES ('IR00000001','2014-10-26','Narahenpita'),('IR00000002','2013-09-11','Narahenpita');
+/*!40000 ALTER TABLE `itemrecievedlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `organizer`
+--
+
+DROP TABLE IF EXISTS `organizer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `organizer` (
+  `Nic` varchar(12) NOT NULL,
+  `Name` varchar(70) NOT NULL,
+  `Address` varchar(90) NOT NULL,
+  `Tp` varchar(13) NOT NULL,
+  `CampCount` int(10) DEFAULT '0',
+  PRIMARY KEY (`Nic`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `organizer`
+--
+
+LOCK TABLES `organizer` WRITE;
+/*!40000 ALTER TABLE `organizer` DISABLE KEYS */;
+INSERT INTO `organizer` VALUES ('628374632V','Uzman Anver','No. New moor Street,Colombo','077945743857',2),('733266355V','Hasindu Samarasinghe','No. 345, Matugama Road,Kalutara','0779473461',1),('833622366V','Prabhath Jeewantha','No. Nawala Road,Nugegoda','0778263748',0),('833744366V','Chamath Rathnasekata','No.Ragala Road,Walapane','0779362636',2),('844733644V','Devinda Silva','No. Kandy Road,Thrincomalee','0716283746',3),('925713644V','Dilshan Thiwanka','No. Maradan kadawala Road,Thrincomalee','0716372632',2);
+/*!40000 ALTER TABLE `organizer` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reagentrequest`
+--
+
+DROP TABLE IF EXISTS `reagentrequest`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reagentrequest` (
+  `RequestID` varchar(10) NOT NULL,
+  `RequestDate` date NOT NULL,
+  `RequestingOfficerID` varchar(10) NOT NULL,
+  PRIMARY KEY (`RequestID`),
+  KEY `RequestingOfficerID` (`RequestingOfficerID`),
+  CONSTRAINT `reagentrequest_ibfk_1` FOREIGN KEY (`RequestingOfficerID`) REFERENCES `employee` (`EmpID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reagentrequest`
+--
+
+LOCK TABLES `reagentrequest` WRITE;
+/*!40000 ALTER TABLE `reagentrequest` DISABLE KEYS */;
+INSERT INTO `reagentrequest` VALUES ('RQ00000001','2014-10-26','E000000002'),('RQ00000002','2014-10-26','E000000004');
+/*!40000 ALTER TABLE `reagentrequest` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reagentrequestdetail`
+--
+
+DROP TABLE IF EXISTS `reagentrequestdetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reagentrequestdetail` (
+  `RequestID` varchar(10) NOT NULL,
+  `ItemID` varchar(10) NOT NULL,
+  `Qty` float NOT NULL,
+  `Reason` varchar(500) DEFAULT NULL,
+  PRIMARY KEY (`RequestID`,`ItemID`),
+  KEY `ItemID` (`ItemID`),
+  CONSTRAINT `reagentrequestdetail_ibfk_1` FOREIGN KEY (`RequestID`) REFERENCES `reagentrequest` (`RequestID`),
+  CONSTRAINT `reagentrequestdetail_ibfk_2` FOREIGN KEY (`ItemID`) REFERENCES `item` (`ItemID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reagentrequestdetail`
+--
+
+LOCK TABLES `reagentrequestdetail` WRITE;
+/*!40000 ALTER TABLE `reagentrequestdetail` DISABLE KEYS */;
+INSERT INTO `reagentrequestdetail` VALUES ('RQ00000001','I000000002',10,'Running out of stocks'),('RQ00000001','I000000003',10,'Running out of Stocks'),('RQ00000001','I000000005',10,'Running out of Stocks'),('RQ00000002','I000000002',5,'Running out of Stocks'),('RQ00000002','I000000003',5,'Running out of Stocks'),('RQ00000002','I000000005',5,'Running out of Stocks');
+/*!40000 ALTER TABLE `reagentrequestdetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `requestee`
+--
+
+DROP TABLE IF EXISTS `requestee`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `requestee` (
+  `RequesteeName` varchar(100) NOT NULL,
+  PRIMARY KEY (`RequesteeName`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `requestee`
+--
+
+LOCK TABLES `requestee` WRITE;
+/*!40000 ALTER TABLE `requestee` DISABLE KEYS */;
+INSERT INTO `requestee` VALUES ('Kamburugamuwa'),('Narahenpita'),('Pilimathalawa');
+/*!40000 ALTER TABLE `requestee` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `returnedlog`
+--
+
+DROP TABLE IF EXISTS `returnedlog`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `returnedlog` (
+  `ReturnedID` varchar(10) NOT NULL,
+  `ReturnedDate` date NOT NULL,
+  `PacketID` varchar(20) NOT NULL,
+  `Reason` varchar(500) DEFAULT NULL,
+  `PatientIssueID` varchar(10) DEFAULT NULL,
+  `BulkIssueID` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`ReturnedID`),
+  KEY `PacketID` (`PacketID`),
+  KEY `returnedlog_ibfk_2` (`PatientIssueID`),
+  KEY `returnedlog_ibfk_3` (`BulkIssueID`),
+  CONSTRAINT `returnedlog_ibfk_1` FOREIGN KEY (`PacketID`) REFERENCES `bloodpacket` (`PacketID`),
+  CONSTRAINT `returnedlog_ibfk_2` FOREIGN KEY (`PatientIssueID`) REFERENCES `issue` (`IssueID`),
+  CONSTRAINT `returnedlog_ibfk_3` FOREIGN KEY (`BulkIssueID`) REFERENCES `bulkissue` (`IssueID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `returnedlog`
+--
+
+LOCK TABLES `returnedlog` WRITE;
+/*!40000 ALTER TABLE `returnedlog` DISABLE KEYS */;
+INSERT INTO `returnedlog` VALUES ('RET0000001','2014-06-30','KP000000000000000006','Patient rejected','IS00000004',NULL),('RET0000002','2014-06-30','KP000000000000000024','Patient rejected','IS00000005',NULL),('RET0000003','2014-06-30','KP000000000000000001','Patient passed away','IS00000002',NULL);
+/*!40000 ALTER TABLE `returnedlog` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sampledetail`
+--
+
+DROP TABLE IF EXISTS `sampledetail`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `sampledetail` (
+  `RequestNo` varchar(10) NOT NULL,
+  `PatientName` varchar(70) DEFAULT NULL,
+  `BHTNo` varchar(20) DEFAULT NULL,
+  `Age` int(11) DEFAULT NULL,
+  `Gender` varchar(7) DEFAULT NULL,
+  `BloodGroup` varchar(10) NOT NULL,
+  `Ward` varchar(10) DEFAULT NULL,
+  `Weight` varchar(4) DEFAULT NULL,
+  `Hospital` varchar(30) DEFAULT NULL,
+  `Diagnosis` varchar(100) DEFAULT NULL,
+  `ReactionHistory` varchar(150) DEFAULT NULL,
+  `CollectedDate` date DEFAULT NULL,
+  `CollectedTime` time(6) DEFAULT NULL,
+  `CollectedBy` varchar(70) DEFAULT NULL,
+  `Priority` varchar(20) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `IssueID` varchar(10) DEFAULT NULL,
+  `IsCrossmatched` bit(1) NOT NULL DEFAULT b'0',
+  PRIMARY KEY (`RequestNo`),
+  KEY `Ward` (`Ward`),
+  KEY `Hospital` (`Hospital`),
+  KEY `fk_IssueID` (`IssueID`),
+  CONSTRAINT `fk_IssueID` FOREIGN KEY (`IssueID`) REFERENCES `issue` (`IssueID`),
+  CONSTRAINT `sampledetail_ibfk_1` FOREIGN KEY (`Ward`) REFERENCES `ward` (`Name`),
+  CONSTRAINT `sampledetail_ibfk_2` FOREIGN KEY (`Hospital`) REFERENCES `hospital` (`Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sampledetail`
+--
+
+LOCK TABLES `sampledetail` WRITE;
+/*!40000 ALTER TABLE `sampledetail` DISABLE KEYS */;
+INSERT INTO `sampledetail` VALUES ('328878G','Sachini Hewawamsa','67876897',44,'Female','O+','ICU','68','Hemas','','','2014-10-20','18:48:51.000000','Kalhan Sandaru','Urgent','2014-10-26',NULL,''),('RQ00000001','Suchindra Udumalagala','56',25,'Female','O-','Medical','80','Hemas','','','2014-10-21','23:32:00.000000','Kalhan Sandaru','Routine','2014-10-26','IS00000001',''),('RQ00000002','Gayan Lakshitha','989',34,'Male','A+','Surgical','60','Karapitiya','','','2014-10-15','11:32:45.000000','Neelika Malavige','Urgent','2013-10-22','IS00000002',''),('RQ00000003','Lahiru Rangana','5453',40,'Male','AB-','ICU','56','Karapitiya','','','2014-10-15','19:32:45.000000','Supun Madhushanka','Routine','2013-10-28','IS00000003',''),('RQ00000004','Tharika Erangi Costa','54645645',55,'Female','O-','ICU','50','Hemas','','','2014-10-15','19:32:45.000000','Kalhan Sandaru','Routine','2012-10-28','IS00000004',''),('RQ00000005','Thathsara Surasingha','56546456',66,'Female','AB+','Paedriatic','76','Hemas','','','2014-10-14','13:32:45.000000','Supun Madhusahanka','Urgent','2013-10-19','IS00000005','');
+/*!40000 ALTER TABLE `sampledetail` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `test`
+--
+
+DROP TABLE IF EXISTS `test`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `test` (
+  `TestID` varchar(5) NOT NULL,
+  `Name` varchar(70) NOT NULL,
+  PRIMARY KEY (`TestID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `test`
+--
+
+LOCK TABLES `test` WRITE;
+/*!40000 ALTER TABLE `test` DISABLE KEYS */;
+INSERT INTO `test` VALUES ('T0002','HIV'),('T0006','VDRL'),('T0007','Hepa B'),('T0008','Hepa C'),('T0009','MP');
+/*!40000 ALTER TABLE `test` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `testresult`
+--
+
+DROP TABLE IF EXISTS `testresult`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `testresult` (
+  `ResultID` varchar(10) NOT NULL,
+  `TestID` varchar(5) NOT NULL,
+  `PacketID` varchar(20) DEFAULT NULL,
+  `Result` varchar(40) NOT NULL,
+  `Comment` varchar(75) DEFAULT NULL,
+  `Date` date DEFAULT NULL,
+  `DoneBy` varchar(50) DEFAULT NULL,
+  `CheckedBy` varchar(50) DEFAULT NULL,
+  `LabeledBy` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ResultID`),
+  KEY `TestID` (`TestID`),
+  KEY `PacketID` (`PacketID`),
+  KEY `DoneBy` (`DoneBy`),
+  KEY `CheckedBy` (`CheckedBy`),
+  KEY `LabeledBy` (`LabeledBy`),
+  CONSTRAINT `testresult_ibfk_1` FOREIGN KEY (`TestID`) REFERENCES `test` (`TestID`),
+  CONSTRAINT `testresult_ibfk_2` FOREIGN KEY (`PacketID`) REFERENCES `bloodpacket` (`PacketID`),
+  CONSTRAINT `testresult_ibfk_3` FOREIGN KEY (`DoneBy`) REFERENCES `employee` (`EmpID`),
+  CONSTRAINT `testresult_ibfk_4` FOREIGN KEY (`CheckedBy`) REFERENCES `employee` (`EmpID`),
+  CONSTRAINT `testresult_ibfk_5` FOREIGN KEY (`LabeledBy`) REFERENCES `employee` (`EmpID`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `testresult`
+--
+
+LOCK TABLES `testresult` WRITE;
+/*!40000 ALTER TABLE `testresult` DISABLE KEYS */;
+INSERT INTO `testresult` VALUES ('RS00000045','T0002','KP000000000000000021','Negative','None','2014-10-26','E000000004','E000000004',NULL),('RS00000046','T0006','KP000000000000000021','Negative','None','2014-10-26','E000000004','E000000004',NULL),('RS00000047','T0007','KP000000000000000021','Negative','None','2014-10-26','E000000004','E000000004',NULL),('RS00000048','T0008','KP000000000000000021','Negative','None','2014-10-26','E000000004','E000000004',NULL),('RS00000049','T0009','KP000000000000000021','Negative','None','2014-10-26','E000000004','E000000004',NULL),('RS00000050','T0002','KP000000000000000022','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000051','T0006','KP000000000000000022','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000052','T0008','KP000000000000000022','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000053','T0009','KP000000000000000022','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000054','T0007','KP000000000000000022','Positive','None','2014-10-26','E000000001','E000000001',NULL),('RS00000055','T0002','KP000000000000000023','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000056','T0006','KP000000000000000023','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000057','T0007','KP000000000000000023','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000058','T0008','KP000000000000000023','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000059','T0009','KP000000000000000023','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000060','T0002','KP000000000000000026','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000061','T0006','KP000000000000000026','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000062','T0007','KP000000000000000026','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000063','T0008','KP000000000000000026','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000064','T0009','KP000000000000000026','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000065','T0002','KP000000000000000024','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000066','T0006','KP000000000000000024','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000067','T0007','KP000000000000000024','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000068','T0008','KP000000000000000024','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000069','T0009','KP000000000000000024','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000070','T0002','KP000000000000000029','Positive','None','2014-10-26','E000000001','E000000001',NULL),('RS00000071','T0006','KP000000000000000029','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000072','T0007','KP000000000000000029','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000073','T0008','KP000000000000000029','Negative','None','2014-10-26','E000000001','E000000001',NULL),('RS00000074','T0009','KP000000000000000029','Negative','None','2014-10-26','E000000001','E000000001',NULL);
+/*!40000 ALTER TABLE `testresult` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `Username` varchar(20) NOT NULL,
+  `Password` varchar(60) NOT NULL,
+  PRIMARY KEY (`Username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('0',''),('1','*EBB91FE68E6375D7D3741C7A0EE77CA361469AEA'),('2',''),('3',''),('4','');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ward`
+--
+
+DROP TABLE IF EXISTS `ward`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ward` (
+  `Name` varchar(30) NOT NULL,
+  PRIMARY KEY (`Name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ward`
+--
+
+LOCK TABLES `ward` WRITE;
+/*!40000 ALTER TABLE `ward` DISABLE KEYS */;
+INSERT INTO `ward` VALUES ('CTU'),('ICU'),('Medical'),('Paedriatic'),('Surgical');
+/*!40000 ALTER TABLE `ward` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2014-10-26 23:18:13
